@@ -8,5 +8,5 @@
     <string name="litres_hint">Enter litres</string>
     <string name="kilometers_hint">Enter kilometers</string>
     <string name="wrong_value">Wrong value</string>
-
+    <string name="vehicle_label">Vehicle:</string>
 </resources>
