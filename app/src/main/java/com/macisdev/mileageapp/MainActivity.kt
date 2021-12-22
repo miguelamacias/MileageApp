@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity() {
 		val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
 		if (currentFragment == null) {
-			val fragment = AddMileageFragment.newInstance()
+			//val fragment = AddMileageFragment.newInstance()
+			val fragment = MileageListFragment.newInstance("8054FDG")
 			//val fragment = QuickMileageFragment.newInstance()
 			supportFragmentManager
 				.beginTransaction()

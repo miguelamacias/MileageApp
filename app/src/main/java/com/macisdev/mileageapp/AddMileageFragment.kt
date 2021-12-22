@@ -55,8 +55,11 @@ class AddMileageFragment : Fragment() {
 			if (mileageData != null){
 				val vehicle = gui.vehicleSpinner.selectedItem as Vehicle
 				val date = Date()
+				val kilometres = gui.kilometresEditText.text.toString().toDouble()
+				val litres = gui.litresEditText.text.toString().toDouble()
 
-				MileageRepository.storeMileage(Mileage(vehicle, date, mileageData))
+
+				MileageRepository.storeMileage(Mileage(vehicle, date, mileageData, kilometres, litres))
 			}
 		}
 	}

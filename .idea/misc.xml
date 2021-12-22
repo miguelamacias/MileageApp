@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/activity_main.xml" value="0.49114583333333334" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_add_mileage.xml" value="0.5083333333333333" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_mileage_list.xml" value="0.5083333333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_quick_mileage.xml" value="0.5083333333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/list_item_mileage.xml" value="0.5" />
       </map>
