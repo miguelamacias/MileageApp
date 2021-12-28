@@ -15,6 +15,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.macisdev.mileageapp.databinding.FragmentAddMileageBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
+import java.text.DecimalFormat
+import java.text.ParseException
 import java.util.*
 
 
@@ -55,21 +57,22 @@ class AddMileageFragment : Fragment() {
 		})
 
 		gui.saveMileageButton.setOnClickListener {
-			val mileageData = gui.mileageResultEditText.text.toString().toDoubleOrNull()
+			val decimalFormatter = DecimalFormat.getInstance()
 
-			if (mileageData != null){
+			val mileageData = decimalFormatter.parse(gui.mileageResultEditText.text.toString())?.toDouble() ?: -1.0
+
+			if (mileageData > 0) {
 				val vehicle = gui.vehicleSpinner.selectedItem as Vehicle
 				val date = Date()
-				val kilometres = gui.kilometresEditText.text.toString().toDouble()
-				val litres = gui.litresEditText.text.toString().toDouble()
-
+				val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: -1.0
+				val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: -1.0
 
 				MileageRepository.storeMileage(Mileage(vehicle, date, mileageData, kilometres, litres))
 
+				Snackbar.make(gui.root, R.string.mileage_added, Snackbar.LENGTH_LONG).show()
+
 				val directions = AddMileageFragmentDirections.actionAddMileageFragmentPop()
 				findNavController().navigate(directions)
-
-				Snackbar.make(gui.root, R.string.mileage_added, Snackbar.LENGTH_LONG).show()
 			}
 		}
 
@@ -83,8 +86,10 @@ class AddMileageFragment : Fragment() {
 
 	private fun calculateMileage() {
 		try {
-			val kilometres = gui.kilometresEditText.text.toString().toDouble()
-			val litres = gui.litresEditText.text.toString().toDouble()
+			val decimalFormatter = DecimalFormat.getInstance()
+
+			val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: 0.0
+			val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: 0.0
 			val mileage = 100 * litres / kilometres
 
 			if (mileage > 0) {
@@ -95,7 +100,7 @@ class AddMileageFragment : Fragment() {
 				gui.saveMileageButton.isEnabled = false
 			}
 
-		} catch (e: NumberFormatException) {
+		} catch (e: ParseException) {
 			gui.mileageResultEditText.setText(R.string.wrong_value)
 			gui.saveMileageButton.isEnabled = false
 		}

@@ -1,10 +1,10 @@
 package com.macisdev.mileageapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.macisdev.mileageapp.databinding.FragmentQuickMileageBinding
 import java.util.*
 
@@ -21,7 +21,7 @@ class QuickMileageFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 
 		gui.calculateMileageButton.setOnClickListener {
-			try {
+			try { //TODO: use a DecimalFormat to avoid bugs in differents locales
 				val kilometres = gui.kilometresEditText.text.toString().toDouble()
 				val litres = gui.litresEditText.text.toString().toDouble()
 				val mileage = 100 * litres / kilometres
