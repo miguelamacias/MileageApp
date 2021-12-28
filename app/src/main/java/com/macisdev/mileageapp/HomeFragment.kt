@@ -19,8 +19,18 @@ class HomeFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		gui.textView2.setOnClickListener {
+		gui.addButton.setOnClickListener {
+			val directions = HomeFragmentDirections.actionHomeFragmentToAddMileageFragment()
+			findNavController().navigate(directions)
+		}
+
+		gui.listButton.setOnClickListener {
 			val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment("8054FDG")
+			findNavController().navigate(directions)
+		}
+
+		gui.quickButton.setOnClickListener {
+			val directions = HomeFragmentDirections.actionHomeFragmentToQuickMileageFragment()
 			findNavController().navigate(directions)
 		}
 	}

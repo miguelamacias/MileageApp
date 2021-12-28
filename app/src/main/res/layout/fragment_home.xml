@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeFragment">
+        tools:context=".HomeFragment"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
 
-    <TextView
-            android:text="@string/not_available"
-            android:layout_width="wrap_content"
+    <Button
+            android:text="Add Mileage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:id="@+id/add_button" />
+
+    <Button
+            android:text="List of Mileages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_button" />
+
+    <Button
+            android:text="Quick Mileage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/quick_button" />
+</LinearLayout>

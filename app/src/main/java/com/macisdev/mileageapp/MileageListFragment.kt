@@ -2,11 +2,11 @@ package com.macisdev.mileageapp
 
 import android.os.Bundle
 import android.text.format.DateFormat
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,10 +41,10 @@ class MileageListFragment : Fragment() {
 		gui.mileagesRecyclerView.layoutManager = LinearLayoutManager(view.context)
 		val adapter = MileageAdapter()
 		gui.mileagesRecyclerView.adapter = adapter
-		adapter.submitList(mileagesList)
+		adapter.submitList(mileagesList.reversed())
 
 		gui.recordsCountTextView.text = mileagesList.size.toString()
-		gui.averageMileageTextView.text = calculateAverage().toString()
+		gui.averageMileageTextView.text = calculateAverage()
 	}
 
 	private fun calculateAverage() = String.format(Locale.getDefault(), "%.2f",

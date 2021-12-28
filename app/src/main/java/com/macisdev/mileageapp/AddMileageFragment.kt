@@ -4,16 +4,19 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.macisdev.mileageapp.databinding.FragmentAddMileageBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
 import java.util.*
+
 
 class AddMileageFragment : Fragment() {
 
@@ -62,6 +65,11 @@ class AddMileageFragment : Fragment() {
 
 
 				MileageRepository.storeMileage(Mileage(vehicle, date, mileageData, kilometres, litres))
+
+				val directions = AddMileageFragmentDirections.actionAddMileageFragmentPop()
+				findNavController().navigate(directions)
+
+				Snackbar.make(gui.root, R.string.mileage_added, Snackbar.LENGTH_LONG).show()
 			}
 		}
 
@@ -91,9 +99,5 @@ class AddMileageFragment : Fragment() {
 			gui.mileageResultEditText.setText(R.string.wrong_value)
 			gui.saveMileageButton.isEnabled = false
 		}
-	}
-
-	companion object {
-		fun newInstance() = AddMileageFragment()
 	}
 }

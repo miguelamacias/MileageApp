@@ -25,17 +25,21 @@
             android:id="@+id/addMileageFragment"
             android:name="com.macisdev.mileageapp.AddMileageFragment"
             android:label="fragment_add_mileage"
-            tools:layout="@layout/fragment_add_mileage" />
+            tools:layout="@layout/fragment_add_mileage" >
+        <action
+                android:id="@+id/action_addMileageFragment_pop"
+                app:popUpTo="@id/addMileageFragment"
+                app:popUpToInclusive="true" />
+    </fragment>
     <fragment
             android:id="@+id/mileageListFragment"
             android:name="com.macisdev.mileageapp.MileageListFragment"
-            android:label="fragment_mileage_list"
+            android:label="{vehiclePlateNumber}"
             tools:layout="@layout/fragment_mileage_list">
         <argument
                 android:name="vehiclePlateNumber"
                 app:argType="string"
                 android:defaultValue=""/>
-
     </fragment>
     <fragment
             android:id="@+id/quickMileageFragment"
