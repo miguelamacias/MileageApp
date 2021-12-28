@@ -11,4 +11,10 @@
     <string name="wrong_value">Wrong value</string>
     <string name="vehicle_label">Vehicle:</string>
     <string name="date_label">Date:</string>
+    <string name="records_list">Records:</string>
+    <string name="average_mileage">Average mileage:</string>
+
+
+
+    <string name="not_available">Not available yet!</string>
 </resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/homeFragment">
+
+    <fragment
+            android:id="@+id/homeFragment"
+            android:name="com.macisdev.mileageapp.HomeFragment"
+            android:label="HomeFragment"
+            tools:layout="@layout/fragment_home" >
+        <action
+                android:id="@+id/action_homeFragment_to_quickMileageFragment"
+                app:destination="@id/quickMileageFragment" />
+        <action
+                android:id="@+id/action_homeFragment_to_mileageListFragment"
+                app:destination="@id/mileageListFragment" />
+        <action
+                android:id="@+id/action_homeFragment_to_addMileageFragment"
+                app:destination="@id/addMileageFragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/addMileageFragment"
+            android:name="com.macisdev.mileageapp.AddMileageFragment"
+            android:label="fragment_add_mileage"
+            tools:layout="@layout/fragment_add_mileage" />
+    <fragment
+            android:id="@+id/mileageListFragment"
+            android:name="com.macisdev.mileageapp.MileageListFragment"
+            android:label="fragment_mileage_list"
+            tools:layout="@layout/fragment_mileage_list">
+        <argument
+                android:name="vehiclePlateNumber"
+                app:argType="string"
+                android:defaultValue=""/>
+
+    </fragment>
+    <fragment
+            android:id="@+id/quickMileageFragment"
+            android:name="com.macisdev.mileageapp.QuickMileageFragment"
+            android:label="fragment_quick_mileage"
+            tools:layout="@layout/fragment_quick_mileage" />
+</navigation>

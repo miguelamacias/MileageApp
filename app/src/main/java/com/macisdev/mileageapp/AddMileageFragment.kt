@@ -3,11 +3,13 @@ package com.macisdev.mileageapp
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.format.DateFormat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.macisdev.mileageapp.databinding.FragmentAddMileageBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
@@ -60,6 +62,13 @@ class AddMileageFragment : Fragment() {
 
 
 				MileageRepository.storeMileage(Mileage(vehicle, date, mileageData, kilometres, litres))
+			}
+		}
+
+		gui.dateEditText.apply {
+			setText(DateFormat.format("dd/MM/yyyy", Date())) //TODO: User should be able to change the date
+			setOnClickListener {
+				Toast.makeText(context, R.string.not_available, Toast.LENGTH_SHORT).show()
 			}
 		}
 	}

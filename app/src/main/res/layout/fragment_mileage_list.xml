@@ -1,12 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MileageListFragment">
+        tools:context=".MileageListFragment"
+        android:id="@+id/frameLayout">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/mileages_recycler_view" />
-</FrameLayout>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/mileages_recycler_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="32dp"
+            tools:background="#6564FFDA" />
+
+    <TextView
+            android:text="@string/records_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/records_label"
+            app:layout_constraintTop_toBottomOf="@+id/mileages_recycler_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textStyle="bold" />
+
+    <TextView
+            tools:text="8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/records_count_text_view"
+            app:layout_constraintBaseline_toBaselineOf="@+id/records_label"
+            app:layout_constraintStart_toEndOf="@+id/records_label"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+    <TextView
+            tools:text="7,34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/average_mileage_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/average_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TextView
+            android:text="@string/average_mileage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/average_label"
+            app:layout_constraintBaseline_toBaselineOf="@+id/records_count_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/average_mileage_text_view"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textStyle="bold" />
+</androidx.constraintlayout.widget.ConstraintLayout>
