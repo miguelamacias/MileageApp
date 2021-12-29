@@ -57,7 +57,7 @@ class AddMileageFragment : Fragment() {
 		})
 
 		gui.saveMileageButton.setOnClickListener {
-			val decimalFormatter = DecimalFormat.getInstance()
+			val decimalFormatter = DecimalFormat.getInstance(Locale.getDefault())
 
 			val mileageData = decimalFormatter.parse(gui.mileageResultEditText.text.toString())?.toDouble() ?: -1.0
 
@@ -86,7 +86,7 @@ class AddMileageFragment : Fragment() {
 
 	private fun calculateMileage() {
 		try {
-			val decimalFormatter = DecimalFormat.getInstance()
+			val decimalFormatter = DecimalFormat.getInstance(Locale.getDefault())
 
 			val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: 0.0
 			val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: 0.0
