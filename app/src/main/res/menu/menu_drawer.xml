@@ -3,15 +3,36 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:showIn="nav_view">
 
+    <item android:title="@string/vehicles">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                        android:title="8054FDG"
+                        android:id="@+id/mileageListFragment"
+                        android:icon="@drawable/ic_baseline_directions_car_24" />
+                <item
+                        android:title="4578JRK"
+                        android:icon="@drawable/ic_baseline_directions_car_24" />
+                <item
+                        android:title="@string/add_vehicle"
+                        android:icon="@drawable/ic_baseline_add_circle_outline_24"
+                        android:id="@+id/addVehicleFragment" />
+            </group>
+        </menu>
+    </item>
+
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_home"
-                android:title="title1" />
+                android:id="@+id/addMileageFragment"
+                android:title="@string/add_mileage"
+                android:icon="@drawable/ic_baseline_playlist_add_24"/>
         <item
-                android:id="@+id/nav_gallery"
-                android:title="tittle2" />
+                android:id="@+id/quickMileageFragment"
+                android:title="@string/quick_mileage"
+                android:icon="@drawable/ic_baseline_calculate_24"/>
         <item
-                android:id="@+id/nav_slideshow"
-                android:title="tittle3" />
+                android:id="@+id/tripCalculatorFragment"
+                android:title="@string/trip_cost"
+                android:icon="@drawable/ic_baseline_monetization_on_24"/>
     </group>
 </menu>

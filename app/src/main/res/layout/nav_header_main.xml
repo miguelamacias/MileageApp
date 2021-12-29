@@ -4,7 +4,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:background="?attr/colorPrimarySurface">
 
     <ImageView
             android:layout_width="64dp"
@@ -19,7 +20,7 @@
             android:layout_marginBottom="16dp" />
 
     <TextView
-            android:text="TextView"
+            android:text="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tittle_text_view"
@@ -27,15 +28,17 @@
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:textColor="@color/white" />
 
     <TextView
-            android:text="TextView"
+            android:text="@string/app_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView4"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/tittle_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/tittle_text_view"
+            android:textColor="@color/white" />
 </androidx.constraintlayout.widget.ConstraintLayout>

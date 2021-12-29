@@ -24,7 +24,7 @@
     <fragment
             android:id="@+id/addMileageFragment"
             android:name="com.macisdev.mileageapp.AddMileageFragment"
-            android:label="fragment_add_mileage"
+            android:label="@string/add_mileage"
             tools:layout="@layout/fragment_add_mileage" >
         <action
                 android:id="@+id/action_addMileageFragment_pop"
@@ -39,11 +39,11 @@
         <argument
                 android:name="vehiclePlateNumber"
                 app:argType="string"
-                android:defaultValue=""/>
+                android:defaultValue="8054FDG"/>
     </fragment>
     <fragment
             android:id="@+id/quickMileageFragment"
             android:name="com.macisdev.mileageapp.QuickMileageFragment"
-            android:label="fragment_quick_mileage"
+            android:label="@string/quick_mileage"
             tools:layout="@layout/fragment_quick_mileage" />
 </navigation>

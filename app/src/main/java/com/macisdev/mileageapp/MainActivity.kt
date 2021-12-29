@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.macisdev.mileageapp.databinding.ActivityMainBinding
 
 
@@ -26,11 +27,14 @@ class MainActivity : AppCompatActivity() {
 
 		setSupportActionBar(gui.toolbar)
 
+
 		//Drawer code
 		//Get the fragment where the others fragments are shown
 		val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 		//Get the controller of the navigation component
 		val navController = navHostFragment.navController
+		//Bind each menu item to a destination with the same ID
+		gui.navView.setupWithNavController(navController)
 		//Set the top-level fragment
 		appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment), gui.drawerLayout)
 		//Binds the drawer to the app bar

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MileageApp</string>
+    <string name="app_version">v0.0.0</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="litres_label">Litres:</string>
     <string name="mileage_label">Mileage:</string>
@@ -14,8 +15,13 @@
     <string name="records_list">Records:</string>
     <string name="average_mileage">Average mileage:</string>
     <string name="mileage_added">Mileage added successfully!</string>
+    <string name="add_mileage">Add mileage</string>
+    <string name="quick_mileage">Quick mileage</string>
+    <string name="add_vehicle">Add vehicle</string>
+    <string name="trip_cost">Trip cost calculator</string>
+    <string name="vehicles">Vehicles</string>
 
 
-
+    <string name="list_of_mileages">List of mileages</string>
     <string name="not_available">Not available yet!</string>
 </resources>
