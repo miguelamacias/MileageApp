@@ -5,18 +5,13 @@
 
     <item android:title="@string/vehicles">
         <menu>
-            <group android:checkableBehavior="single">
-                <item
-                        android:title="8054FDG"
-                        android:id="@+id/mileageListFragment"
-                        android:icon="@drawable/ic_baseline_directions_car_24" />
-                <item
-                        android:title="4578JRK"
-                        android:icon="@drawable/ic_baseline_directions_car_24" />
+            <group android:checkableBehavior="single"
+                    android:id="@+id/vehicles_group">
                 <item
                         android:title="@string/add_vehicle"
                         android:icon="@drawable/ic_baseline_add_circle_outline_24"
-                        android:id="@+id/addVehicleFragment" />
+                        android:id="@+id/addVehicleFragment"
+                        android:orderInCategory="1"/>
             </group>
         </menu>
     </item>
@@ -25,14 +20,17 @@
         <item
                 android:id="@+id/addMileageFragment"
                 android:title="@string/add_mileage"
-                android:icon="@drawable/ic_baseline_playlist_add_24"/>
+                android:icon="@drawable/ic_baseline_playlist_add_24"
+                android:orderInCategory="2"/>
         <item
                 android:id="@+id/quickMileageFragment"
                 android:title="@string/quick_mileage"
-                android:icon="@drawable/ic_baseline_calculate_24"/>
+                android:icon="@drawable/ic_baseline_calculate_24"
+                android:orderInCategory="2"/>
         <item
                 android:id="@+id/tripCalculatorFragment"
                 android:title="@string/trip_cost"
-                android:icon="@drawable/ic_baseline_monetization_on_24"/>
+                android:icon="@drawable/ic_baseline_monetization_on_24"
+                android:orderInCategory="2"/>
     </group>
 </menu>

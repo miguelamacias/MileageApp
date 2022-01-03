@@ -1,6 +1,7 @@
 package com.macisdev.mileageapp
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -39,6 +40,19 @@ class MainActivity : AppCompatActivity() {
 		appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment), gui.drawerLayout)
 		//Binds the drawer to the app bar
 		setupActionBarWithNavController(navController, appBarConfiguration)
+
+		//Add vehicles to the navigation drawer menu
+		MileageRepository.getVehicles().forEach { vehicle ->
+			gui.navView.menu.getItem(0).subMenu
+				.add(R.id.vehicles_group, Menu.NONE, 0, vehicle.plateNumber)
+				.setIcon(R.drawable.ic_baseline_directions_car_24)
+				.setOnMenuItemClickListener {
+					val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment(vehicle.plateNumber)
+					navController.navigate(directions)
+					gui.drawerLayout.closeDrawers()
+					true
+				}
+		}
 	}
 
 	//Used by the navigationUI component (drawer)
