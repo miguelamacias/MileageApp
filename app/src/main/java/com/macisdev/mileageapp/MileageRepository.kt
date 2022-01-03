@@ -66,6 +66,10 @@ object MileageRepository {
 		return mileages.filter { it.vehicle.plateNumber == plateNumber}
 	}
 
+	fun addVehicle(vehicle: Vehicle) {
+		vehicles.add(vehicle)
+	}
+
 
 	operator fun invoke(context: Context) : MileageRepository {
 		return this

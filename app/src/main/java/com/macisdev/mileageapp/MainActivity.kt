@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 
 		setSupportActionBar(gui.toolbar)
 
-
 		//Drawer code
 		//Get the fragment where the others fragments are shown
 		val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

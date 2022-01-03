@@ -20,8 +20,13 @@
     <string name="add_vehicle">Add vehicle</string>
     <string name="trip_cost">Trip cost calculator</string>
     <string name="vehicles">Vehicles</string>
-
-
-    <string name="list_of_mileages">List of mileages</string>
+    <string name="app_icon">Application icon</string>
+    <string name="plate_label">Plate number:</string>
+    <string name="plate_hint">Plate number</string>
+    <string name="maker_label">Maker:</string>
+    <string name="maker_hint">Maker</string>
+    <string name="model_label">Model:</string>
+    <string name="model_hint">Model</string>
     <string name="not_available">Not available yet!</string>
+
 </resources>

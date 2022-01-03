@@ -16,17 +16,11 @@ import com.macisdev.mileageapp.databinding.FragmentMileageListBinding
 import com.macisdev.mileageapp.model.Mileage
 import java.util.*
 
-private const val ARG_VEHICLE = "vehicle_arg"
-
 class MileageListFragment : Fragment() {
 	private lateinit var gui: FragmentMileageListBinding
 	private lateinit var mileagesList: List<Mileage>
 
 	private val fragmentArgs: MileageListFragmentArgs by navArgs()
-
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentMileageListBinding.inflate(inflater, container, false)
@@ -50,16 +44,8 @@ class MileageListFragment : Fragment() {
 	private fun calculateAverage() = String.format(Locale.getDefault(), "%.2f",
 		mileagesList.sumOf { it.mileage } / mileagesList.size)
 
-	companion object {
-		fun newInstance(vehiclePlate: String) =
-			MileageListFragment().apply {
-				arguments = Bundle().apply {
-					putString(ARG_VEHICLE, vehiclePlate)
-				}
-			}
-	}
 
-	private inner class MileageAdapter() :
+	private inner class MileageAdapter :
 		ListAdapter<Mileage, MileageAdapter.MileageViewHolder>(MileageDiffCallback) {
 
 		private inner class MileageViewHolder(view: View) : RecyclerView.ViewHolder(view) {

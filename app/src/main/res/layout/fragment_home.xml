@@ -14,7 +14,7 @@
             android:id="@+id/add_button" />
 
     <Button
-            android:text="List of Mileages"
+            android:text="@string/add_vehicle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/list_button" />

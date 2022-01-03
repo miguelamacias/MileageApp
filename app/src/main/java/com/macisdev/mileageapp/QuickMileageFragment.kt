@@ -12,7 +12,7 @@ import java.util.*
 class QuickMileageFragment : Fragment() {
 	private lateinit var gui: FragmentQuickMileageBinding
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentQuickMileageBinding.inflate(inflater, container, false)
 
 		return gui.root
