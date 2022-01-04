@@ -17,7 +17,7 @@
                 android:id="@+id/action_homeFragment_to_mileageListFragment"
                 app:destination="@id/mileageListFragment" />
         <action
-                android:id="@+id/action_homeFragment_to_addVehicleFragment2"
+                android:id="@+id/action_homeFragment_to_addVehicleFragment"
                 app:destination="@id/addVehicleFragment" />
     </fragment>
 

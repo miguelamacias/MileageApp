@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.macisdev.mileageapp.model.Mileage
 
 class MileageListViewModel(private val plateNumber: String) : ViewModel() {
-	val mileageListLiveData: MutableLiveData<List<Mileage>> = MileageRepository.getMileages(plateNumber)
+	private val mileageRepository = MileageRepository.get()
+	val mileageListLiveData: MutableLiveData<List<Mileage>> = MutableLiveData(mileageRepository.getMileages(plateNumber))
 
 	@Suppress("UNCHECKED_CAST")
 	class Factory(private val plateNumber : String) : ViewModelProvider.Factory {

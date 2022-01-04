@@ -1,76 +1,53 @@
 package com.macisdev.mileageapp
 
+import android.annotation.SuppressLint
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
+import com.macisdev.mileageapp.database.MileagesDataBase
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
-import java.util.*
 
-object MileageRepository {
+private const val DATABASE_NAME = "mileage-database"
 
-	private val vehicles = mutableListOf(
-		Vehicle("8054FDG", "Ford", "Mondeo"),
-		Vehicle("5687JRK", "Honda", "PCX"),
-		Vehicle("SO0728G", "Rover", "220")
-	)
+@SuppressLint("StaticFieldLeak")
+class MileageRepository private constructor(context: Context) {
 
-	private val mileages = mutableListOf(
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 6.54,728.4, 58.11, "Travel to Madrid"),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.55,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 6.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 6.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 5.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 6.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.56,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 8.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 5.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 8.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 6.89,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.54,728.4, 58.11, "Broken turbo hose"),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 6.14,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 4.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.75,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 8.76,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.42,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.35,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.75,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 8.87,728.4, 58.11, "ITV"),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.16,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.54,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.88,728.4, 58.11),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 7.11,728.4, 58.11),
-		Mileage(Vehicle("5687JRK", "Honda", "PCX"), Date(), 2.47,328.12, 7.95),
-		Mileage(Vehicle("8054FDG", "Ford", "Mondeo"), Date(), 6.98,630.5, 51.78),
-		Mileage(Vehicle("SO0728G", "Rover", "220"), Date(), 5.80,650.9, 39.25),
-	)
+	private lateinit var context: Context
 
-	fun getVehicles() = vehicles
+	private val database: MileagesDataBase = Room.databaseBuilder(
+		context.applicationContext,
+		MileagesDataBase::class.java,
+		DATABASE_NAME)
+		.allowMainThreadQueries()
+		.build()
 
-	fun getVehicle(plateNumber: String): Vehicle? {
-		return vehicles.find { it.plateNumber == plateNumber }
-	}
 
-	fun storeMileage(mileage: Mileage) {
-		mileages.add(mileage)
-	}
+	private val mileageDao = database.mileageDao()
 
-	fun getMileages(plateNumber: String): MutableLiveData<List<Mileage>> {
-		val plateMileages = mileages.filter { it.vehicle.plateNumber == plateNumber}
+	fun getVehicles() = mileageDao.getVehicles()
+
+	fun storeMileage(mileage: Mileage) = mileageDao.addMileage(mileage)
+
+	/*fun getMileages(plateNumber: String): MutableLiveData<List<Mileage>> {
+		val plateMileages = mileages.filter { it.vehiclePlateNumber == plateNumber}
 		return MutableLiveData<List<Mileage>>(plateMileages)
-	}
+	}*/
 
-	fun addVehicle(vehicle: Vehicle) {
-		vehicles.add(vehicle)
-	}
+	fun getMileages(vehiclePlateNumber: String) = mileageDao.getMileages(vehiclePlateNumber)
 
-	operator fun invoke(context: Context) : MileageRepository {
-		return this
+	fun addVehicle(vehicle: Vehicle) = mileageDao.addVehicle(vehicle)
+
+	companion object {
+		private var INSTANCE: MileageRepository? = null
+
+		fun initialize(context: Context) {
+			if (INSTANCE == null) {
+				INSTANCE = MileageRepository(context)
+			}
+		}
+
+		fun get(): MileageRepository {
+			return INSTANCE ?: throw IllegalStateException("CrimeRepository must be initialized")
+		}
 	}
 }

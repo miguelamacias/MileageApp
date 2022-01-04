@@ -18,7 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.macisdev.mileageapp.databinding.FragmentAddMileageBinding
 import com.macisdev.mileageapp.model.Mileage
-import com.macisdev.mileageapp.model.Vehicle
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.util.*
@@ -28,6 +27,7 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 
 	private lateinit var gui: FragmentAddMileageBinding
 	private val fragmentArgs: AddMileageFragmentArgs by navArgs()
+	private val mileageRepository = MileageRepository.get()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentAddMileageBinding.inflate(inflater, container, false)
@@ -63,12 +63,11 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 			val mileageData = decimalFormatter.parse(gui.mileageResultEditText.text.toString())?.toDouble() ?: -1.0
 
 			if (mileageData > 0) {
-				val vehicle = MileageRepository.getVehicle(fragmentArgs.plateNumber) ?: Vehicle()
 				val date = Date()
 				val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: -1.0
 				val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: -1.0
 
-				MileageRepository.storeMileage(Mileage(vehicle, date, mileageData, kilometres, litres))
+				mileageRepository.storeMileage(Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres))
 
 				parentFragment?.view?.let { parentView ->
 					Snackbar.make(parentView, R.string.mileage_added, Snackbar.LENGTH_LONG).show()

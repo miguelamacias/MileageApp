@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), AddVehicleFragment.Callbacks {
 		setupActionBarWithNavController(navController, appBarConfiguration)
 
 		//Add vehicles to the navigation drawer menu
-		MileageRepository.getVehicles().forEach { vehicle ->
+		MileageRepository.get().getVehicles().forEach { vehicle ->
 			gui.navView.menu.getItem(0).subMenu
 				.add(R.id.vehicles_group, Menu.NONE, 0, vehicle.plateNumber)
 				.setIcon(R.drawable.ic_baseline_directions_car_24)

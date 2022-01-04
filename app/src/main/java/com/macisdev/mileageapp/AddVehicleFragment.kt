@@ -1,5 +1,6 @@
 package com.macisdev.mileageapp
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +18,18 @@ class AddVehicleFragment : DialogFragment() {
 	}
 
 	private lateinit var gui: FragmentAddVehicleBinding
-	private lateinit var parentActivityCallbacks: Callbacks
+	private var parentActivityCallbacks: Callbacks? = null
+	private val mileageRepository = MileageRepository.get()
 
+	override fun onAttach(context: Context) {
+		super.onAttach(context)
+		parentActivityCallbacks = context as Callbacks
+	}
+
+	override fun onDetach() {
+		super.onDetach()
+		parentActivityCallbacks = null
+	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentAddVehicleBinding.inflate(inflater, container, false)
@@ -52,16 +63,14 @@ class AddVehicleFragment : DialogFragment() {
 			if (!emptyField) {
 				val vehicle = Vehicle(plateNumber, maker, model)
 
-				MileageRepository.addVehicle(vehicle)
-				parentActivityCallbacks.onVehicleAdded(vehicle)
+				mileageRepository.addVehicle(vehicle)
+				parentActivityCallbacks?.onVehicleAdded(vehicle)
 
 				parentFragment?.view?.let {
 						parentView -> Snackbar.make(parentView, R.string.vehicle_added, Snackbar.LENGTH_LONG).show()
 				}
 
-				if (!findNavController().navigateUp()) { //Sometines the navigateUp() method doesn't work
-					dismiss()
-				}
+				findNavController().navigateUp()
 			}
 		}
 	}

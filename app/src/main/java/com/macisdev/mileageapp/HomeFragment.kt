@@ -28,7 +28,8 @@ class HomeFragment : Fragment() {
 			//val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment("8054FDG")
 			//findNavController().navigate(directions)
 
-			AddVehicleFragment().show(childFragmentManager, "")
+			val directions = HomeFragmentDirections.actionHomeFragmentToAddVehicleFragment()
+			findNavController().navigate(directions)
 		}
 
 		gui.quickButton.setOnClickListener {
