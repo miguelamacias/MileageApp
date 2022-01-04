@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
@@ -19,9 +20,11 @@ import java.util.*
 
 class MileageListFragment : Fragment() {
 	private lateinit var gui: FragmentMileageListBinding
-	private lateinit var mileagesList: List<Mileage>
 
 	private val fragmentArgs: MileageListFragmentArgs by navArgs()
+	private val mileageListViewModel: MileageListViewModel by viewModels {
+		MileageListViewModel.Factory(fragmentArgs.vehiclePlateNumber)
+	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentMileageListBinding.inflate(inflater, container, false)
@@ -31,15 +34,13 @@ class MileageListFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		mileagesList = MileageRepository.getMileages(fragmentArgs.vehiclePlateNumber)
+		mileageListViewModel.mileageListLiveData.observe(
+			viewLifecycleOwner, {mileages -> updateMileages(mileages)}
+		)
 
 		gui.mileagesRecyclerView.layoutManager = LinearLayoutManager(view.context)
 		val adapter = MileageAdapter()
 		gui.mileagesRecyclerView.adapter = adapter
-		adapter.submitList(mileagesList.reversed())
-
-		gui.recordsCountTextView.text = mileagesList.size.toString()
-		gui.averageMileageTextView.text = calculateAverage()
 
 		gui.addMileageFab.setOnClickListener {
 			val directions = MileageListFragmentDirections
@@ -48,9 +49,16 @@ class MileageListFragment : Fragment() {
 		}
 	}
 
-	private fun calculateAverage() = String.format(Locale.getDefault(), "%.2f",
-		mileagesList.sumOf { it.mileage } / mileagesList.size)
+	private fun updateMileages(mileages: List<Mileage>) {
+		val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
+		adapter.submitList(mileages.reversed())
+		gui.recordsCountTextView.text = mileages.size.toString()
+		gui.averageMileageTextView.text = calculateAverage(mileages)
 
+	}
+
+	private fun calculateAverage(mileages: List<Mileage>) = String.format(Locale.getDefault(), "%.2f",
+		mileages.sumOf { it.mileage } / mileages.size)
 
 	private inner class MileageAdapter :
 		ListAdapter<Mileage, MileageAdapter.MileageViewHolder>(MileageDiffCallback) {
@@ -93,10 +101,5 @@ class MileageListFragment : Fragment() {
 		override fun areContentsTheSame(oldItem: Mileage, newItem: Mileage): Boolean {
 			return oldItem == newItem
 		}
-	}
-
-	fun updateMileages() {
-		val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
-		adapter.submitList(MileageRepository.getMileages(fragmentArgs.vehiclePlateNumber))
 	}
 }

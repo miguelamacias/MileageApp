@@ -1,6 +1,7 @@
 package com.macisdev.mileageapp
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
 import java.util.*
@@ -60,8 +61,9 @@ object MileageRepository {
 		mileages.add(mileage)
 	}
 
-	fun getMileages(plateNumber: String): List<Mileage> {
-		return mileages.filter { it.vehicle.plateNumber == plateNumber}
+	fun getMileages(plateNumber: String): MutableLiveData<List<Mileage>> {
+		val plateMileages = mileages.filter { it.vehicle.plateNumber == plateNumber}
+		return MutableLiveData<List<Mileage>>(plateMileages)
 	}
 
 	fun addVehicle(vehicle: Vehicle) {
