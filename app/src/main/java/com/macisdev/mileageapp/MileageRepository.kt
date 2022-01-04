@@ -1,7 +1,6 @@
 package com.macisdev.mileageapp
 
 import android.content.Context
-import android.util.Log
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
 import java.util.*
@@ -59,7 +58,6 @@ object MileageRepository {
 
 	fun storeMileage(mileage: Mileage) {
 		mileages.add(mileage)
-		Log.d(MainActivity.TAG, mileages.toString())
 	}
 
 	fun getMileages(plateNumber: String): List<Mileage> {
@@ -69,7 +67,6 @@ object MileageRepository {
 	fun addVehicle(vehicle: Vehicle) {
 		vehicles.add(vehicle)
 	}
-
 
 	operator fun invoke(context: Context) : MileageRepository {
 		return this

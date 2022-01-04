@@ -12,23 +12,25 @@
             android:layout_height="0dp"
             android:id="@+id/mileages_recycler_view"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="32dp"
-            tools:background="#6564FFDA" />
+            app:layout_constraintTop_toBottomOf="@+id/records_label"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="72dp"
+            android:clipToPadding="false"
+            tools:listitem="@layout/list_item_mileage" />
 
     <TextView
             android:text="@string/records_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/records_label"
-            app:layout_constraintTop_toBottomOf="@+id/mileages_recycler_view"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp" />
 
     <TextView
             tools:text="8"
@@ -60,4 +62,17 @@
             android:layout_marginEnd="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textStyle="bold" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:src="@drawable/ic_baseline_playlist_add_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:id="@+id/addMileageFab"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/add_mileage"
+            android:focusable="true" />
 </androidx.constraintlayout.widget.ConstraintLayout>

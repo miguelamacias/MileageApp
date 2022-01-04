@@ -20,8 +20,8 @@ class HomeFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 
 		gui.addButton.setOnClickListener {
-			val directions = HomeFragmentDirections.actionHomeFragmentToAddMileageFragment()
-			findNavController().navigate(directions)
+			//val directions = HomeFragmentDirections.actionHomeFragmentToAddMileageFragment()
+			//findNavController().navigate(directions)
 		}
 
 		gui.listButton.setOnClickListener {

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +40,12 @@ class MileageListFragment : Fragment() {
 
 		gui.recordsCountTextView.text = mileagesList.size.toString()
 		gui.averageMileageTextView.text = calculateAverage()
+
+		gui.addMileageFab.setOnClickListener {
+			val directions = MileageListFragmentDirections
+				.actionMileageListFragmentToAddMileageFragment(fragmentArgs.vehiclePlateNumber)
+			findNavController().navigate(directions)
+		}
 	}
 
 	private fun calculateAverage() = String.format(Locale.getDefault(), "%.2f",
@@ -86,5 +93,10 @@ class MileageListFragment : Fragment() {
 		override fun areContentsTheSame(oldItem: Mileage, newItem: Mileage): Boolean {
 			return oldItem == newItem
 		}
+	}
+
+	fun updateMileages() {
+		val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
+		adapter.submitList(MileageRepository.getMileages(fragmentArgs.vehiclePlateNumber))
 	}
 }

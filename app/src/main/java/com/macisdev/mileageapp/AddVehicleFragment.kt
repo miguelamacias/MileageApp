@@ -1,6 +1,5 @@
 package com.macisdev.mileageapp
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,10 +19,6 @@ class AddVehicleFragment : DialogFragment() {
 	private lateinit var gui: FragmentAddVehicleBinding
 	private lateinit var parentActivityCallbacks: Callbacks
 
-	override fun onAttach(context: Context) {
-		super.onAttach(context)
-		parentActivityCallbacks = context as Callbacks
-	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentAddVehicleBinding.inflate(inflater, container, false)
@@ -32,6 +27,7 @@ class AddVehicleFragment : DialogFragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
 		gui.addVehicleButton.setOnClickListener {
 			var emptyField = false
 
