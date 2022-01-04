@@ -19,6 +19,9 @@
         <action
                 android:id="@+id/action_homeFragment_to_addMileageFragment"
                 app:destination="@id/addMileageFragment" />
+        <action
+                android:id="@+id/action_homeFragment_to_addVehicleFragment2"
+                app:destination="@id/addVehicleFragment" />
     </fragment>
 
     <fragment
@@ -46,4 +49,10 @@
             android:name="com.macisdev.mileageapp.QuickMileageFragment"
             android:label="@string/quick_mileage"
             tools:layout="@layout/fragment_quick_mileage" />
+    <dialog
+            android:id="@+id/addVehicleFragment"
+            android:name="com.macisdev.mileageapp.AddVehicleFragment"
+            android:label="fragment_add_vehicle"
+            tools:layout="@layout/fragment_add_vehicle" >
+    </dialog>
 </navigation>

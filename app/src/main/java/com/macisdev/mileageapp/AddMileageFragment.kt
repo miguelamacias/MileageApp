@@ -71,8 +71,7 @@ class AddMileageFragment : Fragment() {
 
 				Snackbar.make(gui.root, R.string.mileage_added, Snackbar.LENGTH_LONG).show()
 
-				val directions = AddMileageFragmentDirections.actionAddMileageFragmentPop()
-				findNavController().navigate(directions)
+				findNavController().navigateUp()
 			}
 		}
 

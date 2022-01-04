@@ -28,5 +28,7 @@
     <string name="model_label">Model:</string>
     <string name="model_hint">Model</string>
     <string name="not_available">Not available yet!</string>
+    <string name="error_empty_field">Field can\'t be empty!</string>
+    <string name="vehicle_added">Vehicle added succesfully!</string>
 
 </resources>
