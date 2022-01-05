@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.macisdev.mileageapp.databinding.FragmentMileageListBinding
 import com.macisdev.mileageapp.model.Mileage
+import com.macisdev.mileageapp.viewModels.MileageListViewModel
 import java.util.*
 
 class MileageListFragment : Fragment() {
@@ -34,9 +35,7 @@ class MileageListFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		mileageListViewModel.mileageListLiveData.observe(
-			viewLifecycleOwner, {mileages -> updateMileages(mileages)}
-		)
+		mileageListViewModel.mileageListLiveData.observe(viewLifecycleOwner) {updateMileages(it)}
 
 		gui.mileagesRecyclerView.layoutManager = LinearLayoutManager(view.context)
 		val adapter = MileageAdapter()

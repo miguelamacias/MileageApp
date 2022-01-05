@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
+import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.databinding.FragmentAddMileageBinding
 import com.macisdev.mileageapp.model.Mileage
 import java.text.DecimalFormat

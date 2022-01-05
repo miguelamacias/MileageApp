@@ -2,6 +2,7 @@ package com.macisdev.mileageapp
 
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -11,10 +12,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.macisdev.mileageapp.databinding.ActivityMainBinding
-import com.macisdev.mileageapp.model.Vehicle
+import com.macisdev.mileageapp.viewModels.MainActivityViewModel
 
 
-class MainActivity : AppCompatActivity(), AddVehicleFragment.Callbacks {
+class MainActivity : AppCompatActivity() {
 	companion object {
 		const val TAG = "MileageAppTag"
 	}
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity(), AddVehicleFragment.Callbacks {
 
 	private lateinit var appBarConfiguration: AppBarConfiguration
 	private lateinit var navController: NavController
+	private val mainActivityVM: MainActivityViewModel by viewModels()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -44,14 +46,26 @@ class MainActivity : AppCompatActivity(), AddVehicleFragment.Callbacks {
 		setupActionBarWithNavController(navController, appBarConfiguration)
 
 		//Add vehicles to the navigation drawer menu
-		MileageRepository.get().getVehicles().forEach { vehicle ->
-			gui.navView.menu.getItem(0).subMenu
-				.add(R.id.vehicles_group, Menu.NONE, 0, vehicle.plateNumber)
-				.setIcon(R.drawable.ic_baseline_directions_car_24)
+		mainActivityVM.vehiclesList.observe(this) { vehiclesList ->
+			val vehiclesMenu = gui.navView.menu.getItem(0).subMenu
+			vehiclesMenu.clear()
+			vehiclesList.forEach { vehicle ->
+				vehiclesMenu
+					.add(R.id.vehicles_group, Menu.NONE, 0, vehicle.plateNumber)
+					.setIcon(R.drawable.ic_baseline_directions_car_24)
+					.setOnMenuItemClickListener {
+						val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment(vehicle.plateNumber)
+						navController.navigate(directions)
+						gui.drawerLayout.closeDrawers()
+						true
+					}
+			}
+			vehiclesMenu
+				.add(R.id.vehicles_group, Menu.NONE, 0, getString(R.string.add_vehicle))
+				.setIcon(R.drawable.ic_baseline_add_circle_outline_24)
 				.setOnMenuItemClickListener {
-					val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment(vehicle.plateNumber)
+					val directions = HomeFragmentDirections.actionHomeFragmentToAddVehicleFragment()
 					navController.navigate(directions)
-					gui.drawerLayout.closeDrawers()
 					true
 				}
 		}
@@ -61,17 +75,5 @@ class MainActivity : AppCompatActivity(), AddVehicleFragment.Callbacks {
 	override fun onSupportNavigateUp(): Boolean {
 		val navController = findNavController(R.id.nav_host_fragment)
 		return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-	}
-
-	override fun onVehicleAdded(vehicle: Vehicle) {
-		gui.navView.menu.getItem(0).subMenu
-			.add(R.id.vehicles_group, Menu.NONE, 0, vehicle.plateNumber)
-			.setIcon(R.drawable.ic_baseline_directions_car_24)
-			.setOnMenuItemClickListener {
-				val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment(vehicle.plateNumber)
-				navController.navigate(directions)
-				gui.drawerLayout.closeDrawers()
-				true
-			}
 	}
 }
