@@ -75,7 +75,8 @@
             android:inputType="numberDecimal"
             app:layout_constraintStart_toStartOf="@+id/guideline_vertical"
             android:layout_marginStart="8dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_label" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_label"
+            android:importantForAutofill="no" />
 
     <EditText
             android:layout_width="wrap_content"
@@ -86,7 +87,8 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_vertical"
             android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/litres_label"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:importantForAutofill="no" />
 
     <EditText
             android:layout_width="wrap_content"
@@ -97,6 +99,7 @@
             android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/mileage_label"
             android:enabled="false"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:importantForAutofill="no" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

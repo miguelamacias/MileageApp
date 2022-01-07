@@ -23,7 +23,6 @@ class QuickMileageFragment : Fragment() {
 
 		gui.calculateMileageButton.setOnClickListener {
 			try {
-
 				val decimalFormatter = DecimalFormat.getInstance(Locale.getDefault())
 
 				val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: 0.0
@@ -36,7 +35,7 @@ class QuickMileageFragment : Fragment() {
 					gui.mileageResultEditText.setText(R.string.wrong_value)
 				}
 
-			} catch (e: NumberFormatException) {
+			} catch (e: Exception) {
 				gui.mileageResultEditText.setText(R.string.wrong_value)
 			}
 		}

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MileageApp</string>
-    <string name="app_version">v1.0-alpha02</string>
+    <string name="app_version">v1.0-alpha03</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="litres_label">Litres:</string>
     <string name="mileage_label">Mileage:</string>
@@ -10,7 +10,6 @@
     <string name="litres_hint">Enter litres</string>
     <string name="kilometers_hint">Enter kilometers</string>
     <string name="wrong_value">Wrong value</string>
-    <string name="vehicle_label">Vehicle:</string>
     <string name="date_label">Date:</string>
     <string name="records_list">Records:</string>
     <string name="average_mileage">Average mileage:</string>

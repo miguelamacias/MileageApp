@@ -3,9 +3,10 @@ package com.macisdev.mileageapp.viewModels
 import androidx.lifecycle.ViewModel
 import com.macisdev.mileageapp.R
 import com.macisdev.mileageapp.database.MileageRepository
+import com.macisdev.mileageapp.model.Vehicle
 
 class AddVehicleViewModel : ViewModel() {
-	val mileageRepository = MileageRepository.get()
+	private val mileageRepository = MileageRepository.get()
 
 	val icons = listOf(
 		R.drawable.ic_vehicle_car_hatchback,
@@ -42,4 +43,8 @@ class AddVehicleViewModel : ViewModel() {
 		R.color.yellow,
 		R.color.purple,
 	)
+
+	fun storeVehicle(vehicle: Vehicle) {
+		mileageRepository.addVehicle(vehicle)
+	}
 }

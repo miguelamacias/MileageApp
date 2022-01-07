@@ -78,7 +78,8 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_vertical"
             android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_label"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:importantForAutofill="no" />
 
     <EditText
             android:layout_width="wrap_content"
@@ -90,7 +91,8 @@
             android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/litres_label"
             android:inputType="numberDecimal"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:importantForAutofill="no" />
 
     <EditText
             android:layout_width="wrap_content"
@@ -102,7 +104,8 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/mileage_label"
             android:enabled="false"
             android:inputType="numberDecimal"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:importantForAutofill="no" />
 
     <TextView
             android:text="@string/date_label"
@@ -128,6 +131,7 @@
             android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView"
             android:minHeight="48dp"
-            tools:ignore="KeyboardInaccessibleWidget,TextFields" />
+            tools:ignore="KeyboardInaccessibleWidget,TextFields"
+            android:importantForAutofill="no" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

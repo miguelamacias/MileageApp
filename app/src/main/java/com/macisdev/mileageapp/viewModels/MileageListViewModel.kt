@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.model.Mileage
 
-class MileageListViewModel(private val plateNumber: String) : ViewModel() {
+class MileageListViewModel(plateNumber: String) : ViewModel() {
 	private val mileageRepository = MileageRepository.get()
 	val mileageListLiveData: LiveData<List<Mileage>> = mileageRepository.getMileages(plateNumber)
 

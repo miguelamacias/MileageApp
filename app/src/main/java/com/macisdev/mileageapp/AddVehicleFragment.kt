@@ -2,6 +2,7 @@ package com.macisdev.mileageapp
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,10 +29,10 @@ class AddVehicleFragment : DialogFragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		gui.plateEditText.filters += InputFilter.AllCaps()
+
 		gui.iconSpinner.adapter = IconAdapter(view.context, 0, addVehicleVM.icons)
-
 		gui.colorSpinner.adapter = ColorAdapter(view.context, 0, addVehicleVM.colors)
-
 
 		gui.addVehicleButton.setOnClickListener {
 			addVehicle()
@@ -66,7 +67,7 @@ class AddVehicleFragment : DialogFragment() {
 		if (!emptyField) {
 			val vehicle = Vehicle(plateNumber, maker, model, icon, color)
 
-			addVehicleVM.mileageRepository.addVehicle(vehicle)
+			addVehicleVM.storeVehicle(vehicle)
 
 			parentFragment?.view?.let {
 					parentView -> Snackbar.make(parentView, R.string.vehicle_added, Snackbar.LENGTH_LONG).show()

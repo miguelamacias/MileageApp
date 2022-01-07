@@ -17,9 +17,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.macisdev.mileageapp.databinding.ActivityMainBinding
 import com.macisdev.mileageapp.viewModels.MainActivityViewModel
 
-
 class MainActivity : AppCompatActivity() {
 	companion object {
+		@Suppress("unused")
 		const val TAG = "MileageAppTag"
 	}
 
