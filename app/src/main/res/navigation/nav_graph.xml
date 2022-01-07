@@ -24,12 +24,17 @@
     <fragment
             android:id="@+id/mileageListFragment"
             android:name="com.macisdev.mileageapp.MileageListFragment"
-            android:label="{vehiclePlateNumber}"
+            android:label="{vehicleMaker} {vehicleModel} - {vehiclePlateNumber}"
             tools:layout="@layout/fragment_mileage_list">
         <argument
                 android:name="vehiclePlateNumber"
-                app:argType="string"
-                android:defaultValue="8054FDG"/>
+                app:argType="string" />
+        <argument
+                android:name="vehicleMaker"
+                app:argType="string" />
+        <argument
+                android:name="vehicleModel"
+                app:argType="string" />
         <action
                 android:id="@+id/action_mileageListFragment_to_addMileageFragment"
                 app:destination="@id/addMileageFragment" />

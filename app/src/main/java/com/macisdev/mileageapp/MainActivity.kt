@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -45,16 +48,23 @@ class MainActivity : AppCompatActivity() {
 		//Binds the drawer to the app bar
 		setupActionBarWithNavController(navController, appBarConfiguration)
 
+		gui.navView.itemIconTintList = null
+
 		//Add vehicles to the navigation drawer menu
 		mainActivityVM.vehiclesList.observe(this) { vehiclesList ->
 			val vehiclesMenu = gui.navView.menu.getItem(0).subMenu
 			vehiclesMenu.clear()
 			vehiclesList.forEach { vehicle ->
+				val icon = ContextCompat.getDrawable(this, vehicle.icon)
+				icon?.colorFilter = BlendModeColorFilterCompat
+					.createBlendModeColorFilterCompat(getColor(vehicle.iconColor), BlendModeCompat.SRC_ATOP)
+
 				vehiclesMenu
 					.add(R.id.vehicles_group, Menu.NONE, 0, vehicle.plateNumber)
-					.setIcon(R.drawable.ic_baseline_directions_car_24)
+					.setIcon(icon)
 					.setOnMenuItemClickListener {
-						val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment(vehicle.plateNumber)
+						val directions = HomeFragmentDirections.
+						actionHomeFragmentToMileageListFragment(vehicle.plateNumber, vehicle.maker, vehicle.model)
 						navController.navigate(directions)
 						gui.drawerLayout.closeDrawers()
 						true
@@ -62,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 			}
 			vehiclesMenu
 				.add(R.id.vehicles_group, Menu.NONE, 0, getString(R.string.add_vehicle))
-				.setIcon(R.drawable.ic_baseline_add_circle_outline_24)
+				.setIcon(R.drawable.ic_add_circle)
 				.setOnMenuItemClickListener {
 					val directions = HomeFragmentDirections.actionHomeFragmentToAddVehicleFragment()
 					navController.navigate(directions)

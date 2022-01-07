@@ -7,4 +7,19 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--Color for vehicles icons -->
+    <color name="red">#BB2615</color>
+    <color name="blue">#3889d2</color>
+    <color name="dark_blue">#182EAB</color>
+    <color name="silver">#aaaaaa</color>
+    <color name="grey">#535353</color>
+    <color name="green">#32710A</color>
+    <color name="brown">#6A6217</color>
+    <color name="champagne">#A29C6E</color>
+    <color name="orange">#F57F17</color>
+    <color name="yellow">#F9E219</color>
+    <color name="purple">#673AB7</color>
+
+
 </resources>
