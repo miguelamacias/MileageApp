@@ -50,10 +50,15 @@ class MileageListFragment : Fragment() {
 
 	private fun updateMileages(mileages: List<Mileage>) {
 		val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
-		adapter.submitList(mileages.reversed())
+		adapter.submitList(mileages)
 		gui.recordsCountTextView.text = mileages.size.toString()
 		gui.averageMileageTextView.text = calculateAverage(mileages)
 
+		if (mileages.isEmpty()) {
+			gui.noMileagesTextView.visibility = View.VISIBLE
+		} else {
+			gui.noMileagesTextView.visibility = View.INVISIBLE
+		}
 	}
 
 	private fun calculateAverage(mileages: List<Mileage>) = String.format(Locale.getDefault(), "%.2f",

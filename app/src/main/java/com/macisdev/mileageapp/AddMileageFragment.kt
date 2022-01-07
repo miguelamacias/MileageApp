@@ -1,24 +1,22 @@
 package com.macisdev.mileageapp
 
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import android.widget.Toast
-
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
-import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.databinding.FragmentAddMileageBinding
 import com.macisdev.mileageapp.model.Mileage
+import com.macisdev.mileageapp.viewModels.AddMileageViewModel
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.util.*
@@ -28,7 +26,7 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 
 	private lateinit var gui: FragmentAddMileageBinding
 	private val fragmentArgs: AddMileageFragmentArgs by navArgs()
-	private val mileageRepository = MileageRepository.get()
+	private val addMileageVM: AddMileageViewModel by viewModels()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentAddMileageBinding.inflate(inflater, container, false)
@@ -64,11 +62,11 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 			val mileageData = decimalFormatter.parse(gui.mileageResultEditText.text.toString())?.toDouble() ?: -1.0
 
 			if (mileageData > 0) {
-				val date = Date()
+				val date = addMileageVM.date
 				val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: -1.0
 				val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: -1.0
 
-				mileageRepository.storeMileage(Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres))
+				addMileageVM.storeMileage(Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres))
 
 				parentFragment?.view?.let { parentView ->
 					Snackbar.make(parentView, R.string.mileage_added, Snackbar.LENGTH_LONG).show()
@@ -79,11 +77,34 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 		}
 
 		gui.dateEditText.apply {
-			setText(DateFormat.format("dd/MM/yyyy", Date())) //TODO: User should be able to change the date
+			setText(DateFormat.format("dd/MM/yyyy", addMileageVM.date))
 			setOnClickListener {
-				Toast.makeText(context, R.string.not_available, Toast.LENGTH_SHORT).show()
+				selectDate()
 			}
 		}
+	}
+
+	private fun selectDate() {
+		val currentDate = Calendar.getInstance()
+		val currentYear = currentDate[Calendar.YEAR]
+		val currentMonth = currentDate[Calendar.MONTH]
+		val currentDay = currentDate[Calendar.DAY_OF_MONTH]
+
+		val datePicker = DatePickerDialog(
+			context!!,
+			{ _, selectedYear, selectedMonth, selectedDay ->
+
+				val selectedDate = Calendar.getInstance()
+				selectedDate.set(Calendar.YEAR, selectedYear)
+				selectedDate.set(Calendar.MONTH, selectedMonth)
+				selectedDate.set(Calendar.DAY_OF_MONTH, selectedDay)
+
+				addMileageVM.date = selectedDate.time
+				gui.dateEditText.setText(addMileageVM.formatedDate)
+
+			}, currentYear, currentMonth, currentDay
+		)
+		datePicker.show()
 	}
 
 	private fun calculateMileage() {

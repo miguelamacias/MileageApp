@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		gui = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(gui.root)
-
 		setSupportActionBar(gui.toolbar)
 
 		//Drawer code
@@ -48,9 +47,12 @@ class MainActivity : AppCompatActivity() {
 		//Binds the drawer to the app bar
 		setupActionBarWithNavController(navController, appBarConfiguration)
 
-		gui.navView.itemIconTintList = null
+		gui.navView.itemIconTintList = null //Allows tinting of vehicles icons
 
-		//Add vehicles to the navigation drawer menu
+		loadVehiclesToNavDrawer()
+	}
+
+	private fun loadVehiclesToNavDrawer() {
 		mainActivityVM.vehiclesList.observe(this) { vehiclesList ->
 			val vehiclesMenu = gui.navView.menu.getItem(0).subMenu
 			vehiclesMenu.clear()

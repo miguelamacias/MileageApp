@@ -10,7 +10,7 @@ import com.macisdev.mileageapp.model.Vehicle
 @Dao
 interface MileageDao {
 
-	@Query("SELECT * FROM mileage WHERE vehiclePlateNumber=(:vehiclePlateNumber)")
+	@Query("SELECT * FROM mileage WHERE vehiclePlateNumber=(:vehiclePlateNumber) ORDER BY date DESC")
 	fun getMileages(vehiclePlateNumber: String) : LiveData<List<Mileage>>
 
 	@Query("SELECT * FROM vehicle")

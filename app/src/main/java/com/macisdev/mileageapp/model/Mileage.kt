@@ -17,11 +17,11 @@ import java.util.*
 )
 data class Mileage(
 	@ColumnInfo(index = true) val vehiclePlateNumber: String,
-	val date: Date,
-	val mileage: Double,
-	val kilometres: Double,
-	val litres: Double,
-	val notes: String = "",
+	var date: Date,
+	var mileage: Double,
+	var kilometres: Double,
+	var litres: Double,
+	var notes: String = "",
 	@PrimaryKey
 	val id: UUID = UUID.randomUUID()
 )
