@@ -11,8 +11,13 @@ class AddMileageViewModel : ViewModel() {
 	private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
 	var date = Date()
+		set(value) {
+			field = value
+			formatedDate = dateFormat.format(date)
+		}
+
 	var formatedDate: String = dateFormat.format(date)
-	private set
+		private set
 
 	fun storeMileage(mileage: Mileage) {
 		milageRepository.storeMileage(mileage)
