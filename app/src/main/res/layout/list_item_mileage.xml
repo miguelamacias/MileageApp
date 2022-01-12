@@ -19,15 +19,12 @@
 
         <View
                 android:layout_width="24dp"
-                android:layout_height="64dp"
+                android:layout_height="0dp"
                 android:id="@+id/header"
                 android:background="?attr/colorPrimary"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="4dp" />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
                 android:text="@string/mileage_unit"
@@ -36,8 +33,10 @@
                 android:id="@+id/units_label_text_view"
                 android:layout_marginStart="16dp"
                 app:layout_constraintStart_toEndOf="@+id/header"
-                app:layout_constraintBottom_toBottomOf="@+id/header"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintTop_toBottomOf="@+id/mileage_content_text_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="4dp" />
 
         <TextView
                 tools:text="7,24"
@@ -52,15 +51,15 @@
 
         <View
                 android:layout_width="2dp"
-                android:layout_height="64dp"
+                android:layout_height="0dp"
                 android:id="@+id/vertical_separator"
                 android:background="?attr/colorPrimary"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginStart="16dp"
                 app:layout_constraintStart_toEndOf="@+id/mileage_content_text_view"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="10dp" />
 
         <TextView
                 android:text="@string/date_label"
@@ -78,10 +77,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/date_content_text_view"
-                app:layout_constraintBaseline_toBaselineOf="@+id/mileage_content_text_view"
                 app:layout_constraintStart_toEndOf="@+id/vertical_separator"
                 android:layout_marginStart="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintTop_toBottomOf="@+id/date_label_text_view" />
 
         <TextView
                 tools:text="Notes of the mileage..."
@@ -90,8 +89,8 @@
                 android:id="@+id/notes_text_view"
                 android:layout_marginStart="16dp"
                 app:layout_constraintStart_toEndOf="@+id/vertical_separator"
-                app:layout_constraintBottom_toBottomOf="@+id/vertical_separator"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintBaseline_toBaselineOf="@+id/units_label_text_view" />
 
         <androidx.constraintlayout.widget.Guideline
                 android:orientation="vertical"

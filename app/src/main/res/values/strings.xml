@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MileageApp</string>
-    <string name="app_version">v1.0-alpha06</string>
+    <string name="app_version">v1.0-alpha07</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="litres_label">Litres:</string>
     <string name="mileage_label">Mileage:</string>
@@ -38,5 +38,8 @@
     <string name="clear_mileages">Delete all mileages</string>
     <string name="cleared_mileages">All mileages deleted!</string>
     <string name="save_changes">Save changes</string>
+    <string name="action_cannot_be_undone">Are you sure? This action can\'t be undone.</string>
+    <string name="cancel">Cancel</string>
+    <string name="accept">Continue</string>
 
 </resources>

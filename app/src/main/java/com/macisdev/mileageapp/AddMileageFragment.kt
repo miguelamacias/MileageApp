@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,7 +76,7 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 		}
 
 		gui.dateEditText.apply {
-			setText(DateFormat.format("dd/MM/yyyy", addMileageVM.date))
+			setText(addMileageVM.formatedDate)
 			setOnClickListener {
 				selectDate()
 			}
