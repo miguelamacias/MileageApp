@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.room.Room
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
+import java.util.*
 import java.util.concurrent.Executors
 
 private const val DATABASE_NAME = "mileage-database"
@@ -46,6 +47,10 @@ class MileageRepository private constructor(context: Context) {
 
 	fun clearMileages(vehiclePlateNumber: String) {
 		executor.execute {mileageDao.clearMileages(vehiclePlateNumber)}
+	}
+
+	fun deleteMileage(mileageId: UUID?) {
+		executor.execute {mileageDao.deleteMileage(mileageId.toString())}
 	}
 
 

@@ -34,4 +34,7 @@ interface MileageDao {
 
 	@Query("DELETE FROM mileage WHERE vehiclePlateNumber=(:vehiclePlateNumber)")
 	fun clearMileages(vehiclePlateNumber: String)
+
+	@Query("DELETE FROM mileage WHERE id=(:mileageId)")
+	fun deleteMileage(mileageId: String)
 }
