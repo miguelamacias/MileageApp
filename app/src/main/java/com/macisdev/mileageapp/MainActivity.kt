@@ -76,7 +76,8 @@ class MainActivity : AppCompatActivity() {
 				.add(R.id.vehicles_group, Menu.NONE, 0, getString(R.string.add_vehicle))
 				.setIcon(R.drawable.ic_add_circle)
 				.setOnMenuItemClickListener {
-					val directions = HomeFragmentDirections.actionHomeFragmentToAddVehicleFragment()
+					val directions = HomeFragmentDirections
+						.actionHomeFragmentToAddVehicleFragment(false, "")
 					navController.navigate(directions)
 					true
 				}

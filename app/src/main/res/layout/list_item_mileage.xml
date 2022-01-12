@@ -1,129 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?android:attr/selectableItemBackground">
+        app:cardCornerRadius="8dp"
+        app:cardElevation="6dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp">
 
-    <View
-            android:layout_width="24dp"
-            android:layout_height="64dp"
-            android:id="@+id/header"
-            android:background="?attr/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground">
 
-    <TextView
-            android:text="@string/mileage_unit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/units_label_text_view"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/header"
-            app:layout_constraintBottom_toBottomOf="@+id/header"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        <View
+                android:layout_width="24dp"
+                android:layout_height="64dp"
+                android:id="@+id/header"
+                android:background="?attr/colorPrimary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="4dp" />
 
-    <TextView
-            tools:text="7,24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mileage_content_text_view"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/header"
-            app:layout_constraintTop_toTopOf="@+id/header" />
+        <TextView
+                android:text="@string/mileage_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/units_label_text_view"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/header"
+                app:layout_constraintBottom_toBottomOf="@+id/header"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-    <View
-            android:layout_width="2dp"
-            android:layout_height="64dp"
-            android:id="@+id/vertical_separator"
-            android:background="?attr/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/mileage_content_text_view" />
+        <TextView
+                tools:text="7,24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mileage_content_text_view"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/header"
+                app:layout_constraintTop_toTopOf="@+id/header"
+                android:layout_marginTop="4dp" />
 
-    <TextView
-            android:text="@string/date_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_label_text_view"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toEndOf="@+id/vertical_separator"
-            android:layout_marginStart="16dp"
-            android:textStyle="bold" />
+        <View
+                android:layout_width="2dp"
+                android:layout_height="64dp"
+                android:id="@+id/vertical_separator"
+                android:background="?attr/colorPrimary"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/mileage_content_text_view"
+                android:layout_marginTop="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="4dp" />
 
-    <TextView
-            tools:text="16/12/21"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_content_text_view"
-            app:layout_constraintBaseline_toBaselineOf="@+id/mileage_content_text_view"
-            app:layout_constraintStart_toEndOf="@+id/vertical_separator"
-            android:layout_marginStart="16dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <TextView
+                android:text="@string/date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/date_label_text_view"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vertical_separator"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp" />
 
-    <TextView
-            tools:text="Notes of the mileage are shown here..."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/notes_text_view"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/vertical_separator"
-            app:layout_constraintBottom_toBottomOf="@+id/vertical_separator"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        <TextView
+                tools:text="16/12/21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/date_content_text_view"
+                app:layout_constraintBaseline_toBaselineOf="@+id/mileage_content_text_view"
+                app:layout_constraintStart_toEndOf="@+id/vertical_separator"
+                android:layout_marginStart="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-    <androidx.constraintlayout.widget.Guideline
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintGuide_begin="231dp"
-            android:id="@+id/guideline2" />
+        <TextView
+                tools:text="Notes of the mileage..."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/notes_text_view"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/vertical_separator"
+                app:layout_constraintBottom_toBottomOf="@+id/vertical_separator"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-    <TextView
-            android:text="@string/kilometres_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/kilometres_label_text_view"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/date_label_text_view"
-            android:textStyle="bold" />
+        <androidx.constraintlayout.widget.Guideline
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintGuide_begin="236dp"
+                android:id="@+id/guideline2" />
 
-    <TextView
-            tools:text="724,65"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/kilometres_content_text_view"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/guideline2"
-            app:layout_constraintBaseline_toBaselineOf="@+id/date_content_text_view"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <TextView
+                android:text="@string/kilometres_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/kilometres_label_text_view"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/date_label_text_view"
+                android:textStyle="bold" />
 
-    <TextView
-            android:text="@string/litres_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/litres_label_text_view"
-            app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_label_text_view"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textStyle="bold" />
+        <TextView
+                tools:text="724,65"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/kilometres_content_text_view"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@id/guideline2"
+                app:layout_constraintBaseline_toBaselineOf="@+id/date_content_text_view"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-    <TextView
-            tools:text="61,74"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/litres_content_text_view"
-            app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_content_text_view"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <TextView
+                android:text="@string/litres_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/litres_label_text_view"
+                app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_label_text_view"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+                tools:text="61,74"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/litres_content_text_view"
+                app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_content_text_view"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

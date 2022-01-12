@@ -44,7 +44,10 @@ class AddVehicleViewModel : ViewModel() {
 		R.color.purple,
 	)
 
-	fun storeVehicle(vehicle: Vehicle) {
-		mileageRepository.addVehicle(vehicle)
-	}
+	fun storeVehicle(vehicle: Vehicle) = mileageRepository.addVehicle(vehicle)
+
+	fun updateVehicle(vehicle: Vehicle) = mileageRepository.updateVehicle(vehicle)
+
+	fun getVehicle(plateNumber: String) = mileageRepository.getVehicle(plateNumber)
+
 }

@@ -38,6 +38,13 @@
         <action
                 android:id="@+id/action_mileageListFragment_to_addMileageFragment"
                 app:destination="@id/addMileageFragment" />
+        <action
+                android:id="@+id/action_mileageListFragment_to_addVehicleFragment"
+                app:destination="@id/addVehicleFragment" />
+        <action
+                android:id="@+id/action_mileageListFragment_pop"
+                app:popUpTo="@id/mileageListFragment"
+                app:popUpToInclusive="true" />
     </fragment>
     <fragment
             android:id="@+id/quickMileageFragment"
@@ -49,7 +56,14 @@
             android:name="com.macisdev.mileageapp.AddVehicleFragment"
             android:label="fragment_add_vehicle"
             tools:layout="@layout/fragment_add_vehicle" >
+        <argument
+            android:name="editMode"
+            app:argType="boolean"/>
+        <argument
+                android:name="editVehiclePlate"
+                app:argType="string"/>
     </dialog>
+
     <dialog
             android:id="@+id/addMileageFragment"
             android:name="com.macisdev.mileageapp.AddMileageFragment"

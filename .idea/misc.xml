@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_add_to_list.xml" value="0.4451754385964912" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_baseline_directions_car_24.xml" value="0.4451754385964912" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.43787748058671266" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_motorbike_scooter.xml" value="0.4451754385964912" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_trip_cost.xml" value="0.4451754385964912" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_vehicle_bus_double_decker.xml" value="0.4451754385964912" />
@@ -37,6 +38,7 @@
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/spinner_item_color_vehicle.xml" value="0.5" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/spinner_item_icon_vehicle.xml" value="0.4280701754385965" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/menu/menu_drawer.xml" value="0.4280701754385965" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/menu/menu_list_mileage.xml" value="0.4280701754385965" />
       </map>
     </option>
   </component>

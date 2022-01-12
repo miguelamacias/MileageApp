@@ -34,6 +34,20 @@ class MileageRepository private constructor(context: Context) {
 		executor.execute { mileageDao.addVehicle(vehicle) }
 	}
 
+	fun getVehicle(plateNumber: String) = mileageDao.getVehicle(plateNumber)
+
+	fun updateVehicle(vehicle: Vehicle) {
+		executor.execute { mileageDao.updateVehicle(vehicle)}
+	}
+
+	fun deleteVehicle(plateNumber: String) {
+		executor.execute { mileageDao.deleteVehicle(plateNumber)}
+	}
+
+	fun clearMileages(vehiclePlateNumber: String) {
+		executor.execute {mileageDao.clearMileages(vehiclePlateNumber)}
+	}
+
 
 	companion object {
 		private var INSTANCE: MileageRepository? = null
