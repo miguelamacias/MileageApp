@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.databinding.FragmentMileageListBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.viewModels.MileageListViewModel
@@ -74,12 +73,17 @@ class MileageListFragment : Fragment() {
 			}
 
 			R.id.clear_mileages -> {
+				val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
+
 				AlertDialog.Builder(requireContext())
 					.setTitle(R.string.clear_mileages)
 					.setMessage(R.string.action_cannot_be_undone)
 					.setPositiveButton(R.string.accept) { _, _ ->
-						mileageListVM.clearMileages()
-						Snackbar.make(gui.root, R.string.cleared_mileages, Snackbar.LENGTH_LONG).show()
+						mileageListVM.clearMileages(adapter.currentList)
+						Snackbar
+							.make(gui.root, R.string.cleared_mileages, Snackbar.LENGTH_LONG)
+							.setAction(R.string.undo) { mileageListVM.restoreClearedMileages() }
+							.show()
 					}
 					.setNegativeButton(R.string.cancel) {_, _ -> } //Nothing to do here
 					.show()
@@ -137,8 +141,11 @@ class MileageListFragment : Fragment() {
 					val popup = PopupMenu(view.context, litresContentTextView)
 					popup.inflate(R.menu.menu_popup_mileage)
 					popup.setOnMenuItemClickListener {
-						MileageRepository.get().deleteMileage(currentMileage?.id)
-						Snackbar.make(rootView, R.string.deleted_mileage, Snackbar.LENGTH_LONG).show()
+						mileageListVM.deleteMileage(currentMileage)
+						Snackbar
+							.make(rootView, R.string.deleted_mileage, Snackbar.LENGTH_LONG)
+							.setAction(R.string.undo) { mileageListVM.undoMileageDeletion() }
+							.show()
 						true
 					}
 					popup.show()

@@ -53,7 +53,6 @@ class MileageRepository private constructor(context: Context) {
 		executor.execute {mileageDao.deleteMileage(mileageId.toString())}
 	}
 
-
 	companion object {
 		private var INSTANCE: MileageRepository? = null
 

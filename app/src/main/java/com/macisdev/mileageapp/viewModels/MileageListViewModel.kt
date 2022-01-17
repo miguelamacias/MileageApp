@@ -10,12 +10,29 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 	private val mileageRepository = MileageRepository.get()
 	val mileageListLiveData: LiveData<List<Mileage>> = mileageRepository.getMileages(plateNumber)
 
-	fun clearMileages() {
+	private var deletedMileage: Mileage? = null
+	private var clearedMileages: List<Mileage>? = null
+
+	fun clearMileages(mileages: List<Mileage>) {
+		clearedMileages = mileages
 		mileageRepository.clearMileages(plateNumber)
 	}
 
 	fun deleteVehicle() {
 		mileageRepository.deleteVehicle(plateNumber)
+	}
+
+	fun deleteMileage(mileage: Mileage?) {
+		deletedMileage = mileage
+		mileageRepository.deleteMileage(mileage?.id)
+	}
+
+	fun undoMileageDeletion() {
+		deletedMileage?.let { mileageRepository.storeMileage(it) }
+	}
+
+	fun restoreClearedMileages() {
+		clearedMileages?.forEach { mileageRepository.storeMileage(it) }
 	}
 
 	@Suppress("UNCHECKED_CAST")
