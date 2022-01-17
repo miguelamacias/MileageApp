@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 data class Vehicle(@PrimaryKey var plateNumber: String = "",
 				   var maker: String = "",
 				   var model: String = "",
-				   var icon: Int,
-				   var iconColor: Int) {
+				   var icon: String,
+				   var color: String) {
 
 	override fun toString(): String {
 		return "$maker $model - $plateNumber"

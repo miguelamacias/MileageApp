@@ -57,9 +57,12 @@ class MainActivity : AppCompatActivity() {
 			val vehiclesMenu = gui.navView.menu.getItem(0).subMenu
 			vehiclesMenu.clear()
 			vehiclesList.forEach { vehicle ->
-				val icon = ContextCompat.getDrawable(this, vehicle.icon)
+				val iconId = resources.getIdentifier(vehicle.icon, "drawable", packageName)
+				val colorId = resources.getIdentifier(vehicle.color, "color", packageName)
+
+				val icon = ContextCompat.getDrawable(this, iconId)
 				icon?.colorFilter = BlendModeColorFilterCompat
-					.createBlendModeColorFilterCompat(getColor(vehicle.iconColor), BlendModeCompat.SRC_ATOP)
+					.createBlendModeColorFilterCompat(getColor(colorId), BlendModeCompat.SRC_ATOP)
 
 				vehiclesMenu
 					.add(R.id.vehicles_group, Menu.NONE, 0, vehicle.plateNumber)
