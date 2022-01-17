@@ -91,12 +91,19 @@ class MileageListFragment : Fragment() {
 			}
 
 			R.id.delete_vehicle -> {
+				val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
 				AlertDialog.Builder(requireContext())
 					.setTitle(R.string.delete_vehicle)
 					.setMessage(R.string.action_cannot_be_undone)
 					.setPositiveButton(R.string.accept) { _, _ ->
-						mileageListVM.deleteVehicle()
-						Snackbar.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG).show()
+						mileageListVM.getVehicle().observe(viewLifecycleOwner) {
+							mileageListVM.deleteVehicle(it, adapter.currentList)
+						}
+
+						Snackbar
+							.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
+							.setAction(R.string.undo) { mileageListVM.restoreDeletedVehicle()}
+							.show()
 
 						findNavController().navigateUp()
 					}
@@ -144,7 +151,7 @@ class MileageListFragment : Fragment() {
 						mileageListVM.deleteMileage(currentMileage)
 						Snackbar
 							.make(rootView, R.string.deleted_mileage, Snackbar.LENGTH_LONG)
-							.setAction(R.string.undo) { mileageListVM.undoMileageDeletion() }
+							.setAction(R.string.undo) { mileageListVM.restoreDeletedMileages() }
 							.show()
 						true
 					}
