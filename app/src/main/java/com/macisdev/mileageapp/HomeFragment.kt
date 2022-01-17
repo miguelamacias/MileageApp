@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.macisdev.mileageapp.databinding.FragmentHomeBinding
+import com.macisdev.mileageapp.model.Statistics
 import com.macisdev.mileageapp.model.Vehicle
 import com.macisdev.mileageapp.viewModels.HomeFragmentViewModel
+import java.util.*
 
 class HomeFragment : Fragment() {
 	private lateinit var gui: FragmentHomeBinding
@@ -37,6 +39,14 @@ class HomeFragment : Fragment() {
 		}
 
 		homeFragmentVM.vehiclesList.observe(viewLifecycleOwner) { updateVehicles(it) }
+		homeFragmentVM.getStatistics().observe(viewLifecycleOwner) {updateStatistics(it) }
+	}
+
+	private fun updateStatistics(stats: Statistics) {
+		gui.recordsTv.text = stats.totalRecords.toString()
+		gui.avgTv.text = String.format(Locale.getDefault(), "%.2f", stats.averageMileage)
+		gui.litresTv.text = String.format(Locale.getDefault(), "%.0f", stats.totalLitres)
+		gui.kilometresTv.text = String.format(Locale.getDefault(), "%.0f", stats.totalKilometres)
 	}
 
 	private fun updateVehicles(vehicles: List<Vehicle>) {

@@ -9,4 +9,6 @@ class HomeFragmentViewModel : ViewModel() {
 	private val mileageRepository = MileageRepository.get()
 
 	val vehiclesList: LiveData<List<Vehicle>> = mileageRepository.getVehicles()
+
+	fun getStatistics() = mileageRepository.getStatistics()
 }

@@ -45,4 +45,8 @@
     <string name="deleted_mileage">Mileage deleted!</string>
     <string name="undo">Undo</string>
     <string name="my_vehicles">My vehicles:</string>
+    <string name="stats">Stats</string>
+    <string name="total_records">Records</string>
+    <string name="avg_mileage">Average mileage</string>
+    <string name="total_kilometres">Total litres &amp; kilometres</string>
 </resources>

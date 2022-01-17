@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.macisdev.mileageapp.model.Mileage
+import com.macisdev.mileageapp.model.Statistics
 import com.macisdev.mileageapp.model.Vehicle
 
 @Dao
@@ -37,4 +38,8 @@ interface MileageDao {
 
 	@Query("DELETE FROM mileage WHERE id=(:mileageId)")
 	fun deleteMileage(mileageId: String)
+
+	@Query("SELECT count(*) AS totalRecords, avg(mileage) AS  averageMileage," +
+			"sum(litres) AS totalLitres, sum(kilometres) AS totalKilometres FROM Mileage")
+	fun getStatistics(): LiveData<Statistics>
 }
