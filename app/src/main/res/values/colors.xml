@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="add_icon_color">#89000000</color>
 
     <!--Color for vehicles icons -->
     <color name="red">#BB2615</color>
@@ -20,6 +21,4 @@
     <color name="orange">#F57F17</color>
     <color name="yellow">#F9E219</color>
     <color name="purple">#673AB7</color>
-
-
 </resources>
