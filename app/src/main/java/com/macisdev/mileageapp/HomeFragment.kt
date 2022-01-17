@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
 				vehicleIconImgView.setImageResource(iconId)
 				vehicleIconImgView.setColorFilter(color)
 
-				vehicleTitleTv.text = currentVehicle?.plateNumber
+				vehicleTitleTv.text = currentVehicle.plateNumber
 				vehicleSubTitleTv.text = "${vehicle.maker} ${vehicle.model}"
 			}
 		}

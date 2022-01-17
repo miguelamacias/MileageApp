@@ -60,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:id="@+id/view"
-            android:background="@color/purple_200"
+            android:background="@color/primary_ligth"
             app:layout_constraintStart_toStartOf="@+id/textView11"
             app:layout_constraintEnd_toEndOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -77,9 +77,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@color/purple_500"
+            android:background="@color/primary"
             android:textColor="@color/white"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            tools:ignore="TextContrastCheck" />
 
     <TextView
             android:text="@string/total_records"
