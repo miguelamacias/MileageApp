@@ -10,15 +10,19 @@
     <color name="add_icon_color">#89000000</color>
 
     <!--Color for vehicles icons -->
-    <color name="red">#BB2615</color>
-    <color name="blue">#3889d2</color>
-    <color name="dark_blue">#182EAB</color>
-    <color name="silver">#aaaaaa</color>
-    <color name="grey">#535353</color>
-    <color name="green">#32710A</color>
-    <color name="brown">#6A6217</color>
-    <color name="champagne">#A29C6E</color>
+    <color name="dark_red">#7A1010</color>
+    <color name="red">#D70000</color>
+    <color name="blue">#0000CD</color>
+    <color name="ligth_blue">#00BFFF</color>
+    <color name="dark_blue">#000080</color>
+    <color name="silver">#AAAAAA</color>
+    <color name="grey">#5F5F5F</color>
+    <color name="green">#005221</color>
+    <color name="brown">#705e48</color>
+    <color name="brown_variant">#4B3A26</color>
+    <color name="champagne">#c1b38f</color>
     <color name="orange">#F57F17</color>
+    <color name="golden">#DAA520</color>
     <color name="yellow">#F9E219</color>
     <color name="purple">#673AB7</color>
 </resources>

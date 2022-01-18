@@ -26,26 +26,32 @@
 
         <TextView
                 android:text="@string/mileage_unit"
-                android:layout_width="wrap_content"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/units_label_text_view"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@+id/header"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintTop_toBottomOf="@+id/mileage_content_text_view"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp"
+                app:autoSizeTextType="uniform"
+                android:maxLines="1"
+                android:gravity="center_horizontal" />
 
         <TextView
                 tools:text="7,24"
-                android:layout_width="wrap_content"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/mileage_content_text_view"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@+id/header"
                 app:layout_constraintTop_toTopOf="@+id/header"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                app:autoSizeTextType="uniform"
+                android:maxLines="1"
+                android:gravity="center_horizontal" />
 
         <View
                 android:layout_width="2dp"
@@ -53,7 +59,7 @@
                 android:id="@+id/vertical_separator"
                 android:background="?attr/colorPrimary"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@+id/mileage_content_text_view"
                 android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -61,34 +67,41 @@
 
         <TextView
                 android:text="@string/date_label"
-                android:layout_width="wrap_content"
+                android:layout_width="92dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/date_label_text_view"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/vertical_separator"
                 android:layout_marginStart="16dp"
                 android:textStyle="bold"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                app:autoSizeTextType="uniform"
+                android:maxLines="1" />
 
         <TextView
                 tools:text="16/12/21"
-                android:layout_width="wrap_content"
+                android:layout_width="92dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/date_content_text_view"
                 app:layout_constraintStart_toEndOf="@+id/vertical_separator"
                 android:layout_marginStart="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintTop_toBottomOf="@+id/date_label_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/date_label_text_view"
+                app:autoSizeTextType="uniform"
+                android:maxLines="1" />
 
         <TextView
                 tools:text="Notes of the mileage..."
-                android:layout_width="wrap_content"
+                android:layout_width="235dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/notes_text_view"
                 android:layout_marginStart="16dp"
                 app:layout_constraintStart_toEndOf="@+id/vertical_separator"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintBaseline_toBaselineOf="@+id/units_label_text_view" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/units_label_text_view"
+                app:autoSizeTextType="uniform"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
         <androidx.constraintlayout.widget.Guideline
                 android:orientation="vertical"
@@ -98,44 +111,54 @@
                 android:id="@+id/guideline2" />
 
         <TextView
-                android:text="@string/kilometres_label"
-                android:layout_width="wrap_content"
+                android:text="@string/kms_label"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/kilometres_label_text_view"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/date_label_text_view"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:autoSizeTextType="uniform"
+                android:maxLines="1" />
 
         <TextView
                 tools:text="724,65"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/kilometres_content_text_view"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@id/guideline2"
                 app:layout_constraintBaseline_toBaselineOf="@+id/date_content_text_view"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:autoSizeTextType="uniform"
+                android:maxLines="1" />
 
         <TextView
                 android:text="@string/litres_label"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/litres_label_text_view"
                 app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_label_text_view"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:autoSizeTextType="uniform"
+                android:maxLines="1"
+                android:gravity="end" />
 
         <TextView
                 tools:text="61,74"
-                android:layout_width="wrap_content"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/litres_content_text_view"
                 app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_content_text_view"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:autoSizeTextType="uniform"
+                android:maxLines="1"
+                android:gravity="end" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

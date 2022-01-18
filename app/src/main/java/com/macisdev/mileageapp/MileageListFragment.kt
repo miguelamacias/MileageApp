@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.*
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
@@ -121,6 +122,7 @@ class MileageListFragment : Fragment() {
 		gui.recordsCountTextView.text = mileages.size.toString()
 		gui.averageMileageTextView.text = calculateAverageMileage(mileages)
 
+
 		if (mileages.isEmpty()) {
 			gui.noMileagesTextView.visibility = View.VISIBLE
 		} else {
@@ -131,6 +133,19 @@ class MileageListFragment : Fragment() {
 	private fun calculateAverageMileage(mileages: List<Mileage>) = String.format(Locale.getDefault(), "%.2f",
 		mileages.sumOf { it.mileage } / mileages.size)
 
+
+	/*private fun setRecyclerViewDataObserver() {
+		val adapter = gui.mileagesRecyclerView.adapter
+		adapter?.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+			override fun onChanged() {}
+			override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {}
+			override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {}
+
+			override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {}
+			override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {}
+			override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {}
+		})
+	}*/
 
 	private inner class MileageAdapter (val rootView: View)
 		: ListAdapter<Mileage, MileageAdapter.MileageViewHolder>(MileageDiffCallback) {
@@ -157,6 +172,14 @@ class MileageListFragment : Fragment() {
 					}
 					popup.show()
 					true
+				}
+
+				notesTextView.setOnClickListener {
+					val notesVisibleText = notesTextView.layout.text
+
+					if (notesVisibleText != currentMileage?.notes) {
+						Toast.makeText(requireContext(), currentMileage?.notes, Toast.LENGTH_LONG).show()
+					}
 				}
 			}
 
