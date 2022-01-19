@@ -55,6 +55,8 @@ class MileageRepository private constructor(context: Context) {
 
 	fun getStatistics() = mileageDao.getStatistics()
 
+	fun getLastMileage() = mileageDao.getLastMileage()
+
 	companion object {
 		private var INSTANCE: MileageRepository? = null
 

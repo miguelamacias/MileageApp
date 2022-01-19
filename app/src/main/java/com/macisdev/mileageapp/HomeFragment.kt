@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.macisdev.mileageapp.databinding.FragmentHomeBinding
+import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Statistics
 import com.macisdev.mileageapp.model.Vehicle
 import com.macisdev.mileageapp.viewModels.HomeFragmentViewModel
+import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeFragment : Fragment() {
@@ -40,6 +42,7 @@ class HomeFragment : Fragment() {
 
 		homeFragmentVM.vehiclesList.observe(viewLifecycleOwner) { updateVehicles(it) }
 		homeFragmentVM.getStatistics().observe(viewLifecycleOwner) {updateStatistics(it) }
+		homeFragmentVM.getLastMileage().observe(viewLifecycleOwner) {updateLastMileage(it)}
 	}
 
 	private fun updateStatistics(stats: Statistics) {
@@ -47,6 +50,21 @@ class HomeFragment : Fragment() {
 		gui.avgTv.text = String.format(Locale.getDefault(), "%.2f", stats.averageMileage)
 		gui.litresTv.text = String.format(Locale.getDefault(), "%.0f", stats.totalLitres)
 		gui.kilometresTv.text = String.format(Locale.getDefault(), "%.0f", stats.totalKilometres)
+	}
+
+	private fun updateLastMileage(mileage: Mileage) {
+		val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+		homeFragmentVM.getVehicle(mileage.vehiclePlateNumber).observe(viewLifecycleOwner) {
+			gui.vehicleInfoTextView.text = String.format(Locale.getDefault(), "%s %s - %s",
+				it.maker, it.model, it.plateNumber)
+		}
+
+		gui.dateTextView.text = dateFormat.format(mileage.date)
+		gui.litresKilometresTextView.text = String.format(Locale.getDefault(), "%s / %s",
+			mileage.litres, mileage.kilometres)
+		gui.notesTextView.text = mileage.notes
+		gui.mileageDataTextView.text = mileage.mileage.toString()
 	}
 
 	private fun updateVehicles(vehicles: List<Vehicle>) {

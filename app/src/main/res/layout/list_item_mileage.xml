@@ -101,7 +101,8 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/units_label_text_view"
                 app:autoSizeTextType="uniform"
                 android:maxLines="1"
-                android:ellipsize="end"/>
+                android:ellipsize="end"
+                android:textStyle="italic" />
 
         <androidx.constraintlayout.widget.Guideline
                 android:orientation="vertical"

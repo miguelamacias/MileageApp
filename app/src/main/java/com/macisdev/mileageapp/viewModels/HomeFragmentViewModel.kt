@@ -10,5 +10,9 @@ class HomeFragmentViewModel : ViewModel() {
 
 	val vehiclesList: LiveData<List<Vehicle>> = mileageRepository.getVehicles()
 
+	fun getLastMileage() = mileageRepository.getLastMileage()
+
 	fun getStatistics() = mileageRepository.getStatistics()
+
+	fun getVehicle(plateNumber: String) = mileageRepository.getVehicle(plateNumber)
 }

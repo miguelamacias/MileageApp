@@ -20,6 +20,7 @@
     <string name="add_vehicle">Add vehicle</string>
     <string name="trip_cost">Trip cost calculator</string>
     <string name="vehicles">Vehicles</string>
+    <string name="vehicle">Vehicle:</string>
     <string name="app_icon">Application icon</string>
     <string name="plate_label">Plate number:</string>
     <string name="plate_hint">Plate number</string>
@@ -49,5 +50,8 @@
     <string name="stats">Stats</string>
     <string name="total_records">Records</string>
     <string name="avg_mileage">Average mileage</string>
-    <string name="total_kilometres">Total Litres &amp; KMs</string>
+    <string name="total_litres_kilometres">Total Litres &amp; KMs</string>
+    <string name="litres_kilometres">Litres &amp; KMs:</string>
+    <string name="last_mileage">Last Mileage</string>
+    <string name="separator">/</string>
 </resources>
