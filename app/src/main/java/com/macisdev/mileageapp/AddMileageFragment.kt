@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -68,7 +69,8 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 				addMileageVM.storeMileage(Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres))
 
 				parentFragment?.view?.let { parentView ->
-					Snackbar.make(parentView, R.string.mileage_added, Snackbar.LENGTH_LONG).show()
+					val coordinatorLayout = parentView.findViewById<CoordinatorLayout>(R.id.coordinator_layout)
+					Snackbar.make(coordinatorLayout, R.string.mileage_added, Snackbar.LENGTH_LONG).show()
 				}
 
 				findNavController().navigateUp()

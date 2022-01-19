@@ -63,19 +63,28 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="16dp" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:src="@drawable/ic_add_to_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:id="@+id/addMileageFab"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="@string/add_mileage"
-            android:focusable="true"
-            tools:ignore="ImageContrastCheck" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/coordinator_layout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:src="@drawable/ic_add_to_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:id="@+id/addMileageFab"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/add_mileage"
+                android:focusable="true"
+                tools:ignore="ImageContrastCheck"
+                android:layout_gravity="bottom|end" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <TextView
             android:text="@string/no_mileages"

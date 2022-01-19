@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -93,9 +94,9 @@ class AddVehicleFragment : DialogFragment() {
 
 					addVehicleVM.updateVehicle(vehicle)
 
-					parentFragment?.view?.let {
-							parentView ->
-						Snackbar.make(parentView, R.string.vehicle_edited, Snackbar.LENGTH_LONG).show()
+					parentFragment?.view?.let { parentView ->
+						val coordinatorLayout = parentView.findViewById<CoordinatorLayout>(R.id.coordinator_layout)
+						Snackbar.make(coordinatorLayout, R.string.vehicle_edited, Snackbar.LENGTH_LONG).show()
 					}
 
 					findNavController().navigateUp()
@@ -136,8 +137,8 @@ class AddVehicleFragment : DialogFragment() {
 
 			addVehicleVM.storeVehicle(vehicle)
 
-			parentFragment?.view?.let {
-					parentView -> Snackbar.make(parentView, R.string.vehicle_added, Snackbar.LENGTH_LONG).show()
+			parentFragment?.view?.let { parentView ->
+				Snackbar.make(parentView, R.string.vehicle_added, Snackbar.LENGTH_LONG).show()
 			}
 
 			findNavController().navigateUp()

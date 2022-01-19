@@ -82,7 +82,7 @@ class MileageListFragment : Fragment() {
 					.setPositiveButton(R.string.accept) { _, _ ->
 						mileageListVM.clearMileages(adapter.currentList)
 						Snackbar
-							.make(gui.root, R.string.cleared_mileages, Snackbar.LENGTH_LONG)
+							.make(gui.coordinatorLayout, R.string.cleared_mileages, Snackbar.LENGTH_LONG)
 							.setAction(R.string.undo) { mileageListVM.restoreClearedMileages() }
 							.show()
 					}
@@ -134,19 +134,6 @@ class MileageListFragment : Fragment() {
 		mileages.sumOf { it.mileage } / mileages.size)
 
 
-	/*private fun setRecyclerViewDataObserver() {
-		val adapter = gui.mileagesRecyclerView.adapter
-		adapter?.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
-			override fun onChanged() {}
-			override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {}
-			override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {}
-
-			override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {}
-			override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {}
-			override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {}
-		})
-	}*/
-
 	private inner class MileageAdapter (val rootView: View)
 		: ListAdapter<Mileage, MileageAdapter.MileageViewHolder>(MileageDiffCallback) {
 
@@ -165,7 +152,7 @@ class MileageListFragment : Fragment() {
 					popup.setOnMenuItemClickListener {
 						mileageListVM.deleteMileage(currentMileage)
 						Snackbar
-							.make(rootView, R.string.deleted_mileage, Snackbar.LENGTH_LONG)
+							.make(gui.coordinatorLayout, R.string.deleted_mileage, Snackbar.LENGTH_LONG)
 							.setAction(R.string.undo) { mileageListVM.restoreDeletedMileages() }
 							.show()
 						true
@@ -201,6 +188,13 @@ class MileageListFragment : Fragment() {
 
 		override fun onBindViewHolder(holder: MileageAdapter.MileageViewHolder, position: Int) {
 			holder.bindData(currentList[position])
+		}
+
+		override fun onCurrentListChanged(previousList: MutableList<Mileage>, currentList: MutableList<Mileage>) {
+			super.onCurrentListChanged(previousList, currentList)
+			if (currentList.size == previousList.size + 1) {
+				gui.mileagesRecyclerView.scrollToPosition(0)
+			}
 		}
 	}
 
