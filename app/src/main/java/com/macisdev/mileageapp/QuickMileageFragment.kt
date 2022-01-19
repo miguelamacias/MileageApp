@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import com.macisdev.mileageapp.databinding.FragmentQuickMileageBinding
 import java.text.DecimalFormat
 import java.util.*
 
-class QuickMileageFragment : Fragment() {
+class QuickMileageFragment : DialogFragment() {
 	private lateinit var gui: FragmentQuickMileageBinding
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

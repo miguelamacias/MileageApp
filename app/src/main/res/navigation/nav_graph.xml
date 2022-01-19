@@ -46,7 +46,7 @@
                 app:popUpTo="@id/mileageListFragment"
                 app:popUpToInclusive="true" />
     </fragment>
-    <fragment
+    <dialog
             android:id="@+id/quickMileageFragment"
             android:name="com.macisdev.mileageapp.QuickMileageFragment"
             android:label="@string/quick_mileage"
