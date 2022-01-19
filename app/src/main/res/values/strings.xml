@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MileageApp</string>
-    <string name="app_version">v1.0-beta07</string>
+    <string name="app_version">v1.0-beta09</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="litres_label">Litres:</string>
@@ -49,9 +49,10 @@
     <string name="my_vehicles">My vehicles:</string>
     <string name="stats">Stats</string>
     <string name="total_records">Records</string>
-    <string name="avg_mileage">Average mileage</string>
+    <string name="avg_mileage">Avg mileage</string>
     <string name="total_litres_kilometres">Total Litres &amp; KMs</string>
     <string name="litres_kilometres">Litres &amp; KMs:</string>
     <string name="last_mileage">Last Mileage</string>
-    <string name="separator">/</string>
+    <string name="notes_label">Notes:</string>
+    <string name="notes_hint">Enter notes (optional)</string>
 </resources>

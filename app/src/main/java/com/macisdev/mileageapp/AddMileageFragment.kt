@@ -65,8 +65,9 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 				val date = addMileageVM.date
 				val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: -1.0
 				val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: -1.0
-
-				addMileageVM.storeMileage(Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres))
+				val notes = gui.notesContent.text.toString()
+				addMileageVM.storeMileage(
+					Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres, notes))
 
 				parentFragment?.view?.let { parentView ->
 					val coordinatorLayout = parentView.findViewById<CoordinatorLayout>(R.id.coordinator_layout)
