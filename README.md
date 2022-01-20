@@ -14,6 +14,11 @@ Android APP that uses:
 
 V1.0 is expected to by available in Play Store by February 2022
 
+<img src="https://github.com/miguelamacias/MileageApp/blob/master/home_fragment.png" alt="drawing" width="210"/> <img src="https://github.com/miguelamacias/MileageApp/blob/master/mileage_list.png" alt="drawing" width="210"/>
+<img src="https://github.com/miguelamacias/MileageApp/blob/master/add_mileage.png" alt="drawing" width="210"/> <img src="https://github.com/miguelamacias/MileageApp/blob/master/main_menu.png" alt="drawing" width="210"/>
+<img src="https://github.com/miguelamacias/MileageApp/blob/master/add_vehicle.png" alt="drawing" width="210"/>
+
+
 New functions to be added in next versions: 
 -Trip cost calculator using Google Maps API  
 -Remote DB backup using Firebase  
