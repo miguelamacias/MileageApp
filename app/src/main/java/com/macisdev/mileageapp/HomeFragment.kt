@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.macisdev.mileageapp.databinding.FragmentHomeBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Statistics
@@ -48,23 +50,38 @@ class HomeFragment : Fragment() {
 	private fun updateStatistics(stats: Statistics) {
 		gui.recordsTv.text = stats.totalRecords.toString()
 		gui.avgTv.text = String.format(Locale.getDefault(), "%.2f", stats.averageMileage)
-		gui.litresTv.text = String.format(Locale.getDefault(), "%.0fL", stats.totalLitres)
-		gui.kilometresTv.text = String.format(Locale.getDefault(), "%.0fkM", stats.totalKilometres)
+		gui.litresTv.text = String.format(Locale.getDefault(), "%.0f L", stats.totalLitres)
+		gui.kilometresTv.text = String.format(Locale.getDefault(), "%.0f kM", stats.totalKilometres)
 	}
 
-	private fun updateLastMileage(mileage: Mileage) {
-		val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+	private fun updateLastMileage(mileage: Mileage?) {
+		if (mileage != null) {
+			gui.lastMileageCardView.visibility = View.VISIBLE
 
-		homeFragmentVM.getVehicle(mileage.vehiclePlateNumber).observe(viewLifecycleOwner) {
-			gui.vehicleInfoTextView.text = String.format(Locale.getDefault(), "%s %s - %s",
-				it.maker, it.model, it.plateNumber)
+			val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+			homeFragmentVM.getVehicle(mileage.vehiclePlateNumber).observe(viewLifecycleOwner) {
+				vehicle ->
+				if (vehicle != null) {
+					gui.vehicleInfoTextView.text = String.format(Locale.getDefault(), "%s %s - %s",
+						vehicle.maker, vehicle.model, vehicle.plateNumber)
+
+					gui.lastMileageCardView.setOnClickListener {
+						val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment(
+							vehicle.plateNumber, vehicle.maker, vehicle.model)
+						findNavController().navigate(directions)
+					}
+				}
+			}
+
+			gui.dateTextView.text = dateFormat.format(mileage.date)
+			gui.litresKilometresTextView.text = String.format(Locale.getDefault(), "%.2fL  %.2fKM",
+				mileage.litres, mileage.kilometres)
+			gui.notesTextView.text = mileage.notes
+			gui.mileageDataTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.mileage)
+		} else {
+			gui.lastMileageCardView.visibility = View.INVISIBLE
 		}
-
-		gui.dateTextView.text = dateFormat.format(mileage.date)
-		gui.litresKilometresTextView.text = String.format(Locale.getDefault(), "%.2f / %.2f",
-			mileage.litres, mileage.kilometres)
-		gui.notesTextView.text = mileage.notes
-		gui.mileageDataTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.mileage)
 	}
 
 	private fun updateVehicles(vehicles: List<Vehicle>) {
@@ -91,6 +108,43 @@ class HomeFragment : Fragment() {
 			private val vehicleSubTitleTv: TextView = view.findViewById(R.id.vehicle_sub_tittle_tv)
 
 			init {
+				itemView.setOnLongClickListener {
+					if (currentVehicle.plateNumber != getString(R.string.add_vehicle)) {
+						var vehicleMileages: List<Mileage> = emptyList()
+
+						homeFragmentVM.getMileages(currentVehicle.plateNumber).observe(viewLifecycleOwner) {
+							vehicleMileages = it
+						}
+
+						val popup = PopupMenu(view.context, vehicleTitleTv)
+						popup.inflate(R.menu.menu_popup_vehicle)
+						popup.setOnMenuItemClickListener {
+							when (it.itemId) {
+								R.id.edit_vehicle -> {
+									val directions = HomeFragmentDirections.actionHomeFragmentToAddVehicleFragment(
+										true, currentVehicle.plateNumber)
+									findNavController().navigate(directions)
+									true
+								}
+
+								R.id.delete_vehicle -> {
+									homeFragmentVM.deleteVehicle(currentVehicle, vehicleMileages)
+									Snackbar
+										.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
+										.setAction(R.string.undo) { homeFragmentVM.restoreDeletedVehicle() }
+										.show()
+									true
+								}
+								else -> false
+							}
+						}
+						popup.show()
+						true
+					} else {
+						false
+					}
+				}
+
 				itemView.setOnClickListener {
 					if (currentVehicle.plateNumber == getString(R.string.add_vehicle)) {
 						val directions = HomeFragmentDirections

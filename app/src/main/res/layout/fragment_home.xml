@@ -68,7 +68,7 @@
             app:cardElevation="6dp"
             app:cardCornerRadius="6dp"
             app:cardBackgroundColor="@color/primary_ligth"
-            android:id="@+id/cardView">
+            android:id="@+id/stats_card_view">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -184,7 +184,7 @@
     <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/stats_card_view"
             android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
@@ -192,7 +192,8 @@
             android:layout_marginEnd="16dp"
             app:cardBackgroundColor="@color/primary_ligth"
             app:cardCornerRadius="6dp"
-            app:cardElevation="6dp">
+            app:cardElevation="6dp"
+            android:id="@+id/last_mileage_card_view">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -289,7 +290,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/vehicle_info_text_view"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="2dp"
                     app:layout_constraintStart_toEndOf="@+id/textView14"
                     android:textColor="#455A64" />
 
@@ -299,7 +300,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/date_text_view"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="2dp"
                     app:layout_constraintStart_toEndOf="@+id/textView15"
                     android:textColor="#455A64" />
 
@@ -308,12 +309,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/litres_kilometres_text_view"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="2dp"
                     app:layout_constraintStart_toEndOf="@+id/textView16"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
                     android:textColor="#455A64" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/coordinator_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

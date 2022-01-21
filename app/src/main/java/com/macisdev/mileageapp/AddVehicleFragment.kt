@@ -96,6 +96,7 @@ class AddVehicleFragment : DialogFragment() {
 
 					parentFragment?.view?.let { parentView ->
 						val coordinatorLayout = parentView.findViewById<CoordinatorLayout>(R.id.coordinator_layout)
+
 						Snackbar.make(coordinatorLayout, R.string.vehicle_edited, Snackbar.LENGTH_LONG).show()
 					}
 
