@@ -23,7 +23,6 @@
                 android:icon="@drawable/ic_quick_mileage"
                 android:orderInCategory="2"/>
         <item
-                android:id="@+id/tripCalculatorFragment"
                 android:title="@string/trip_cost"
                 android:icon="@drawable/ic_trip_cost"
                 android:orderInCategory="2"/>

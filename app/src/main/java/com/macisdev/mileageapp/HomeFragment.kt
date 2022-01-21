@@ -50,8 +50,8 @@ class HomeFragment : Fragment() {
 	private fun updateStatistics(stats: Statistics) {
 		gui.recordsTv.text = stats.totalRecords.toString()
 		gui.avgTv.text = String.format(Locale.getDefault(), "%.2f", stats.averageMileage)
-		gui.litresTv.text = String.format(Locale.getDefault(), "%.0f L", stats.totalLitres)
-		gui.kilometresTv.text = String.format(Locale.getDefault(), "%.0f kM", stats.totalKilometres)
+		gui.litresTv.text = String.format(Locale.getDefault(), "%,.0f L", stats.totalLitres)
+		gui.kilometresTv.text = String.format(Locale.getDefault(), "%,.0f kM", stats.totalKilometres)
 	}
 
 	private fun updateLastMileage(mileage: Mileage?) {
@@ -75,8 +75,8 @@ class HomeFragment : Fragment() {
 			}
 
 			gui.dateTextView.text = dateFormat.format(mileage.date)
-			gui.litresKilometresTextView.text = String.format(Locale.getDefault(), "%.2fL  %.2fKM",
-				mileage.litres, mileage.kilometres)
+			gui.litresTextView.text = String.format(Locale.getDefault(), "%.2f L", mileage.litres)
+			gui.kilometresTextView.text = String.format(Locale.getDefault(), "%.2f L", mileage.kilometres)
 			gui.notesTextView.text = mileage.notes
 			gui.mileageDataTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.mileage)
 		} else {

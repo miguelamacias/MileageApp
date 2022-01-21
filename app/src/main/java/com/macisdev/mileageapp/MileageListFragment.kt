@@ -47,7 +47,7 @@ class MileageListFragment : Fragment() {
 		mileageListVM.mileageListLiveData.observe(viewLifecycleOwner) {updateMileages(it)}
 
 		gui.mileagesRecyclerView.layoutManager = LinearLayoutManager(view.context)
-		val adapter = MileageAdapter(gui.root)
+		val adapter = MileageAdapter()
 		gui.mileagesRecyclerView.adapter = adapter
 
 		gui.addMileageFab.setOnClickListener {
@@ -134,8 +134,7 @@ class MileageListFragment : Fragment() {
 		mileages.sumOf { it.mileage } / mileages.size)
 
 
-	private inner class MileageAdapter (val rootView: View)
-		: ListAdapter<Mileage, MileageAdapter.MileageViewHolder>(MileageDiffCallback) {
+	private inner class MileageAdapter : ListAdapter<Mileage, MileageAdapter.MileageViewHolder>(MileageDiffCallback) {
 
 		private inner class MileageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 			private var currentMileage: Mileage? = null

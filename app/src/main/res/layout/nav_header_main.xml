@@ -5,7 +5,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"
-        android:id="@+id/linearLayout"
         android:background="?attr/colorPrimarySurface"
         tools:ignore="Overdraw">
 
@@ -38,7 +37,6 @@
             android:text="@string/app_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView4"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@+id/imageView"

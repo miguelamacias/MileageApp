@@ -6,15 +6,13 @@
         android:layout_height="match_parent"
         tools:context=".HomeFragment"
         android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:id="@+id/linearLayout2">
+        android:gravity="center_vertical">
 
     <TextView
             tools:ignore="HardcodedText"
             android:text="debug_home_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView7"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +44,6 @@
             android:layout_marginStart="16dp" />
 
     <View
-            android:id="@+id/divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
@@ -109,23 +106,23 @@
                     tools:text="7,52"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/avg_tv"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/textView6"
                     app:layout_constraintStart_toStartOf="@+id/textView6"
-                    app:layout_constraintEnd_toEndOf="@+id/textView6" />
+                    app:layout_constraintEnd_toEndOf="@+id/textView6"
+                    android:id="@+id/avg_tv" />
 
             <TextView
                     tools:text="21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/records_tv"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     app:layout_constraintTop_toBottomOf="@+id/textView2"
                     app:layout_constraintStart_toStartOf="@+id/textView2"
                     app:layout_constraintEnd_toEndOf="@+id/textView2"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/records_tv" />
 
             <TextView
                     android:text="@string/total_records"
@@ -171,12 +168,12 @@
                     tools:text="1540"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/litres_tv"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/textView12"
                     app:layout_constraintEnd_toStartOf="@+id/kilometres_tv"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_marginEnd="8dp"
+                    android:id="@+id/litres_tv" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -214,66 +211,31 @@
                     app:drawableStartCompat="@drawable/ic_clock_24" />
 
             <TextView
-                    android:text="@string/vehicle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView14"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="16dp"
-                    android:textStyle="bold" />
-
-            <TextView
-                    android:text="@string/date_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView15"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="16dp"
-                    android:textStyle="bold" />
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView16"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView15"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/litres_kilometres"
-                    android:textStyle="bold" />
-
-            <TextView
                     tools:text="7,34"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/mileage_data_text_view"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13"
-                    android:layout_marginEnd="32dp"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vehicle_info_text_view" />
 
             <TextView
                     android:text="@string/mileage_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView19"
                     app:layout_constraintTop_toBottomOf="@+id/mileage_data_text_view"
                     app:layout_constraintEnd_toEndOf="@+id/mileage_data_text_view"
                     app:layout_constraintStart_toStartOf="@+id/mileage_data_text_view"
-                    android:textColor="#455A64" />
+                    android:textColor="#455A64"
+                    app:layout_constraintBottom_toTopOf="@+id/notes_text_view"
+                    android:layout_marginBottom="4dp" />
 
             <TextView
                     tools:text="Notes will be shown here..."
-                    android:layout_width="330dp"
+                    android:layout_width="323dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/notes_text_view"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16"
                     android:textStyle="italic"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="16dp"
@@ -282,37 +244,96 @@
                     android:textColor="#455A64"
                     app:autoSizeTextType="uniform"
                     android:maxLines="1"
-                    android:ellipsize="end" />
+                    android:ellipsize="end"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                    android:layout_marginTop="8dp" />
 
             <TextView
                     tools:text="Ford Mondeo - 8054FDG"
-                    android:layout_width="180dp"
+                    android:layout_width="292dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/vehicle_info_text_view"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
-                    android:layout_marginStart="2dp"
-                    app:layout_constraintStart_toEndOf="@+id/textView14"
-                    android:textColor="#455A64" />
+                    android:textColor="#455A64"
+                    app:layout_constraintTop_toTopOf="@+id/imageView5"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                    app:layout_constraintStart_toEndOf="@+id/imageView5"
+                    android:layout_marginStart="4dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                     tools:text="18/01/22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/date_text_view"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
-                    android:layout_marginStart="2dp"
-                    app:layout_constraintStart_toEndOf="@+id/textView15"
-                    android:textColor="#455A64" />
+                    android:textColor="#455A64"
+                    app:layout_constraintTop_toTopOf="@+id/imageView2"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    android:layout_marginStart="4dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:id="@+id/date_text_view" />
 
             <TextView
-                    tools:text="58,7 / 721,4"
+                    tools:text="58,7 L"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/litres_kilometres_text_view"
-                    android:layout_marginStart="2dp"
-                    app:layout_constraintStart_toEndOf="@+id/textView16"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
-                    android:textColor="#455A64" />
+                    android:id="@+id/litres_text_view"
+                    android:textColor="#455A64"
+                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintTop_toTopOf="@+id/imageView3"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <ImageView
+                    android:src="@drawable/ic_date_24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView5"
+                    android:layout_marginTop="8dp" />
+
+            <ImageView
+                    android:src="@drawable/ic_fuel_24"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/imageView3"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp" />
+
+            <ImageView
+                    android:src="@drawable/ic_distance_24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView4"
+                    app:layout_constraintStart_toEndOf="@+id/litres_text_view"
+                    app:layout_constraintTop_toTopOf="@+id/imageView3"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                    android:layout_marginStart="16dp" />
+
+            <TextView
+                    tools:text="795,2 KM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/imageView4"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintTop_toTopOf="@+id/imageView4"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:id="@+id/kilometres_text_view" />
+
+            <ImageView
+                    android:src="@drawable/ic_baseline_directions_car_24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13"
+                    android:layout_marginTop="8dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

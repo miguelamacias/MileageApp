@@ -139,7 +139,6 @@
                 android:text="@string/litres_label"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/litres_label_text_view"
                 app:layout_constraintBaseline_toBaselineOf="@+id/kilometres_label_text_view"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"

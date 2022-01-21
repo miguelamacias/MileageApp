@@ -4,8 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MileageListFragment"
-        android:id="@+id/frameLayout">
+        tools:context=".MileageListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
@@ -75,7 +74,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:id="@+id/addMileageFab"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="16dp"
@@ -83,18 +81,19 @@
                 android:contentDescription="@string/add_mileage"
                 android:focusable="true"
                 tools:ignore="ImageContrastCheck"
-                android:layout_gravity="bottom|end" />
+                android:layout_gravity="bottom|end"
+                android:id="@+id/add_mileage_fab" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <TextView
             android:text="@string/no_mileages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/no_mileages_text_view"
             app:layout_constraintStart_toStartOf="@+id/mileages_recycler_view"
             app:layout_constraintEnd_toEndOf="@+id/mileages_recycler_view"
             app:layout_constraintTop_toTopOf="@+id/mileages_recycler_view"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:visibility="invisible" />
+            tools:visibility="invisible"
+            android:id="@+id/no_mileages_text_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>
