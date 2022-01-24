@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">MileageApp</string>
-    <string name="app_version">v1.0-beta12</string>
+    <string name="app_version" translatable="false">v1.0-RC1</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -58,4 +57,5 @@
     <string name="date_icon">Date icon</string>
     <string name="litres_icon">Litres Icon</string>
     <string name="distance_icon">Distance Icon</string>
+    <string name="app_name">mileageTRAK</string>
 </resources>
