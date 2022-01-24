@@ -49,9 +49,12 @@ class HomeFragment : Fragment() {
 
 	private fun updateStatistics(stats: Statistics) {
 		gui.recordsTv.text = stats.totalRecords.toString()
-		gui.avgTv.text = String.format(Locale.getDefault(), "%.2f", stats.averageMileage)
-		gui.litresTv.text = String.format(Locale.getDefault(), "%,.0f L", stats.totalLitres)
-		gui.kilometresTv.text = String.format(Locale.getDefault(), "%,.0f kM", stats.totalKilometres)
+		gui.avgTv.text = String.format(Locale.getDefault(),
+			"%.2f %s", stats.averageMileage, getString(R.string.mileage_unit))
+		gui.litresTv.text = String.format(Locale.getDefault(),
+			"%,.0f %s", stats.totalLitres, getString(R.string.litres_l))
+		gui.kilometresTv.text = String.format(Locale.getDefault(),
+			"%,.0f kM", stats.totalKilometres, getString(R.string.kilometres_km))
 	}
 
 	private fun updateLastMileage(mileage: Mileage?) {
@@ -96,6 +99,8 @@ class HomeFragment : Fragment() {
 		mutableVehicles.add(addVehicle)
 
 		adapter.submitList(mutableVehicles)
+
+		gui.numOfVehiclesTextView.text = vehicles.size.toString()
 	}
 
 	private inner class VehicleAdapter(val rootView: View) :

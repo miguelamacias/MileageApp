@@ -72,48 +72,54 @@ class MileageListFragment : Fragment() {
 				findNavController().navigate(directions)
 				true
 			}
-
 			R.id.clear_mileages -> {
-				val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
-
-				AlertDialog.Builder(requireContext())
-					.setTitle(R.string.clear_mileages)
-					.setMessage(R.string.action_cannot_be_undone)
-					.setPositiveButton(R.string.accept) { _, _ ->
-						mileageListVM.clearMileages(adapter.currentList)
-						Snackbar
-							.make(gui.coordinatorLayout, R.string.cleared_mileages, Snackbar.LENGTH_LONG)
-							.setAction(R.string.undo) { mileageListVM.restoreClearedMileages() }
-							.show()
-					}
-					.setNegativeButton(R.string.cancel) {_, _ -> } //Nothing to do here
-					.show()
+				clearMileagesItemSelected()
 				true
 			}
-
 			R.id.delete_vehicle -> {
-				val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
-				AlertDialog.Builder(requireContext())
-					.setTitle(R.string.delete_vehicle)
-					.setMessage(R.string.action_cannot_be_undone)
-					.setPositiveButton(R.string.accept) { _, _ ->
-						mileageListVM.getVehicle().observe(viewLifecycleOwner) {
-							mileageListVM.deleteVehicle(it, adapter.currentList)
-						}
-
-						Snackbar
-							.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
-							.setAction(R.string.undo) { mileageListVM.restoreDeletedVehicle()}
-							.show()
-
-						findNavController().navigateUp()
-					}
-					.setNegativeButton(R.string.cancel) {_, _ -> } //Nothing to do here
-					.show()
+				deleteVehicleItemSelected()
 				true
 			}
 			else -> super.onOptionsItemSelected(item)
 		}
+	}
+
+	private fun clearMileagesItemSelected() {
+		val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
+
+		AlertDialog.Builder(requireContext())
+			.setTitle(R.string.clear_mileages)
+			.setMessage(R.string.action_cannot_be_undone)
+			.setPositiveButton(R.string.accept) { _, _ ->
+				mileageListVM.clearMileages(adapter.currentList)
+				Snackbar
+					.make(gui.coordinatorLayout, R.string.cleared_mileages, Snackbar.LENGTH_LONG)
+					.setAction(R.string.undo) { mileageListVM.restoreClearedMileages() }
+					.show()
+			}
+			.setNegativeButton(R.string.cancel) {_, _ -> } //Nothing to do here
+			.show()
+	}
+
+	private fun deleteVehicleItemSelected() {
+		val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
+		AlertDialog.Builder(requireContext())
+			.setTitle(R.string.delete_vehicle)
+			.setMessage(R.string.action_cannot_be_undone)
+			.setPositiveButton(R.string.accept) { _, _ ->
+				mileageListVM.getVehicle().observe(viewLifecycleOwner) {
+					mileageListVM.deleteVehicle(it, adapter.currentList)
+				}
+
+				Snackbar
+					.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
+					.setAction(R.string.undo) { mileageListVM.restoreDeletedVehicle()}
+					.show()
+
+				findNavController().navigateUp()
+			}
+			.setNegativeButton(R.string.cancel) {_, _ -> } //Nothing to do here
+			.show()
 	}
 
 	private fun updateMileages(mileages: List<Mileage>) {

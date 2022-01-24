@@ -22,7 +22,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                app:constraint_referenced_tags="icon"
+                android:contentDescription="@string/vehicle_icon" />
 
         <TextView
                 tools:text="Add vehicle"
