@@ -18,6 +18,9 @@
         <action
                 android:id="@+id/action_homeFragment_to_addVehicleFragment"
                 app:destination="@id/addVehicleFragment" />
+        <action
+                android:id="@+id/action_homeFragment_to_tripCostCalculator"
+                app:destination="@id/tripCostFragment" />
     </fragment>
 
     <fragment
@@ -72,4 +75,9 @@
                 android:name="plateNumber"
                 app:argType="string" />
     </dialog>
+    <fragment
+            android:id="@+id/tripCostFragment"
+            android:name="com.macisdev.mileageapp.TripCostFragment"
+            android:label="Trip Cost Calculator"
+            tools:layout="@layout/fragment_trip_cost" />
 </navigation>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".TripCostFragment"
+        android:id="@+id/frameLayout">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/destination"
+            android:id="@+id/text_view2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/origin_full_adress_text_view" />
+
+    <TextView
+            tools:text="C/ Coriano 19, Coria del Río, Sevilla"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/destination_full_adress_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/cardView_2" />
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/primary_ligth"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/cardView_2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/text_view2">
+
+        <fragment
+                android:id="@+id/autocomplete_fragment_destiny"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/origin"
+            android:id="@+id/text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+
+    <TextView
+            tools:text="C/ Coriano 19, Coria del Río, Sevilla"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/origin_full_adress_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/primary_ligth"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/text_view"
+            android:id="@+id/cardView">
+
+        <fragment
+                android:id="@+id/autocomplete_fragment_origin"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment" />
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
