@@ -100,7 +100,7 @@ class TripCostFragment : Fragment() {
 		val client = OkHttpClient.Builder().build()
 
 		val request = Request.Builder()
-			.url("https://maps.googleapis.com/maps/api/distancematrix/json?origins=sevilla&destinations=madrid&key=AIzaSyByCDhk1XR6pqe0_6rT8CD0oJt-1IE4NsU")
+			.url("https://maps.googleapis.com/maps/api/distancematrix/json?origins=sevilla&destinations=madrid&key=***")
 			.method("GET", null)
 			.build()
 
