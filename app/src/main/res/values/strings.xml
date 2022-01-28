@@ -64,5 +64,15 @@
     <string name="destination">Destination:</string>
     <string name="search_origin">Search origin…</string>
     <string name="search_destination">Search destination…</string>
+    <string name="calculate_round_trip">Calculate round trip</string>
+    <string name="avoid_tolls">Avoid tolls</string>
+    <string name="average_from_vehicle">Avg mileage of:</string>
+    <string name="custom_average">Custom average:</string>
+    <string name="fuel_price">Fuel price:</string>
+
+    <array name="tools_spinner">
+        <item>Ford Mondeo - 8054FDG</item>
+        <item>Honda PCX - 4386JRK</item>
+    </array>
 
 </resources>

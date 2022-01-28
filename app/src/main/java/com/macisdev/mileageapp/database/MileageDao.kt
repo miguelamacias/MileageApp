@@ -45,4 +45,7 @@ interface MileageDao {
 	@Query("SELECT count(*) AS totalRecords, avg(mileage) AS  averageMileage," +
 			"sum(litres) AS totalLitres, sum(kilometres) AS totalKilometres FROM Mileage")
 	fun getStatistics(): LiveData<Statistics>
+
+	@Query("SELECT avg(mileage) FROM mileage WHERE vehiclePlateNumber=(:vehiclePlateNumber)")
+	fun getVehicleAverageMileage(vehiclePlateNumber: String): LiveData<Double>
 }

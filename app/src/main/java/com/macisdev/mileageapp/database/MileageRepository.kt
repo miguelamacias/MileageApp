@@ -57,6 +57,8 @@ class MileageRepository private constructor(context: Context) {
 
 	fun getLastMileage() = mileageDao.getLastMileage()
 
+	fun getVehicleAverageMileage(vehiclePlateNumber: String) = mileageDao.getVehicleAverageMileage(vehiclePlateNumber)
+
 	companion object {
 		private var INSTANCE: MileageRepository? = null
 
