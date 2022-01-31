@@ -14,8 +14,8 @@ android {
         applicationId "com.macisdev.mileageapp"
         minSdk 25
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 11
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,21 +37,25 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs = ['-Xjvm-default=compatibility']
     }
 }
 
 dependencies {
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
     kapt 'androidx.room:room-compiler:2.4.1'
     implementation 'androidx.room:room-runtime:2.4.1'
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0-rc01"
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.0-rc01"
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.4.0-rc01"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.0-alpha01"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.0-alpha01"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.5.0-alpha01"
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.fragment:fragment-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation platform('com.google.firebase:firebase-bom:29.0.4')

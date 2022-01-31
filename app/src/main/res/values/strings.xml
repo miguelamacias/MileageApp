@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version" translatable="false">v1.1-preAlpha</string>
+    <string name="app_version" translatable="false">v1.1-Alpha 02</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -69,10 +69,12 @@
     <string name="average_from_vehicle">Avg mileage of:</string>
     <string name="custom_average">Custom average:</string>
     <string name="fuel_price">Fuel price:</string>
+    <string name="results">Results</string>
+    <string name="distance">Distance:</string>
+    <string name="fuel_litres">Fuel litres:</string>
+    <string name="total_cost">Total cost:</string>
 
     <array name="tools_spinner">
-        <item>Ford Mondeo - 8054FDG</item>
-        <item>Honda PCX - 4386JRK</item>
+        <item>Ford Mondeo - 8755FHG</item>
     </array>
-
 </resources>

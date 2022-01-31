@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
@@ -20,18 +19,15 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.macisdev.mileageapp.databinding.FragmentTripCostBinding
 import com.macisdev.mileageapp.model.Vehicle
 import com.macisdev.mileageapp.viewModels.TripCostViewModel
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
-import java.util.concurrent.Executors
+import java.util.*
 
 
 class TripCostFragment : Fragment() {
 	private lateinit var gui: FragmentTripCostBinding
 	private val tripCostViewModel: TripCostViewModel by viewModels()
 
-	private lateinit var origin: LatLng
-	private lateinit var destination: LatLng
+	private lateinit var origin: String
+	private lateinit var destination: String
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentTripCostBinding.inflate(inflater, container, false)
@@ -81,7 +77,7 @@ class TripCostFragment : Fragment() {
 		}
 
 		gui.calculateCostButton.setOnClickListener {
-			calculateCost()
+			showTripCost()
 		}
 	}
 
@@ -100,7 +96,6 @@ class TripCostFragment : Fragment() {
 		autocompleteFragmentOrigin.setPlaceFields(
 			listOf(
 				Place.Field.ADDRESS,
-				Place.Field.LAT_LNG,
 				Place.Field.NAME
 			)
 		)
@@ -108,7 +103,6 @@ class TripCostFragment : Fragment() {
 		autocompleteFragmentDestination.setPlaceFields(
 			listOf(
 				Place.Field.ADDRESS,
-				Place.Field.LAT_LNG,
 				Place.Field.NAME
 			)
 		)
@@ -123,7 +117,7 @@ class TripCostFragment : Fragment() {
 			override fun onPlaceSelected(place: Place) {
 				gui.originFullAdressTextView.text = place.address
 				autocompleteFragmentOrigin.setText(place.name)
-				origin = place.latLng ?: LatLng(0.0, 0.0)
+				origin = place.address ?: ""
 			}
 
 			override fun onError(status: Status) {
@@ -136,7 +130,7 @@ class TripCostFragment : Fragment() {
 			override fun onPlaceSelected(place: Place) {
 				gui.destinationFullAdressTextView.text = place.address
 				autocompleteFragmentDestination.setText(place.name)
-				destination = place.latLng ?: LatLng(0.0, 0.0)
+				destination = place.address ?: ""
 			}
 
 			override fun onError(status: Status) {
@@ -145,43 +139,26 @@ class TripCostFragment : Fragment() {
 		})
 	}
 
-	private fun calculateCost() {
-		val client = OkHttpClient.Builder().build()
+	private fun showTripCost() {
+		val mileage = gui.customMileageEditText.text.toString().toDouble()
+		val fuelPrice = gui.fuelPriceEditText.text.toString().toDouble()
+		val avoidTolls = gui.avoidTollsCheckBox.isChecked
 
-		val formattedOrigin = "${origin.latitude}%2C${origin.longitude}"
-		val formattedDestination = "${destination.latitude}%2C${destination.longitude}"
-
-		val url = "https://maps.googleapis.com/maps/api/distancematrix/json" +
-					"?origins=$formattedOrigin&destinations=$formattedDestination&key=${BuildConfig.DISTANCE_MAPS_KEY}"
-
-		val request = Request.Builder()
-			.url(url)
-			.method("GET", null)
-			.build()
-
-		val executor = Executors.newSingleThreadExecutor()
-
-
-		executor.execute {
-			val response = client.newCall(request).execute()
-			val body = response.body!!.string()
-			Log.d(MainActivity.TAG, body)
-
-			val jsonObject = JSONObject(body)
-
-			val tripDistance = jsonObject
-				.getJSONArray("rows")
-				.getJSONObject(0)
-				.getJSONArray("elements")
-				.getJSONObject(0)
-				.getJSONObject("distance")
-				.getDouble("value") / 1000
-
+		tripCostViewModel
+			.getTripDistance(origin, destination, avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
 			//cost = tripDistance * mileage / 100 * fuel price
-			val cost = tripDistance * gui.customMileageEditText.text.toString().toDouble() / 100 *
-					gui.fuelPriceEditText.text.toString().toDouble()
+			val tripDistance = if (gui.roundTripCheckBox.isChecked) oneWayDistance * 2 else oneWayDistance
 
-			requireActivity().runOnUiThread {gui.resultCostTextView.text = cost.toString()}
+			gui.tripDistanceTextView.text = String.format(Locale.getDefault(), "%.2f KM", tripDistance)
+
+			val tripLitres = tripDistance * mileage / 100
+			gui.tripLitresTextView.text = String.format(Locale.getDefault(), "%.2f L", tripLitres)
+
+			val currencySign = Currency.getInstance(Locale.getDefault()).symbol
+			val tripCost = tripLitres * fuelPrice
+			gui.tripCostTextView.text = String.format(Locale.getDefault(), "%.2f%s", tripCost, currencySign)
+
+			gui.resultsCardView.visibility = View.VISIBLE
 		}
 	}
 }
