@@ -58,4 +58,19 @@
     <string name="date_icon">Icono de fecha</string>
     <string name="litres_icon">Icono de litros</string>
     <string name="distance_icon">Icono de distancia</string>
+    <string name="origin">Origen:</string>
+    <string name="destination">Destino:</string>
+    <string name="search_origin">Buscar origen…</string>
+    <string name="search_destination">Buscar destino…</string>
+    <string name="calculate_round_trip">Calcular ida y vuelta</string>
+    <string name="avoid_tolls">Evitar peajes</string>
+    <string name="average_from_vehicle">Cosumo medio de:</string>
+    <string name="custom_average">Consumo manual:</string>
+    <string name="fuel_price">Precio combustible:</string>
+    <string name="results">Resultados</string>
+    <string name="distance">Distancia:</string>
+    <string name="fuel_litres">Litros de combustible:</string>
+    <string name="total_cost">Coste total:</string>
+    <string name="something_wrong">Algo ha fallado. Por favor, vuelve a intentarlo.</string>
+    <string name="enter_valid_data">Por favor, introduzca valores válidos.</string>
 </resources>

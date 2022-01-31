@@ -1,6 +1,7 @@
 package com.macisdev.mileageapp
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.preference.PreferenceManager
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -18,25 +22,38 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.macisdev.mileageapp.databinding.FragmentTripCostBinding
 import com.macisdev.mileageapp.model.Vehicle
+import com.macisdev.mileageapp.utils.getDouble
+import com.macisdev.mileageapp.utils.hideKeyboard
+import com.macisdev.mileageapp.utils.putDouble
 import com.macisdev.mileageapp.viewModels.TripCostViewModel
+import java.text.DecimalFormat
+import java.text.ParseException
 import java.util.*
 
-
 class TripCostFragment : Fragment() {
+	companion object {
+		private const val FUEL_PRICE_KEY = "fuelPriceKey"
+	}
+
 	private lateinit var gui: FragmentTripCostBinding
 	private val tripCostViewModel: TripCostViewModel by viewModels()
 
 	private lateinit var origin: String
 	private lateinit var destination: String
+	private lateinit var preferences: SharedPreferences
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentTripCostBinding.inflate(inflater, container, false)
+		preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 		return gui.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		configureAdressAutocomplete()
+
+		gui.fuelPriceEditText.setText(String.format(Locale.getDefault(), "%.3f",
+			preferences.getDouble(FUEL_PRICE_KEY, 0.0)))
 
 		gui.mileageTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
 			when (checkedId) {
@@ -68,7 +85,7 @@ class TripCostFragment : Fragment() {
 				val vehicle = parent?.selectedItem as Vehicle
 
 				tripCostViewModel.getVehicleAverageMileage(vehicle.plateNumber).observe(viewLifecycleOwner) {
-					gui.customMileageEditText.setText(it.toString())
+					gui.customMileageEditText.setText(String.format(Locale.getDefault(), "%.2f", it))
 				}
 			}
 
@@ -140,25 +157,56 @@ class TripCostFragment : Fragment() {
 	}
 
 	private fun showTripCost() {
-		val mileage = gui.customMileageEditText.text.toString().toDouble()
-		val fuelPrice = gui.fuelPriceEditText.text.toString().toDouble()
-		val avoidTolls = gui.avoidTollsCheckBox.isChecked
+		try {
+			gui.loadingBar.visibility = View.VISIBLE
+			gui.resultsCardView.visibility = View.GONE
+			hideKeyboard()
 
-		tripCostViewModel
-			.getTripDistance(origin, destination, avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
-			//cost = tripDistance * mileage / 100 * fuel price
-			val tripDistance = if (gui.roundTripCheckBox.isChecked) oneWayDistance * 2 else oneWayDistance
+			val decimalFormatter = DecimalFormat.getInstance(Locale.getDefault())
+			val mileage = decimalFormatter.parse(gui.customMileageEditText.text.toString())?.toDouble() ?: 0.0
+			val fuelPrice = decimalFormatter.parse(gui.fuelPriceEditText.text.toString())?.toDouble() ?: 0.0
 
-			gui.tripDistanceTextView.text = String.format(Locale.getDefault(), "%.2f KM", tripDistance)
+			val avoidTolls = gui.avoidTollsCheckBox.isChecked
 
-			val tripLitres = tripDistance * mileage / 100
-			gui.tripLitresTextView.text = String.format(Locale.getDefault(), "%.2f L", tripLitres)
+			if(mileage > 0 && fuelPrice > 0) {
+				preferences.edit {
+					putDouble(FUEL_PRICE_KEY, fuelPrice)
+				}
 
-			val currencySign = Currency.getInstance(Locale.getDefault()).symbol
-			val tripCost = tripLitres * fuelPrice
-			gui.tripCostTextView.text = String.format(Locale.getDefault(), "%.2f%s", tripCost, currencySign)
+				tripCostViewModel
+					.getTripDistance(origin, destination, avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
+						//cost = tripDistance * mileage / 100 * fuel price
+						val tripDistance = if (gui.roundTripCheckBox.isChecked) oneWayDistance * 2 else oneWayDistance
 
-			gui.resultsCardView.visibility = View.VISIBLE
+						gui.tripDistanceTextView.text = String.format(Locale.getDefault(),
+							"%,.2f KM", tripDistance)
+
+						val tripLitres = tripDistance * mileage / 100.0
+						gui.tripLitresTextView.text = String.format(Locale.getDefault(), "%,.2f L", tripLitres)
+
+						val currencySign = Currency.getInstance(Locale.getDefault()).symbol
+						val tripCost = tripLitres * fuelPrice
+						gui.tripCostTextView.text = String.format(Locale.getDefault(),
+							"%.2f%s", tripCost, currencySign)
+
+						gui.resultsCardView.visibility = View.VISIBLE
+						gui.loadingBar.visibility = View.GONE
+					}
+			} else {
+				Toast.makeText(requireContext(), R.string.enter_valid_data, Toast.LENGTH_SHORT).show()
+				gui.resultsCardView.visibility = View.GONE
+				gui.loadingBar.visibility = View.GONE
+			}
+		} catch (e: ParseException) {
+			Log.e(MainActivity.TAG, e.stackTraceToString())
+			Toast.makeText(requireContext(), R.string.enter_valid_data, Toast.LENGTH_SHORT).show()
+			gui.resultsCardView.visibility = View.GONE
+			gui.loadingBar.visibility = View.GONE
+		} catch (e: Exception) {
+			Log.e(MainActivity.TAG, e.stackTraceToString())
+			Toast.makeText(requireContext(), R.string.something_wrong, Toast.LENGTH_LONG).show()
+			gui.resultsCardView.visibility = View.GONE
+			gui.loadingBar.visibility = View.GONE
 		}
 	}
 }

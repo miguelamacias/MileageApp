@@ -56,7 +56,7 @@ class TripCostViewModel : ViewModel() {
 			}
 
 			override fun onFailure(call: Call<String>, t: Throwable) {
-				Log.d(MainActivity.TAG, "ERROR!")
+				Log.e(MainActivity.TAG, "ERROR!")
 			}
 		})
 		return responseLiveData

@@ -42,7 +42,7 @@ class AddVehicleFragment : DialogFragment() {
 
 		if (fragmentArgs.editMode) {
 			addVehicleVM.getVehicle(fragmentArgs.editVehiclePlate)
-				.observe(viewLifecycleOwner, {editVehicle(it, iconAdapter, colorAdapter)})
+				.observe(viewLifecycleOwner) { editVehicle(it, iconAdapter, colorAdapter) }
 
 		} else {
 			gui.addVehicleButton.setOnClickListener {

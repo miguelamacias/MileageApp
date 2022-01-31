@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version" translatable="false">v1.1-Alpha 02</string>
+    <string name="app_version" translatable="false">v1.1-Beta01</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -73,6 +73,8 @@
     <string name="distance">Distance:</string>
     <string name="fuel_litres">Fuel litres:</string>
     <string name="total_cost">Total cost:</string>
+    <string name="something_wrong">Something went wrong. Please try again.</string>
+    <string name="enter_valid_data">Please, enter valid data.</string>
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

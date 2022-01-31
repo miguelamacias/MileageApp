@@ -1,6 +1,5 @@
 package com.macisdev.mileageapp.database
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Room
 import com.macisdev.mileageapp.model.Mileage
@@ -10,7 +9,7 @@ import java.util.concurrent.Executors
 
 private const val DATABASE_NAME = "mileage-database"
 
-@SuppressLint("StaticFieldLeak")
+
 class MileageRepository private constructor(context: Context) {
 
 	private val database: MileagesDataBase = Room.databaseBuilder(

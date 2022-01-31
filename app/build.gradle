@@ -14,7 +14,7 @@ android {
         applicationId "com.macisdev.mileageapp"
         minSdk 25
         targetSdk 31
-        versionCode 11
+        versionCode 110
         versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -43,7 +43,6 @@ android {
 
 dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
     kapt 'androidx.room:room-compiler:2.4.1'
     implementation 'androidx.room:room-runtime:2.4.1'
@@ -61,7 +60,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:29.0.4')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.android.libraries.places:places:2.5.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation "androidx.preference:preference-ktx:1.2.0"
 
 
     testImplementation 'junit:junit:4.13.2'
