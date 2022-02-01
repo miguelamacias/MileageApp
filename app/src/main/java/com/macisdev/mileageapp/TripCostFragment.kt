@@ -37,9 +37,6 @@ class TripCostFragment : Fragment() {
 
 	private lateinit var gui: FragmentTripCostBinding
 	private val tripCostViewModel: TripCostViewModel by viewModels()
-
-	private lateinit var origin: String
-	private lateinit var destination: String
 	private lateinit var preferences: SharedPreferences
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -51,6 +48,8 @@ class TripCostFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		configureAdressAutocomplete()
+		gui.originFullAdressTextView.text = tripCostViewModel.origin
+		gui.destinationFullAdressTextView.text = tripCostViewModel.destination
 
 		gui.fuelPriceEditText.setText(String.format(Locale.getDefault(), "%.3f",
 			preferences.getDouble(FUEL_PRICE_KEY, 0.0)))
@@ -98,7 +97,6 @@ class TripCostFragment : Fragment() {
 		}
 	}
 
-
 	private fun configureAdressAutocomplete() {
 		// Initialize the Places SDK
 		Places.initialize(requireActivity().applicationContext, BuildConfig.MAPS_API_KEY)
@@ -134,7 +132,7 @@ class TripCostFragment : Fragment() {
 			override fun onPlaceSelected(place: Place) {
 				gui.originFullAdressTextView.text = place.address
 				autocompleteFragmentOrigin.setText(place.name)
-				origin = place.address ?: ""
+				tripCostViewModel.origin = place.address ?: ""
 			}
 
 			override fun onError(status: Status) {
@@ -147,7 +145,7 @@ class TripCostFragment : Fragment() {
 			override fun onPlaceSelected(place: Place) {
 				gui.destinationFullAdressTextView.text = place.address
 				autocompleteFragmentDestination.setText(place.name)
-				destination = place.address ?: ""
+				tripCostViewModel.destination = place.address ?: ""
 			}
 
 			override fun onError(status: Status) {
@@ -174,7 +172,7 @@ class TripCostFragment : Fragment() {
 				}
 
 				tripCostViewModel
-					.getTripDistance(origin, destination, avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
+					.getTripDistance(avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
 						//cost = tripDistance * mileage / 100 * fuel price
 						val tripDistance = if (gui.roundTripCheckBox.isChecked) oneWayDistance * 2 else oneWayDistance
 

@@ -15,13 +15,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class TripCostViewModel : ViewModel() {
+	var origin = ""
+	var destination = ""
 	private val mileageRepository = MileageRepository.get()
 
 	fun getVehicles() = mileageRepository.getVehicles()
 
 	fun getVehicleAverageMileage(plateNumber: String) = mileageRepository.getVehicleAverageMileage(plateNumber)
 
-	fun getTripDistance(origin: String, destination: String, avoidTolls: Boolean): LiveData<Double> {
+	fun getTripDistance(avoidTolls: Boolean): LiveData<Double> {
 		val responseLiveData: MutableLiveData<Double> = MutableLiveData()
 
 		val retrofit: Retrofit = Retrofit.Builder()
