@@ -239,7 +239,8 @@
                         android:textColor="#FFFFFF"
                         android:background="@color/primary"
                         tools:ignore="TextContrastCheck"
-                        app:drawableStartCompat="@drawable/ic_clock_24" />
+                        app:drawableStartCompat="@drawable/ic_clock_24"
+                        app:drawableTint="#FFFFFF" />
 
                 <TextView
                         tools:text="7,34"

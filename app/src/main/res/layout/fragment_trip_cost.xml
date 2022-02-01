@@ -246,7 +246,7 @@
                 app:cardBackgroundColor="@color/primary_ligth"
                 android:visibility="gone"
                 tools:visibility="visible"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/calculate_cost_button"
                 app:contentPaddingBottom="8dp">
 
@@ -301,13 +301,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView17"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintTop_toBottomOf="@+id/textView16"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="8dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:gravity="center_vertical"
-                        app:drawableStartCompat="@drawable/ic_trip_cost" />
+                        app:drawableStartCompat="@drawable/ic_trip_cost"
+                        app:layout_constraintTop_toBottomOf="@+id/textView18"
+                        android:layout_marginTop="8dp" />
 
                 <TextView
                         tools:text="295,46 KM"
@@ -341,6 +341,30 @@
                         app:layout_constraintStart_toEndOf="@+id/textView17"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textStyle="bold" />
+
+                <TextView
+                        android:text="@string/duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView18"
+                        app:layout_constraintTop_toBottomOf="@+id/textView16"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/black"
+                        android:drawableStart="@drawable/ic_clock_24" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/trip_duration_text_view"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
+                        app:layout_constraintStart_toEndOf="@+id/textView18"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        tools:text="4h 25 min" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 

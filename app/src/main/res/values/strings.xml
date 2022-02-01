@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version" translatable="false">v1.1-Beta02</string>
+    <string name="app_version" translatable="false">v1.1-Beta04</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -76,6 +76,8 @@
     <string name="something_wrong">Something went wrong. Please try again.</string>
     <string name="enter_valid_data">Please, enter valid data.</string>
     <string name="no_routes_found">No route could be found between the origin and destination.</string>
+    <string name="hours_minutes">%1$d hours %2$d minutes</string>
+    <string name="duration">Duration:</string>
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

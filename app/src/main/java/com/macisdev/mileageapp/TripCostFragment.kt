@@ -19,6 +19,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.macisdev.mileageapp.database.TRIP_DISTANCE_ZERO_RESULTS_ERROR
 import com.macisdev.mileageapp.databinding.FragmentTripCostBinding
 import com.macisdev.mileageapp.model.Vehicle
 import com.macisdev.mileageapp.utils.getDouble
@@ -114,6 +115,7 @@ class TripCostFragment : Fragment() {
 		// Specify the types of place data to return
 		autocompleteFragmentOrigin.setPlaceFields(
 			listOf(
+				Place.Field.ID,
 				Place.Field.ADDRESS,
 				Place.Field.NAME
 			)
@@ -121,6 +123,7 @@ class TripCostFragment : Fragment() {
 
 		autocompleteFragmentDestination.setPlaceFields(
 			listOf(
+				Place.Field.ID,
 				Place.Field.ADDRESS,
 				Place.Field.NAME
 			)
@@ -136,7 +139,9 @@ class TripCostFragment : Fragment() {
 			override fun onPlaceSelected(place: Place) {
 				gui.originFullAdressTextView.text = place.address
 				autocompleteFragmentOrigin.setText(place.name)
-				tripCostViewModel.origin = place.address ?: ""
+
+				tripCostViewModel.origin = "place_id:".plus(place.id)
+				tripCostViewModel.originAddress = place.address ?: ""
 			}
 
 			override fun onError(status: Status) {
@@ -149,7 +154,9 @@ class TripCostFragment : Fragment() {
 			override fun onPlaceSelected(place: Place) {
 				gui.destinationFullAdressTextView.text = place.address
 				autocompleteFragmentDestination.setText(place.name)
-				tripCostViewModel.destination = place.address ?: ""
+
+				tripCostViewModel.destination = "place_id:".plus(place.id)
+				tripCostViewModel.destinationAddress = place.address ?: ""
 			}
 
 			override fun onError(status: Status) {
@@ -211,11 +218,19 @@ class TripCostFragment : Fragment() {
 							"%.2f%s", tripCost, currencySign
 						)
 
+						tripCostViewModel.getTripDuration().observe(viewLifecycleOwner) { oneWayDuration ->
+							val tripDuration =
+								if (gui.roundTripCheckBox.isChecked) oneWayDuration * 2  else oneWayDuration
+							val hours = tripDuration / 60
+							val minutes = tripDuration % 60
+							gui.tripDurationTextView.text = getString(R.string.hours_minutes, hours, minutes)
+						}
+
 						gui.resultsCardView.visibility = View.VISIBLE
 						gui.loadingBar.visibility = View.GONE
 					}
 
-					oneWayDistance == TripCostViewModel.TRIP_DISTANCE_ZERO_RESULTS_ERROR -> {
+					oneWayDistance == TRIP_DISTANCE_ZERO_RESULTS_ERROR -> {
 						showToast(R.string.no_routes_found)
 						gui.resultsCardView.visibility = View.GONE
 						gui.loadingBar.visibility = View.GONE
