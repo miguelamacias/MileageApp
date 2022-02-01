@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,6 +24,7 @@ import com.macisdev.mileageapp.model.Vehicle
 import com.macisdev.mileageapp.utils.getDouble
 import com.macisdev.mileageapp.utils.hideKeyboard
 import com.macisdev.mileageapp.utils.putDouble
+import com.macisdev.mileageapp.utils.showToast
 import com.macisdev.mileageapp.viewModels.TripCostViewModel
 import java.text.DecimalFormat
 import java.text.ParseException
@@ -51,8 +51,12 @@ class TripCostFragment : Fragment() {
 		gui.originFullAdressTextView.text = tripCostViewModel.origin
 		gui.destinationFullAdressTextView.text = tripCostViewModel.destination
 
-		gui.fuelPriceEditText.setText(String.format(Locale.getDefault(), "%.3f",
-			preferences.getDouble(FUEL_PRICE_KEY, 0.0)))
+		gui.fuelPriceEditText.setText(
+			String.format(
+				Locale.getDefault(), "%.3f",
+				preferences.getDouble(FUEL_PRICE_KEY, 0.0)
+			)
+		)
 
 		gui.mileageTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
 			when (checkedId) {
@@ -93,7 +97,7 @@ class TripCostFragment : Fragment() {
 		}
 
 		gui.calculateCostButton.setOnClickListener {
-			showTripCost()
+			calculateTripCost()
 		}
 	}
 
@@ -154,7 +158,7 @@ class TripCostFragment : Fragment() {
 		})
 	}
 
-	private fun showTripCost() {
+	private fun calculateTripCost() {
 		try {
 			gui.loadingBar.visibility = View.VISIBLE
 			gui.resultsCardView.visibility = View.GONE
@@ -166,43 +170,66 @@ class TripCostFragment : Fragment() {
 
 			val avoidTolls = gui.avoidTollsCheckBox.isChecked
 
-			if(mileage > 0 && fuelPrice > 0) {
-				preferences.edit {
-					putDouble(FUEL_PRICE_KEY, fuelPrice)
-				}
+			showTripCost(mileage, fuelPrice, avoidTolls)
 
-				tripCostViewModel
-					.getTripDistance(avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
-						//cost = tripDistance * mileage / 100 * fuel price
-						val tripDistance = if (gui.roundTripCheckBox.isChecked) oneWayDistance * 2 else oneWayDistance
-
-						gui.tripDistanceTextView.text = String.format(Locale.getDefault(),
-							"%,.2f KM", tripDistance)
-
-						val tripLitres = tripDistance * mileage / 100.0
-						gui.tripLitresTextView.text = String.format(Locale.getDefault(), "%,.2f L", tripLitres)
-
-						val currencySign = Currency.getInstance(Locale.getDefault()).symbol
-						val tripCost = tripLitres * fuelPrice
-						gui.tripCostTextView.text = String.format(Locale.getDefault(),
-							"%.2f%s", tripCost, currencySign)
-
-						gui.resultsCardView.visibility = View.VISIBLE
-						gui.loadingBar.visibility = View.GONE
-					}
-			} else {
-				Toast.makeText(requireContext(), R.string.enter_valid_data, Toast.LENGTH_SHORT).show()
-				gui.resultsCardView.visibility = View.GONE
-				gui.loadingBar.visibility = View.GONE
-			}
 		} catch (e: ParseException) {
 			Log.e(MainActivity.TAG, e.stackTraceToString())
-			Toast.makeText(requireContext(), R.string.enter_valid_data, Toast.LENGTH_SHORT).show()
+			showToast(R.string.enter_valid_data)
 			gui.resultsCardView.visibility = View.GONE
 			gui.loadingBar.visibility = View.GONE
 		} catch (e: Exception) {
 			Log.e(MainActivity.TAG, e.stackTraceToString())
-			Toast.makeText(requireContext(), R.string.something_wrong, Toast.LENGTH_LONG).show()
+			showToast(R.string.something_wrong)
+			gui.resultsCardView.visibility = View.GONE
+			gui.loadingBar.visibility = View.GONE
+		}
+	}
+
+	private fun showTripCost(mileage: Double, fuelPrice: Double, avoidTolls: Boolean) {
+		if (mileage > 0 && fuelPrice > 0) {
+			preferences.edit { putDouble(FUEL_PRICE_KEY, fuelPrice) }
+
+			tripCostViewModel.getTripDistance(avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
+				when {
+					oneWayDistance > 0 -> {
+						val tripDistance =
+							if (gui.roundTripCheckBox.isChecked) oneWayDistance * 2 else oneWayDistance
+
+						gui.tripDistanceTextView.text = String.format(
+							Locale.getDefault(),
+							"%,.2f KM", tripDistance
+						)
+
+						val tripLitres = tripDistance * mileage / 100.0
+						gui.tripLitresTextView.text = String.format(
+							Locale.getDefault(), "%,.2f L", tripLitres)
+
+						val currencySign = Currency.getInstance(Locale.getDefault()).symbol
+						val tripCost = tripLitres * fuelPrice
+						gui.tripCostTextView.text = String.format(
+							Locale.getDefault(),
+							"%.2f%s", tripCost, currencySign
+						)
+
+						gui.resultsCardView.visibility = View.VISIBLE
+						gui.loadingBar.visibility = View.GONE
+					}
+
+					oneWayDistance == TripCostViewModel.TRIP_DISTANCE_ZERO_RESULTS_ERROR -> {
+						showToast(R.string.no_routes_found)
+						gui.resultsCardView.visibility = View.GONE
+						gui.loadingBar.visibility = View.GONE
+					}
+
+					else -> {
+						showToast(R.string.something_wrong)
+						gui.resultsCardView.visibility = View.GONE
+						gui.loadingBar.visibility = View.GONE
+					}
+				}
+			}
+		} else {
+			showToast(R.string.enter_valid_data)
 			gui.resultsCardView.visibility = View.GONE
 			gui.loadingBar.visibility = View.GONE
 		}

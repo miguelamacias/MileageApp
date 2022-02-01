@@ -5,13 +5,13 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MapsService {
+interface MapsServiceCalls {
 	@GET("json")
 	fun getDistance(
 		@Query("origins") origin: String,
 		@Query("destinations") destination: String,
 		@Query("key") key: String = BuildConfig.DISTANCE_MAPS_KEY
-	) : Call<String>
+	) : Call<MatrixResponse>
 
 	@GET("json")
 	fun getDistanceAvoidTolls(
@@ -19,5 +19,5 @@ interface MapsService {
 		@Query("destinations") destination: String,
 		@Query("avoid") avoid: String = "tolls",
 		@Query("key") key: String = BuildConfig.DISTANCE_MAPS_KEY
-	) : Call<String>
+	) : Call<MatrixResponse>
 }
