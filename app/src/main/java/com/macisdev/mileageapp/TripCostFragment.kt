@@ -1,6 +1,5 @@
 package com.macisdev.mileageapp
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,7 +28,6 @@ import com.macisdev.mileageapp.utils.putDouble
 import com.macisdev.mileageapp.utils.showToast
 import com.macisdev.mileageapp.viewModels.TripCostViewModel
 import java.text.DecimalFormat
-import java.text.ParseException
 import java.util.*
 
 class TripCostFragment : Fragment() {
@@ -49,8 +48,15 @@ class TripCostFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		configureAdressAutocomplete()
-		gui.originFullAdressTextView.text = tripCostViewModel.origin
-		gui.destinationFullAdressTextView.text = tripCostViewModel.destination
+
+		gui.originFullAdressTextView.text = tripCostViewModel.originAddress
+		gui.destinationFullAdressTextView.text = tripCostViewModel.destinationAddress
+		gui.resultsCardView.visibility = tripCostViewModel.resultsCardViewVisibility
+		gui.tripDistanceTextView.text = tripCostViewModel.currentTripDistance
+		gui.tripFuelTextView.text = tripCostViewModel.currentTripFuel
+		gui.tripDurationTextView.text = tripCostViewModel.currentTripDuration
+		gui.tripCostTextView.text = tripCostViewModel.currentTripCost
+		gui.googleTextView.visibility = tripCostViewModel.resultsCardViewVisibility
 
 		gui.fuelPriceEditText.setText(
 			String.format(
@@ -59,15 +65,22 @@ class TripCostFragment : Fragment() {
 			)
 		)
 
+		var currentVehicleMileage = ""
+
 		gui.mileageTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
 			when (checkedId) {
 				R.id.vehicle_mileage_radio_button -> {
-					gui.customMileageEditText.isEnabled = false
+					gui.customMileageEditText.apply {
+						isEnabled = false
+						setText(currentVehicleMileage)
+					}
 					gui.vehicleSpinner.visibility = View.VISIBLE
+
 				}
 
 				R.id.custom_mileage_radio_button -> {
 					gui.customMileageEditText.apply {
+						currentVehicleMileage = text.toString()
 						isEnabled = true
 						setText("")
 					}
@@ -131,6 +144,7 @@ class TripCostFragment : Fragment() {
 
 		autocompleteFragmentOrigin.setActivityMode(AutocompleteActivityMode.FULLSCREEN)
 		autocompleteFragmentDestination.setActivityMode(AutocompleteActivityMode.FULLSCREEN)
+
 		autocompleteFragmentOrigin.setHint(getString(R.string.search_origin))
 		autocompleteFragmentDestination.setHint(getString(R.string.search_destination))
 
@@ -138,10 +152,21 @@ class TripCostFragment : Fragment() {
 		autocompleteFragmentOrigin.setOnPlaceSelectedListener(object : PlaceSelectionListener {
 			override fun onPlaceSelected(place: Place) {
 				gui.originFullAdressTextView.text = place.address
-				autocompleteFragmentOrigin.setText(place.name)
 
 				tripCostViewModel.origin = "place_id:".plus(place.id)
 				tripCostViewModel.originAddress = place.address ?: ""
+
+				autocompleteFragmentOrigin.apply {
+					setText(place.name)
+
+					view?.findViewById<ImageView>(R.id.places_autocomplete_clear_button)
+						?.setOnClickListener {
+							setText("")
+							gui.originFullAdressTextView.text = ""
+							tripCostViewModel.originAddress = ""
+							tripCostViewModel.origin = ""
+						}
+				}
 			}
 
 			override fun onError(status: Status) {
@@ -150,19 +175,30 @@ class TripCostFragment : Fragment() {
 		})
 
 		autocompleteFragmentDestination.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-			@SuppressLint("SetTextI18n")
 			override fun onPlaceSelected(place: Place) {
 				gui.destinationFullAdressTextView.text = place.address
-				autocompleteFragmentDestination.setText(place.name)
 
 				tripCostViewModel.destination = "place_id:".plus(place.id)
 				tripCostViewModel.destinationAddress = place.address ?: ""
+
+				autocompleteFragmentDestination.apply {
+					setText(place.name)
+
+					view?.findViewById<ImageView>(R.id.places_autocomplete_clear_button)
+					?.setOnClickListener {
+						setText("")
+						gui.destinationFullAdressTextView.text = ""
+						tripCostViewModel.destinationAddress = ""
+						tripCostViewModel.destination = ""
+					}
+				}
 			}
 
 			override fun onError(status: Status) {
 				Log.i(MainActivity.TAG, "An error occurred: $status")
 			}
 		})
+
 	}
 
 	private fun calculateTripCost() {
@@ -177,16 +213,17 @@ class TripCostFragment : Fragment() {
 
 			val avoidTolls = gui.avoidTollsCheckBox.isChecked
 
-			showTripCost(mileage, fuelPrice, avoidTolls)
+			if (tripCostViewModel.origin == "" || tripCostViewModel.destination == "") {
+				throw IllegalStateException("Origin and destination must be set when calling the web service")
+			}
 
-		} catch (e: ParseException) {
-			Log.e(MainActivity.TAG, e.stackTraceToString())
-			showToast(R.string.enter_valid_data)
-			gui.resultsCardView.visibility = View.GONE
-			gui.loadingBar.visibility = View.GONE
+			gui.rootScrollView.post {
+				gui.rootScrollView.smoothScrollTo(0, gui.loadingBar.bottom)
+			}
+
+			showTripCost(mileage, fuelPrice, avoidTolls)
 		} catch (e: Exception) {
-			Log.e(MainActivity.TAG, e.stackTraceToString())
-			showToast(R.string.something_wrong)
+			showToast(R.string.enter_valid_data)
 			gui.resultsCardView.visibility = View.GONE
 			gui.loadingBar.visibility = View.GONE
 		}
@@ -208,8 +245,9 @@ class TripCostFragment : Fragment() {
 						)
 
 						val tripLitres = tripDistance * mileage / 100.0
-						gui.tripLitresTextView.text = String.format(
-							Locale.getDefault(), "%,.2f L", tripLitres)
+						gui.tripFuelTextView.text = String.format(
+							Locale.getDefault(), "%,.2f L", tripLitres
+						)
 
 						val currencySign = Currency.getInstance(Locale.getDefault()).symbol
 						val tripCost = tripLitres * fuelPrice
@@ -220,7 +258,7 @@ class TripCostFragment : Fragment() {
 
 						tripCostViewModel.getTripDuration().observe(viewLifecycleOwner) { oneWayDuration ->
 							val tripDuration =
-								if (gui.roundTripCheckBox.isChecked) oneWayDuration * 2  else oneWayDuration
+								if (gui.roundTripCheckBox.isChecked) oneWayDuration * 2 else oneWayDuration
 							val hours = tripDuration / 60
 							val minutes = tripDuration % 60
 							gui.tripDurationTextView.text = getString(R.string.hours_minutes, hours, minutes)
@@ -228,18 +266,25 @@ class TripCostFragment : Fragment() {
 
 						gui.resultsCardView.visibility = View.VISIBLE
 						gui.loadingBar.visibility = View.GONE
+						gui.googleTextView.visibility = View.VISIBLE
+
+						gui.rootScrollView.post {
+							gui.rootScrollView.smoothScrollTo(0, gui.resultsCardView.bottom)
+						}
 					}
 
 					oneWayDistance == TRIP_DISTANCE_ZERO_RESULTS_ERROR -> {
 						showToast(R.string.no_routes_found)
 						gui.resultsCardView.visibility = View.GONE
 						gui.loadingBar.visibility = View.GONE
+						gui.googleTextView.visibility = View.VISIBLE
 					}
 
 					else -> {
 						showToast(R.string.something_wrong)
 						gui.resultsCardView.visibility = View.GONE
 						gui.loadingBar.visibility = View.GONE
+						gui.googleTextView.visibility = View.VISIBLE
 					}
 				}
 			}
@@ -247,6 +292,16 @@ class TripCostFragment : Fragment() {
 			showToast(R.string.enter_valid_data)
 			gui.resultsCardView.visibility = View.GONE
 			gui.loadingBar.visibility = View.GONE
+			gui.googleTextView.visibility = View.VISIBLE
 		}
+	}
+
+	override fun onSaveInstanceState(outState: Bundle) {
+		super.onSaveInstanceState(outState)
+		tripCostViewModel.currentTripDistance = gui.tripDistanceTextView.text.toString()
+		tripCostViewModel.currentTripFuel = gui.tripFuelTextView.text.toString()
+		tripCostViewModel.currentTripDuration = gui.tripDurationTextView.text.toString()
+		tripCostViewModel.currentTripCost = gui.tripCostTextView.text.toString()
+		tripCostViewModel.resultsCardViewVisibility = gui.resultsCardView.visibility
 	}
 }

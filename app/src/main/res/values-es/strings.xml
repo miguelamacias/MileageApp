@@ -69,8 +69,11 @@
     <string name="fuel_price">Precio combustible:</string>
     <string name="results">Resultados</string>
     <string name="distance">Distancia:</string>
-    <string name="fuel_litres">Litros de combustible:</string>
+    <string name="fuel_litres">Combustible:</string>
     <string name="total_cost">Coste total:</string>
     <string name="something_wrong">Algo ha fallado. Por favor, vuelve a intentarlo.</string>
     <string name="enter_valid_data">Por favor, introduzca valores válidos.</string>
+    <string name="no_routes_found">Ninguna ruta encontrada entre los puntos de origen y destino.</string>
+    <string name="hours_minutes">%1$dh %2$d min</string>
+    <string name="duration">Duración:</string>
 </resources>

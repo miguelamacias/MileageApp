@@ -1,11 +1,9 @@
 package com.macisdev.mileageapp.database
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
-import com.macisdev.mileageapp.MainActivity
 import com.macisdev.mileageapp.api.MapsServiceCalls
 import com.macisdev.mileageapp.api.MatrixResponse
 import com.macisdev.mileageapp.model.Mileage
@@ -118,7 +116,7 @@ class MileageRepository private constructor(context: Context) {
 			}
 
 			override fun onFailure(call: Call<MatrixResponse>, t: Throwable) {
-				Log.e(MainActivity.TAG, "ERROR!")
+				responseLiveData.value = -2.0
 			}
 		})
 		return responseLiveData

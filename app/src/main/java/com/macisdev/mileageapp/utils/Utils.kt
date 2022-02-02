@@ -5,10 +5,12 @@ package com.macisdev.mileageapp.utils
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.macisdev.mileageapp.MainActivity
 
 fun SharedPreferences.Editor.putDouble(key: String, double: Double): SharedPreferences.Editor =
 	putLong(key, java.lang.Double.doubleToRawLongBits(double))
@@ -31,4 +33,8 @@ fun Context.hideKeyboard(view: View) {
 
 fun Fragment.showToast(message: Int) {
 	Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+}
+
+fun Fragment.log(message: String) {
+	Log.d(MainActivity.TAG, message)
 }

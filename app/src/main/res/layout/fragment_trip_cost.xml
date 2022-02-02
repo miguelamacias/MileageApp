@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".TripCostFragment"
-        android:paddingBottom="32dp">
+        android:id="@+id/root_scroll_view">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
@@ -193,7 +193,8 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/custom_mileage_edit_text"
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@+id/custom_mileage_edit_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black" />
 
         <TextView
                 android:text="@string/fuel_price"
@@ -324,7 +325,7 @@
                         tools:text="19,56 L"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/trip_litres_text_view"
+                        android:id="@+id/trip_fuel_text_view"
                         app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
                         android:layout_marginStart="8dp"
                         app:layout_constraintStart_toEndOf="@+id/textView16"
@@ -353,7 +354,7 @@
                         android:layout_marginStart="8dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/black"
-                        android:drawableStart="@drawable/ic_clock_24" />
+                        app:drawableStartCompat="@drawable/ic_clock_24" />
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -384,12 +385,19 @@
         <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView10"
+                android:id="@+id/google_text_view"
                 app:layout_constraintTop_toBottomOf="@+id/results_card_view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:drawableEndCompat="@drawable/places_powered_by_google_light"
+                android:layout_marginTop="8dp"
+                android:gravity="end"
+                android:drawablePadding="2dp"
+                android:visibility="invisible"
+                tools:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
