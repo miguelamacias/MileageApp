@@ -19,6 +19,7 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.macisdev.mileageapp.databinding.ActivityMainBinding
 import com.macisdev.mileageapp.viewModels.MainActivityViewModel
+import de.raphaelebner.roomdatabasebackup.core.RoomBackup
 
 class MainActivity : AppCompatActivity() {
 	companion object {
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
 	private lateinit var firebaseAnalytics: FirebaseAnalytics
 
+	lateinit var roomBackup: RoomBackup
+
 	private lateinit var appBarConfiguration: AppBarConfiguration
 	private lateinit var navController: NavController
 	private val mainActivityVM: MainActivityViewModel by viewModels()
@@ -37,8 +40,10 @@ class MainActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		firebaseAnalytics = Firebase.analytics
+		roomBackup = RoomBackup(this)
 		gui = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(gui.root)
+
 		setSupportActionBar(gui.toolbar)
 
 		//Drawer code

@@ -193,7 +193,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/num_of_vehicles_text_view"
                         android:layout_marginEnd="4dp"
                         android:gravity="center_vertical"
-                        app:drawableStartCompat="@drawable/ic_baseline_directions_car_24" />
+                        app:drawableStartCompat="@drawable/ic_directions_car_24" />
 
                 <TextView
                         tools:text="4"
@@ -361,7 +361,7 @@
                         android:id="@+id/kilometres_text_view" />
 
                 <ImageView
-                        android:src="@drawable/ic_baseline_directions_car_24"
+                        android:src="@drawable/ic_directions_car_24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/imageView5"

@@ -23,7 +23,7 @@ const val TRIP_DISTANCE_ZERO_RESULTS_ERROR = -1.0
 
 class MileageRepository private constructor(context: Context) {
 
-	private val database: MileagesDataBase = Room.databaseBuilder(
+	val database: MileagesDataBase = Room.databaseBuilder(
 		context.applicationContext,
 		MileagesDataBase::class.java,
 		DATABASE_NAME)

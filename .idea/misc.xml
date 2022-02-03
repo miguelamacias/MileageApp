@@ -38,6 +38,7 @@
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_add_vehicle.xml" value="0.5" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_mileage_list.xml" value="0.4280701754385965" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_preferences.xml" value="0.33" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_quick_mileage.xml" value="0.5083333333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_trip_cost.xml" value="0.5" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/list_item_icon_vehicle.xml" value="0.4280701754385965" />
@@ -50,6 +51,7 @@
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/menu/menu_list_mileage.xml" value="0.4280701754385965" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/menu/menu_popup_mileage.xml" value="0.4280701754385965" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/menu/menu_popup_vehicle.xml" value="0.2482456140350877" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/xml/root_preferences.xml" value="0.5" />
       </map>
     </option>
   </component>

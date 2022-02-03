@@ -35,6 +35,14 @@ fun Fragment.showToast(message: Int) {
 	Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 }
 
+fun Fragment.showToast(message: String) {
+	Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+}
+
 fun Fragment.log(message: String) {
+	Log.d(MainActivity.TAG, message)
+}
+
+fun Activity.log(message: String) {
 	Log.d(MainActivity.TAG, message)
 }

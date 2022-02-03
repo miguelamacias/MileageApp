@@ -5,27 +5,39 @@
 
     <item android:title="@string/vehicles">
         <menu>
-            <group android:checkableBehavior="single"
+            <group
+                    android:checkableBehavior="single"
                     android:id="@+id/vehicles_group">
                 <item
                         android:title="@string/add_vehicle"
                         android:icon="@drawable/ic_add_circle"
                         android:id="@+id/addVehicleFragment"
-                        android:orderInCategory="1"/>
+                        android:orderInCategory="1" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/tools">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                        android:id="@+id/quickMileageFragment"
+                        android:title="@string/quick_mileage"
+                        android:icon="@drawable/ic_quick_mileage"
+                        android:orderInCategory="2" />
+                <item
+                        android:id="@+id/tripCostFragment"
+                        android:title="@string/trip_cost"
+                        android:icon="@drawable/ic_trip_cost"
+                        android:orderInCategory="2" />
             </group>
         </menu>
     </item>
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/quickMileageFragment"
-                android:title="@string/quick_mileage"
-                android:icon="@drawable/ic_quick_mileage"
-                android:orderInCategory="2"/>
-        <item
-                android:id="@+id/tripCostFragment"
-                android:title="@string/trip_cost"
-                android:icon="@drawable/ic_trip_cost"
-                android:orderInCategory="2"/>
+                android:id="@+id/settingsFragment"
+                android:title="@string/settings"
+                android:icon="@drawable/ic_settings_24"
+                android:orderInCategory="3" />
     </group>
 </menu>
