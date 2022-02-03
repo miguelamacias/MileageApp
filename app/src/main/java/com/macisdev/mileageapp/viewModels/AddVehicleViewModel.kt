@@ -53,5 +53,4 @@ class AddVehicleViewModel : ViewModel() {
 	fun updateVehicle(vehicle: Vehicle) = mileageRepository.updateVehicle(vehicle)
 
 	fun getVehicle(plateNumber: String) = mileageRepository.getVehicle(plateNumber)
-
 }

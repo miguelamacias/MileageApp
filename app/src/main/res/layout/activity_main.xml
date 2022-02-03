@@ -20,7 +20,7 @@
                 android:background="?attr/colorPrimary"
                 android:theme="?attr/actionBarPopupTheme" />
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:id="@+id/nav_host_fragment"
                 android:layout_width="match_parent"

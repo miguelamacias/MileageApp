@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version" translatable="false">v1.0.1</string>
+    <string name="app_version" translatable="false">v1.1</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -58,4 +58,28 @@
     <string name="litres_icon">Litres Icon</string>
     <string name="distance_icon">Distance Icon</string>
     <string name="app_name">mileageTRAK</string>
+
+    <!-- v1.1 strings -->
+    <string name="origin">Origin:</string>
+    <string name="destination">Destination:</string>
+    <string name="search_origin">Search origin…</string>
+    <string name="search_destination">Search destination…</string>
+    <string name="calculate_round_trip">Calculate round trip</string>
+    <string name="avoid_tolls">Avoid tolls</string>
+    <string name="average_from_vehicle">Avg mileage of:</string>
+    <string name="custom_average">Custom average:</string>
+    <string name="fuel_price">Fuel price:</string>
+    <string name="results">Results</string>
+    <string name="distance">Distance:</string>
+    <string name="fuel_litres">Fuel:</string>
+    <string name="total_cost">Total cost:</string>
+    <string name="something_wrong">Something went wrong. Please try again.</string>
+    <string name="enter_valid_data">Please, enter valid data.</string>
+    <string name="no_routes_found">No route could be found between the origin and destination.</string>
+    <string name="hours_minutes">%1$dh %2$d min</string>
+    <string name="duration">Duration:</string>
+
+    <array name="tools_spinner">
+        <item>Ford Mondeo - 8755FHG</item>
+    </array>
 </resources>

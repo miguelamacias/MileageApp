@@ -93,7 +93,7 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 		val currentDay = currentDate[Calendar.DAY_OF_MONTH]
 
 		val datePicker = DatePickerDialog(
-			context!!,
+			requireContext(),
 			{ _, selectedYear, selectedMonth, selectedDay ->
 
 				val selectedDate = Calendar.getInstance()

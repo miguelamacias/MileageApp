@@ -22,9 +22,10 @@
                 android:title="@string/quick_mileage"
                 android:icon="@drawable/ic_quick_mileage"
                 android:orderInCategory="2"/>
-        <!--<item
+        <item
+                android:id="@+id/tripCostFragment"
                 android:title="@string/trip_cost"
                 android:icon="@drawable/ic_trip_cost"
-                android:orderInCategory="2"/> -->
+                android:orderInCategory="2"/>
     </group>
 </menu>
