@@ -16,11 +16,11 @@ Availale in Google Play: https://play.google.com/store/apps/details?id=com.macis
 
 <img src="https://github.com/miguelamacias/MileageApp/blob/master/home_fragment.png" alt="drawing" width="210"/> <img src="https://github.com/miguelamacias/MileageApp/blob/master/mileage_list.png" alt="drawing" width="210"/>
 <img src="https://github.com/miguelamacias/MileageApp/blob/master/add_mileage.png" alt="drawing" width="210"/> <img src="https://github.com/miguelamacias/MileageApp/blob/master/main_menu.png" alt="drawing" width="210"/>
-<img src="https://github.com/miguelamacias/MileageApp/blob/master/add_vehicle.png" alt="drawing" width="210"/>
+<img src="https://github.com/miguelamacias/MileageApp/blob/master/add_vehicle.png" alt="drawing" width="210"/><img src="https://github.com/miguelamacias/MileageApp/blob/master/en_trip_cost.png" alt="drawing" width="210"/>
 
 
-New functions to be added in next versions: 
--~~Trip cost calculator using Google Maps API~~ Implemented in v1.1
--DB backup
--Export data in CSV
+New functions to be added in next versions:   
+-~~Trip cost calculator using Google Maps API~~ Implemented in v1.1  
+-DB backup  
+-Export data in CSV  
 -Keeping track of vehicles maintenance
