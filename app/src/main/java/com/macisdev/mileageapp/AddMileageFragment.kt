@@ -28,6 +28,12 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 	private val fragmentArgs: AddMileageFragmentArgs by navArgs()
 	private val addMileageVM: AddMileageViewModel by viewModels()
 
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+
+		setStyle(STYLE_NORMAL, R.style.MileageDialogStyle)
+	}
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentAddMileageBinding.inflate(inflater, container, false)
 		return gui.root

@@ -2,6 +2,7 @@ package com.macisdev.mileageapp
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,6 +62,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 		preferenceManager.findPreference<Preference>("contact_developer")?.setOnPreferenceClickListener {
 			contactDeveloper()
+			true
+		}
+
+		preferenceManager.findPreference<Preference>("privacy_policy")?.setOnPreferenceClickListener {
+			openPrivacy()
+			true
+		}
+
+		preferenceManager.findPreference<Preference>("terms_of_service")?.setOnPreferenceClickListener {
+			openTerms()
 			true
 		}
 
@@ -175,6 +186,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
 	}
 
 	private fun contactDeveloper() {
-		showToast("Not implemented yet!")
+		val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+			data = Uri.parse("mailto:${getString(R.string.contact_email)}" +
+					"?subject=${getString(R.string.app_name)} ${getString(R.string.app_version)}")
+			putExtra(Intent.EXTRA_SUBJECT, "${getString(R.string.app_name)} ${getString(R.string.app_version)}")
+			addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+		}
+		startActivity(Intent.createChooser(emailIntent, getString(R.string.contact_developer)))
 	}
+
+	private fun openTerms() =
+		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.terms_of_service_url))))
+
+	private fun openPrivacy() =
+		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_policy_url))))
 }

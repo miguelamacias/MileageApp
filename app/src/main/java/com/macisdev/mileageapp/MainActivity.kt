@@ -76,7 +76,8 @@ class MainActivity : AppCompatActivity() {
 					.createBlendModeColorFilterCompat(getColor(colorId), BlendModeCompat.SRC_ATOP)
 
 				vehiclesMenu
-					.add(R.id.vehicles_group, Menu.NONE, 0, vehicle.plateNumber)
+					.add(R.id.vehicles_group, Menu.NONE, 0,
+						"${vehicle.plateNumber} - ${vehicle.maker} ${vehicle.model}")
 					.setIcon(icon)
 					.setOnMenuItemClickListener {
 						val directions = HomeFragmentDirections.

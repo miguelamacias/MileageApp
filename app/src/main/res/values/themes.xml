@@ -24,4 +24,11 @@
     <style name="CMOptionsMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
         <item name="android:popupBackground">@color/primary_dark</item>
     </style>
+
+    <style name="MileageDialogStyle" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
 </resources>
