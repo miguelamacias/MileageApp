@@ -12,7 +12,7 @@ Android APP that uses:
 -One-activity-multiple-fragments approach  
 
 
-Availale in Google Play: https://play.google.com/store/apps/details?id=com.macisdev.mileageapp
+Available in Google Play: https://play.google.com/store/apps/details?id=com.macisdev.mileageapp
 
 <img src="https://github.com/miguelamacias/MileageApp/blob/master/home_fragment.png" alt="drawing" width="210"/> <img src="https://github.com/miguelamacias/MileageApp/blob/master/mileage_list.png" alt="drawing" width="210"/>
 <img src="https://github.com/miguelamacias/MileageApp/blob/master/add_mileage.png" alt="drawing" width="210"/> <img src="https://github.com/miguelamacias/MileageApp/blob/master/main_menu.png" alt="drawing" width="210"/>
