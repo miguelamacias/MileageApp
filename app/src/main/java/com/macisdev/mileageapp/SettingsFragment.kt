@@ -1,10 +1,13 @@
 package com.macisdev.mileageapp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -17,6 +20,21 @@ import java.net.URLConnection
 
 class SettingsFragment : PreferenceFragmentCompat() {
 	private lateinit var roomBackup: RoomBackup
+	private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+
+		resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+			val restartIntent = Intent(requireContext(), MainActivity::class.java)
+
+			restartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+			requireActivity().startActivity(restartIntent)
+			if (context is Activity) {
+				(context as Activity).finish()
+			}
+			Runtime.getRuntime().exit(0)
+		}
+	}
 
 	override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 		setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -144,16 +162,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 							showToast(R.string.backup_created)
 
-							view?.postDelayed(
-								{
-									restartApp(
-										Intent.createChooser(
-											intentShareBackup,
-											this@SettingsFragment.getString(R.string.save_backup)
-										)
-									)
-								}, 1000
-							)
+							resultLauncher.launch(Intent.createChooser(
+								intentShareBackup,
+								this@SettingsFragment.getString(R.string.save_backup)))
 						}
 					} else {
 						showToast(R.string.backup_error)

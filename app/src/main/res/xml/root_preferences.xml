@@ -6,12 +6,12 @@
         <Preference
                 app:key="create_local_backup"
                 app:title="@string/create_local_backup"
-                app:summary="@string/local_backup_summary"
+                app:summary="@string/backup_summary"
                 app:icon="@drawable/ic_folder_copy_24" />
         <Preference
                 app:key="create_external_backup"
                 app:title="@string/create_external_backup"
-                app:summary="@string/external_backup_summary"
+                app:summary="@string/backup_summary"
                 app:icon="@drawable/ic_backup_24" />
 
         <Preference

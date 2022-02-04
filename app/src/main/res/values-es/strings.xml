@@ -10,8 +10,8 @@
     <string name="mileage_unit">L/100 KMs</string>
     <string name="calculate_button">Calcular</string>
     <string name="save_button">Guardar</string>
-    <string name="litres_hint">Introduce los litros</string>
-    <string name="kilometers_hint">Introduce los kilómetros</string>
+    <string name="litres_hint">Introducir litros</string>
+    <string name="kilometers_hint">Introducir kilómetros</string>
     <string name="wrong_value">Valor erróneo</string>
     <string name="date_label">Fecha:</string>
     <string name="records_list">Registros:</string>
@@ -76,4 +76,21 @@
     <string name="no_routes_found">Ninguna ruta encontrada entre los puntos de origen y destino.</string>
     <string name="hours_minutes">%1$dh %2$d min</string>
     <string name="duration">Duración:</string>
+    <string name="settings">Ajustes</string>
+    <string name="tools">Herramientas</string>
+    <string name="backup">Copia de seguridad</string>
+    <string name="create_local_backup">Crear copia de seguridad local</string>
+    <string name="restore_local_backup">Restaurar copia de seguridad</string>
+    <string name="create_external_backup">Crear copia de seguridad externa</string>
+    <string name="backup_created">Copia de seguridad realizada con éxito</string>
+    <string name="backup_restored">Copia de restaurada con éxito</string>
+    <string name="external_backup_subject">Copia de seguridad de gasolTRAK</string>
+    <string name="external_backup_text">Archivo de copia de seguridad de gasolTRAK</string>
+    <string name="save_backup">Guardar copia…</string>
+    <string name="backup_summary">La aplicación se reiniciará tras la copia</string>
+    <string name="restore_backup_summary">"Restaurar copia de seguridad "</string>
+    <string name="contact">Contacto</string>
+    <string name="contact_developer">Contactar con el desarrollador</string>
+    <string name="contact_developer_summary">Informar de fallos y sugerencias</string>
+    <string name="backup_error">Ha ocurrido un error mientras se procesaba la copia. Por favor vuelva a intentarlo.</string>
 </resources>
