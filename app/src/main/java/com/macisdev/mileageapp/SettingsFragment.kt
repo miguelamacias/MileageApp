@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.macisdev.mileageapp.utils.showToast
 import de.raphaelebner.roomdatabasebackup.core.RoomBackup
 import java.io.File
 import java.net.URLConnection
+import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
 	private lateinit var roomBackup: RoomBackup
@@ -134,7 +136,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 	}
 
 	private fun createExternalBackup() {
-		val backupFile = File(requireContext().cacheDir, "private_backup.db")
+		val backupFileName = "backup_mileage_" + DateFormat.format(
+			DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyyyy"),
+			Date()
+		).toString().replace('/','.').plus(".db")
+
+		val backupFile = File(requireContext().cacheDir, backupFileName)
 
 		roomBackup
 			.database(MileageRepository.get().database)

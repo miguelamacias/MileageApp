@@ -2,6 +2,7 @@ package com.macisdev.mileageapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,6 @@ import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Statistics
 import com.macisdev.mileageapp.model.Vehicle
 import com.macisdev.mileageapp.viewModels.HomeFragmentViewModel
-import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeFragment : Fragment() {
@@ -61,8 +61,6 @@ class HomeFragment : Fragment() {
 		if (mileage != null) {
 			gui.lastMileageCardView.visibility = View.VISIBLE
 
-			val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-
 			homeFragmentVM.getVehicle(mileage.vehiclePlateNumber).observe(viewLifecycleOwner) {
 				vehicle ->
 				if (vehicle != null) {
@@ -77,7 +75,9 @@ class HomeFragment : Fragment() {
 				}
 			}
 
-			gui.dateTextView.text = dateFormat.format(mileage.date)
+			gui.dateTextView.text = DateFormat.format(
+				DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
+				mileage.date).toString()
 			gui.litresTextView.text = String.format(Locale.getDefault(), "%.2f L", mileage.litres)
 			gui.kilometresTextView.text = String.format(Locale.getDefault(), "%.2f KM", mileage.kilometres)
 			gui.notesTextView.text = mileage.notes
