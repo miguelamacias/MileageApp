@@ -79,7 +79,7 @@ class HomeFragment : Fragment() {
 				DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
 				mileage.date).toString()
 			gui.litresTextView.text = String.format(Locale.getDefault(), "%.2f L", mileage.litres)
-			gui.kilometresTextView.text = String.format(Locale.getDefault(), "%.2f KM", mileage.kilometres)
+			gui.kilometresTextView.text = String.format(Locale.getDefault(), "%.1f KM", mileage.kilometres)
 			gui.notesTextView.text = mileage.notes
 			gui.mileageDataTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.mileage)
 		} else {

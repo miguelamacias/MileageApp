@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="2dp">
 
         <ImageView
                 android:layout_width="100dp"
@@ -35,8 +36,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintStart_toStartOf="@+id/vehicle_icon_img_view"
                 app:layout_constraintEnd_toEndOf="@+id/vehicle_icon_img_view"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp" />
 
         <TextView
                 tools:text="Add new car"

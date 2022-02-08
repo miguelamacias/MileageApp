@@ -182,7 +182,7 @@ class MileageListFragment : Fragment() {
 				dateContentTextView.text = DateFormat.format(
 					DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
 					mileage.date).toString()
-				kilometresContentTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.kilometres)
+				kilometresContentTextView.text = String.format(Locale.getDefault(), "%.1f", mileage.kilometres)
 				litresContentTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.litres)
 				notesTextView.text = mileage.notes
 			}

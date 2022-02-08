@@ -72,7 +72,7 @@
                 android:id="@+id/date_label_text_view"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/vertical_separator"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 app:autoSizeTextType="uniform"
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/date_content_text_view"
                 app:layout_constraintStart_toEndOf="@+id/vertical_separator"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintTop_toBottomOf="@+id/date_label_text_view"
                 app:autoSizeTextType="uniform"
@@ -92,10 +92,10 @@
 
         <TextView
                 tools:text="Notes of the mileage..."
-                android:layout_width="235dp"
+                android:layout_width="243dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/notes_text_view"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@+id/vertical_separator"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintBaseline_toBaselineOf="@+id/units_label_text_view"
@@ -108,7 +108,7 @@
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintGuide_begin="236dp"
+                app:layout_constraintGuide_begin="227dp"
                 android:id="@+id/guideline2" />
 
         <TextView
