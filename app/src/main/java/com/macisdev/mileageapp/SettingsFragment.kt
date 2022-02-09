@@ -4,21 +4,19 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.FileProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.macisdev.mileageapp.database.MileageRepository
+import com.macisdev.mileageapp.utils.Utils
 import com.macisdev.mileageapp.utils.log
 import com.macisdev.mileageapp.utils.showToast
 import de.raphaelebner.roomdatabasebackup.core.RoomBackup
 import java.io.File
-import java.net.URLConnection
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -136,10 +134,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 	}
 
 	private fun createExternalBackup() {
-		val backupFileName = "backup_mileage_" + DateFormat.format(
-			DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyyyy"),
-			Date()
-		).toString().replace('/','.').plus(".db")
+		val backupFileName = "backup_mileage_" + Utils.formatDate(Date())
+			.replace('/', '.').plus(".db")
 
 		val backupFile = File(requireContext().cacheDir, backupFileName)
 
@@ -154,36 +150,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
 				onCompleteListener { success, message, exitCode ->
 					log("success: $success, message: $message, exitCode: $exitCode")
 					if (success) {
-						if (backupFile.exists()) {
-							val fileUri = FileProvider.getUriForFile(
-								requireContext().applicationContext,
-								"com.macisdev.mileageapp.fileprovider", backupFile
-							)
+						val shareBackupIntent = Utils.getShareFileIntent(
+							this@SettingsFragment.requireContext().applicationContext,
+							backupFile,
+							R.string.external_backup_subject,
+							R.string.external_backup_text,
+							R.string.save_backup
+						)
 
-							val intentShareBackup = Intent(Intent.ACTION_SEND).apply {
-								setDataAndType(
-									fileUri,
-									URLConnection.guessContentTypeFromName(backupFile.name)
-								)
+						shareBackupIntent.let { resultLauncher.launch(it) }
 
-								addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-								putExtra(Intent.EXTRA_STREAM, fileUri)
-								putExtra(
-									Intent.EXTRA_SUBJECT,
-									this@SettingsFragment.getString(R.string.external_backup_subject)
-								)
-								putExtra(
-									Intent.EXTRA_TEXT,
-									this@SettingsFragment.getString(R.string.external_backup_text)
-								)
-							}
+						showToast(R.string.backup_created)
 
-							showToast(R.string.backup_created)
-
-							resultLauncher.launch(Intent.createChooser(
-								intentShareBackup,
-								this@SettingsFragment.getString(R.string.save_backup)))
-						}
 					} else {
 						showToast(R.string.backup_error)
 					}
@@ -194,8 +172,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 	private fun contactDeveloper() {
 		val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-			data = Uri.parse("mailto:${getString(R.string.contact_email)}" +
-					"?subject=${getString(R.string.app_name)} ${getString(R.string.app_version)}")
+			data = Uri.parse(
+				"mailto:${getString(R.string.contact_email)}" +
+						"?subject=${getString(R.string.app_name)} ${getString(R.string.app_version)}"
+			)
 			putExtra(Intent.EXTRA_SUBJECT, "${getString(R.string.app_name)} ${getString(R.string.app_version)}")
 			addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 		}

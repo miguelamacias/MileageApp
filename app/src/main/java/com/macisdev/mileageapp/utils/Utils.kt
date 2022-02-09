@@ -4,14 +4,18 @@ package com.macisdev.mileageapp.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.macisdev.mileageapp.MainActivity
+import java.io.File
+import java.net.URLConnection
 import java.util.*
 
 fun SharedPreferences.Editor.putDouble(key: String, double: Double): SharedPreferences.Editor =
@@ -55,6 +59,42 @@ class Utils {
 			return DateFormat.format(
 				DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
 				date).toString()
+		}
+
+		fun getShareFileIntent(
+			context: Context,
+			file: File,
+			extraSubject: Int,
+			extraText: Int,
+			dialogText: Int): Intent? {
+
+			if (file.exists()) {
+				val fileUri = FileProvider.getUriForFile(
+					context.applicationContext,
+					"com.macisdev.mileageapp.fileprovider", file
+				)
+
+				val intentShareFile = Intent(Intent.ACTION_SEND).apply {
+					setDataAndType(
+						fileUri,
+						URLConnection.guessContentTypeFromName(file.name)
+					)
+
+					addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+					putExtra(Intent.EXTRA_STREAM, fileUri)
+					putExtra(
+						Intent.EXTRA_SUBJECT,
+						context.getString(extraSubject)
+					)
+					putExtra(
+						Intent.EXTRA_TEXT,
+						context.getString(extraText)
+					)
+				}
+
+				return Intent.createChooser(intentShareFile, context.getString(dialogText))
+			}
+			return null
 		}
 	}
 }

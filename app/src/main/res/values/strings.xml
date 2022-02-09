@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version" translatable="false">v1.2</string>
+    <string name="app_version" translatable="false">v1.3-alpha01</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -103,6 +103,12 @@
     <string name="legal">Legal</string>
     <string name="privacy_policy_url" translatable="false">http://macisdev.com/privacy.html</string>
     <string name="terms_of_service_url" translatable="false">http://macisdev.com/terms.html</string>
+
+    <!--v1.3 strings -->
+    <string name="export_csv">Export CSV file</string>
+    <string name="exported_csv_subject">Exported CSV</string>
+    <string name="exported_csv_text">Exported mileages in a CSV file</string>
+    <string name="save_csv">Save CSV file</string>
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

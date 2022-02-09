@@ -9,6 +9,12 @@
         app:showAsAction="ifRoom"/>
 
     <item
+            android:id="@+id/export_csv"
+            android:icon="@drawable/ic_import_export_24"
+            android:title="@string/export_csv"
+            app:showAsAction="never"/>
+
+    <item
             android:id="@+id/clear_mileages"
             android:icon="@drawable/ic_delete_sweep_24"
             android:title="@string/clear_mileages"

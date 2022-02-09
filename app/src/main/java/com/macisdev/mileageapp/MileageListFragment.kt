@@ -21,6 +21,8 @@ import com.macisdev.mileageapp.databinding.FragmentMileageListBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.utils.Utils
 import com.macisdev.mileageapp.viewModels.MileageListViewModel
+import java.io.File
+import java.io.FileWriter
 import java.util.*
 
 class MileageListFragment : Fragment() {
@@ -44,7 +46,7 @@ class MileageListFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		mileageListVM.mileageListLiveData.observe(viewLifecycleOwner) {updateMileages(it)}
+		mileageListVM.mileageListLiveData.observe(viewLifecycleOwner) { updateMileages(it) }
 
 		gui.mileagesRecyclerView.layoutManager = LinearLayoutManager(view.context)
 		val adapter = MileageAdapter()
@@ -80,8 +82,46 @@ class MileageListFragment : Fragment() {
 				deleteVehicleItemSelected()
 				true
 			}
+			R.id.export_csv -> {
+				mileageListVM.mileageListLiveData.observe(viewLifecycleOwner) { exportCsvFile(it) }
+				true
+			}
 			else -> super.onOptionsItemSelected(item)
 		}
+	}
+
+	private fun exportCsvFile(mileages: List<Mileage>) {
+		val csvContent = StringBuilder("id,plateNumber,date,kilometres,litres,mileage,notes\n")
+
+		mileages.forEach {
+			csvContent.append(
+						"${it.id}," +
+						"${it.vehiclePlateNumber}," +
+						"${Utils.formatDate(it.date)}," +
+						"${it.kilometres}," +
+						"${it.litres}," +
+						"${it.mileage}," +
+						"${it.notes}\n"
+			)
+		}
+		val exportedFile = File(requireContext().cacheDir,
+			"${mileageListVM.plateNumber}_exported_mileages.csv")
+		val fileWriter = FileWriter(exportedFile)
+		fileWriter.apply {
+			write(csvContent.toString())
+			flush()
+			close()
+		}
+
+		val shareFileIntent = Utils.getShareFileIntent(
+			requireContext(),
+			exportedFile,
+			R.string.exported_csv_subject,
+			R.string.exported_csv_text,
+			R.string.save_csv
+		)
+
+		startActivity(shareFileIntent)
 	}
 
 	private fun clearMileagesItemSelected() {
@@ -97,7 +137,7 @@ class MileageListFragment : Fragment() {
 					.setAction(R.string.undo) { mileageListVM.restoreClearedMileages() }
 					.show()
 			}
-			.setNegativeButton(R.string.cancel) {_, _ -> } //Nothing to do here
+			.setNegativeButton(R.string.cancel) { _, _ -> } //Nothing to do here
 			.show()
 	}
 
@@ -113,12 +153,12 @@ class MileageListFragment : Fragment() {
 
 				Snackbar
 					.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
-					.setAction(R.string.undo) { mileageListVM.restoreDeletedVehicle()}
+					.setAction(R.string.undo) { mileageListVM.restoreDeletedVehicle() }
 					.show()
 
 				findNavController().navigateUp()
 			}
-			.setNegativeButton(R.string.cancel) {_, _ -> } //Nothing to do here
+			.setNegativeButton(R.string.cancel) { _, _ -> } //Nothing to do here
 			.show()
 	}
 
