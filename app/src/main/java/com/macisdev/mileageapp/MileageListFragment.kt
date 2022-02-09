@@ -2,7 +2,6 @@ package com.macisdev.mileageapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.macisdev.mileageapp.databinding.FragmentMileageListBinding
 import com.macisdev.mileageapp.model.Mileage
+import com.macisdev.mileageapp.utils.Utils
 import com.macisdev.mileageapp.viewModels.MileageListViewModel
 import java.util.*
 
@@ -179,9 +179,7 @@ class MileageListFragment : Fragment() {
 				currentMileage = mileage
 
 				mileageContentTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.mileage)
-				dateContentTextView.text = DateFormat.format(
-					DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
-					mileage.date).toString()
+				dateContentTextView.text = Utils.formatDate(mileage.date)
 				kilometresContentTextView.text = String.format(Locale.getDefault(), "%.1f", mileage.kilometres)
 				litresContentTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.litres)
 				notesTextView.text = mileage.notes

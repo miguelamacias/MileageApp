@@ -2,7 +2,6 @@ package com.macisdev.mileageapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ import com.macisdev.mileageapp.databinding.FragmentHomeBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Statistics
 import com.macisdev.mileageapp.model.Vehicle
+import com.macisdev.mileageapp.utils.Utils
 import com.macisdev.mileageapp.viewModels.HomeFragmentViewModel
 import java.util.*
 
@@ -75,9 +75,7 @@ class HomeFragment : Fragment() {
 				}
 			}
 
-			gui.dateTextView.text = DateFormat.format(
-				DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
-				mileage.date).toString()
+			gui.dateTextView.text = Utils.formatDate(mileage.date)
 			gui.litresTextView.text = String.format(Locale.getDefault(), "%.2f L", mileage.litres)
 			gui.kilometresTextView.text = String.format(Locale.getDefault(), "%.1f KM", mileage.kilometres)
 			gui.notesTextView.text = mileage.notes

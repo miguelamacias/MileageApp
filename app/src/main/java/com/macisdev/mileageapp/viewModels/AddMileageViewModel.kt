@@ -1,9 +1,9 @@
 package com.macisdev.mileageapp.viewModels
 
-import android.text.format.DateFormat
 import androidx.lifecycle.ViewModel
 import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.model.Mileage
+import com.macisdev.mileageapp.utils.Utils
 import java.util.*
 
 class AddMileageViewModel : ViewModel() {
@@ -13,9 +13,7 @@ class AddMileageViewModel : ViewModel() {
 
 	var formatedDate: String = ""
 		get() {
-			return DateFormat.format(
-				DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
-			date).toString()
+			return Utils.formatDate(date)
 		}
 		private set
 
