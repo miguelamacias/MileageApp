@@ -1,6 +1,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="@string/gui">
+
+        <SwitchPreference
+                android:defaultValue="false"
+                android:title="@string/hide_add_vehicle"
+                android:key="hide_add_vehicle"
+                android:summary="@string/add_vehicle_when_empty" />
+    </PreferenceCategory>
     <PreferenceCategory app:title="@string/backup">
 
         <Preference

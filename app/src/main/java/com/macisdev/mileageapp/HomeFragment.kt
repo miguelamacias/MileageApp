@@ -1,6 +1,7 @@
 package com.macisdev.mileageapp
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -28,9 +30,11 @@ import java.util.*
 class HomeFragment : Fragment() {
 	private lateinit var gui: FragmentHomeBinding
 	private val homeFragmentVM: HomeFragmentViewModel by viewModels()
+	private lateinit var preferences: SharedPreferences
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		gui = FragmentHomeBinding.inflate(inflater, container, false)
+		preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 		return gui.root
 	}
 
@@ -91,10 +95,13 @@ class HomeFragment : Fragment() {
 		val addIconEntryName = resources.getResourceEntryName(R.drawable.ic_add_circle)
 		val addIconColor = resources.getResourceEntryName(R.color.add_icon_color)
 
-		val addVehicle = Vehicle(getString(R.string.add_vehicle), "", "", addIconEntryName, addIconColor)
-
 		val mutableVehicles = vehicles.toMutableList()
-		mutableVehicles.add(addVehicle)
+
+		if (!preferences.getBoolean(SettingsFragment.HIDE_ADD_VEHICLE, false)
+			|| vehicles.isEmpty()) {
+			val addVehicle = Vehicle(getString(R.string.add_vehicle), "", "", addIconEntryName, addIconColor)
+			mutableVehicles.add(addVehicle)
+		}
 
 		adapter.submitList(mutableVehicles)
 

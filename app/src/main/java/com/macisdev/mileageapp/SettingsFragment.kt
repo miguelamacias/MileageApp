@@ -20,6 +20,10 @@ import java.io.File
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
+	companion object {
+		const val HIDE_ADD_VEHICLE = "hide_add_vehicle"
+	}
+
 	private lateinit var roomBackup: RoomBackup
 	private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 	override fun onCreate(savedInstanceState: Bundle?) {
