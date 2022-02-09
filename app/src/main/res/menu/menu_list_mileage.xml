@@ -10,7 +10,7 @@
 
     <item
             android:id="@+id/export_csv"
-            android:icon="@drawable/ic_import_export_24"
+            android:icon="@drawable/ic_export_csv_24"
             android:title="@string/export_csv"
             app:showAsAction="never"/>
 

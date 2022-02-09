@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -47,33 +48,41 @@ class HomeFragment : Fragment() {
 		}
 
 		homeFragmentVM.vehiclesList.observe(viewLifecycleOwner) { updateVehicles(it) }
-		homeFragmentVM.getStatistics().observe(viewLifecycleOwner) {updateStatistics(it) }
-		homeFragmentVM.getLastMileage().observe(viewLifecycleOwner) {updateLastMileage(it)}
+		homeFragmentVM.getStatistics().observe(viewLifecycleOwner) { updateStatistics(it) }
+		homeFragmentVM.getLastMileage().observe(viewLifecycleOwner) { updateLastMileage(it) }
 	}
 
 	private fun updateStatistics(stats: Statistics) {
 		gui.recordsTv.text = stats.totalRecords.toString()
-		gui.avgTv.text = String.format(Locale.getDefault(),
-			"%.2f %s", stats.averageMileage, getString(R.string.mileage_unit))
-		gui.litresTv.text = String.format(Locale.getDefault(),
-			"%,.0f %s", stats.totalLitres, getString(R.string.litres_l))
-		gui.kilometresTv.text = String.format(Locale.getDefault(),
-			"%,.0f %s", stats.totalKilometres, getString(R.string.kilometres_km))
+		gui.avgTv.text = String.format(
+			Locale.getDefault(),
+			"%.2f %s", stats.averageMileage, getString(R.string.mileage_unit)
+		)
+		gui.litresTv.text = String.format(
+			Locale.getDefault(),
+			"%,.0f %s", stats.totalLitres, getString(R.string.litres_l)
+		)
+		gui.kilometresTv.text = String.format(
+			Locale.getDefault(),
+			"%,.0f %s", stats.totalKilometres, getString(R.string.kilometres_km)
+		)
 	}
 
 	private fun updateLastMileage(mileage: Mileage?) {
 		if (mileage != null) {
 			gui.lastMileageCardView.visibility = View.VISIBLE
 
-			homeFragmentVM.getVehicle(mileage.vehiclePlateNumber).observe(viewLifecycleOwner) {
-				vehicle ->
+			homeFragmentVM.getVehicle(mileage.vehiclePlateNumber).observe(viewLifecycleOwner) { vehicle ->
 				if (vehicle != null) {
-					gui.vehicleInfoTextView.text = String.format(Locale.getDefault(), "%s %s - %s",
-						vehicle.maker, vehicle.model, vehicle.plateNumber)
+					gui.vehicleInfoTextView.text = String.format(
+						Locale.getDefault(), "%s %s - %s",
+						vehicle.maker, vehicle.model, vehicle.plateNumber
+					)
 
 					gui.lastMileageCardView.setOnClickListener {
 						val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment(
-							vehicle.plateNumber, vehicle.maker, vehicle.model)
+							vehicle.plateNumber, vehicle.maker, vehicle.model
+						)
 						findNavController().navigate(directions)
 					}
 				}
@@ -98,7 +107,8 @@ class HomeFragment : Fragment() {
 		val mutableVehicles = vehicles.toMutableList()
 
 		if (!preferences.getBoolean(SettingsFragment.HIDE_ADD_VEHICLE, false)
-			|| vehicles.isEmpty()) {
+			|| vehicles.isEmpty()
+		) {
 			val addVehicle = Vehicle(getString(R.string.add_vehicle), "", "", addIconEntryName, addIconColor)
 			mutableVehicles.add(addVehicle)
 		}
@@ -132,17 +142,26 @@ class HomeFragment : Fragment() {
 							when (it.itemId) {
 								R.id.edit_vehicle -> {
 									val directions = HomeFragmentDirections.actionHomeFragmentToAddVehicleFragment(
-										true, currentVehicle.plateNumber)
+										true, currentVehicle.plateNumber
+									)
 									findNavController().navigate(directions)
 									true
 								}
 
 								R.id.delete_vehicle -> {
-									homeFragmentVM.deleteVehicle(currentVehicle, vehicleMileages)
-									Snackbar
-										.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
-										.setAction(R.string.undo) { homeFragmentVM.restoreDeletedVehicle() }
+									AlertDialog.Builder(requireContext())
+										.setTitle(R.string.delete_vehicle)
+										.setMessage(R.string.action_cannot_be_undone)
+										.setPositiveButton(R.string.accept) { _, _ ->
+											homeFragmentVM.deleteVehicle(currentVehicle, vehicleMileages)
+											Snackbar
+												.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
+												.setAction(R.string.undo) { homeFragmentVM.restoreDeletedVehicle() }
+												.show()
+										}
+										.setNegativeButton(R.string.cancel) { _, _ -> } //Nothing to do here
 										.show()
+
 									true
 								}
 								else -> false
