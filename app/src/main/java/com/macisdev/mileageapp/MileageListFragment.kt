@@ -1,10 +1,14 @@
 package com.macisdev.mileageapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
@@ -20,9 +24,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.macisdev.mileageapp.databinding.FragmentMileageListBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.utils.Utils
+import com.macisdev.mileageapp.utils.showToast
 import com.macisdev.mileageapp.viewModels.MileageListViewModel
 import java.io.File
 import java.io.FileWriter
+import java.io.InputStream
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MileageListFragment : Fragment() {
@@ -32,10 +39,18 @@ class MileageListFragment : Fragment() {
 	private val mileageListVM: MileageListViewModel by viewModels {
 		MileageListViewModel.Factory(fragmentArgs.vehiclePlateNumber)
 	}
+	private lateinit var importCsvLauncher: ActivityResultLauncher<Intent>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setHasOptionsMenu(true)
+		importCsvLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+			//Import CSV here!
+			result?.data?.data?.let { uri ->
+				val inputStream = requireContext().contentResolver.openInputStream(uri)
+				showToast(importCsvMileages(readCSV(inputStream!!)).toString())
+			}
+		}
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -83,11 +98,64 @@ class MileageListFragment : Fragment() {
 				true
 			}
 			R.id.export_csv -> {
-				mileageListVM.mileageListLiveData.observe(viewLifecycleOwner) { exportCsvFile(it) }
+				exportCsvFile(mileageListVM.mileageListLiveData.value ?: emptyList())
+				true
+			}
+			R.id.import_csv -> {
+				openCsvFile()
 				true
 			}
 			else -> super.onOptionsItemSelected(item)
 		}
+	}
+
+	private fun openCsvFile() {
+		var chooseFile = Intent(Intent.ACTION_GET_CONTENT).apply {
+			type = "text/*"
+		}
+
+		chooseFile = Intent(Intent.createChooser(chooseFile, "Choose a file!"))
+		importCsvLauncher.launch(chooseFile)
+	}
+
+	private fun readCSV(csvFile: InputStream): MutableList<Mileage> {
+		val dateFormatter = SimpleDateFormat(
+			DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
+			Locale.getDefault())
+		val scanner = Scanner(csvFile)
+		val parsedMileages = mutableListOf<Mileage>()
+
+		var line = scanner.nextLine() //discards the header
+
+		while (scanner.hasNextLine()) {
+			line = scanner.nextLine()
+			val id = UUID.fromString(line.substringBefore(','))
+			line = line.substringAfter(',')
+			val plateNumber = line.substringBefore(',')
+			line = line.substringAfter(',')
+			val date = dateFormatter.parse(line.substringBefore(','))
+			line = line.substringAfter(',')
+			val km = line.substringBefore(',').toDouble()
+			line = line.substringAfter(',')
+			val l = line.substringBefore(',').toDouble()
+			line = line.substringAfter(',')
+			val mileageValue = line.substringBefore(',').toDouble()
+			val notes = line.substringAfter(',')
+
+			println("$id -> $plateNumber -> $date -> $km -> $l -> $mileageValue -> $notes")
+
+			parsedMileages.add(Mileage(plateNumber, date ?: Date(), mileageValue, km, l, notes, id))
+
+		}
+
+		return parsedMileages
+	}
+
+	private fun importCsvMileages(csvMileages: List<Mileage>): Boolean {
+		csvMileages.forEach {
+			mileageListVM.storeMileage(it)
+		}
+		return true
 	}
 
 	private fun exportCsvFile(mileages: List<Mileage>) {

@@ -48,6 +48,10 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 		restoreClearedMileages()
 	}
 
+	fun storeMileage(mileage: Mileage) {
+		mileageRepository.storeMileage(mileage)
+	}
+
 	@Suppress("UNCHECKED_CAST")
 	class Factory(private val plateNumber : String) : ViewModelProvider.Factory {
 		override fun <T : ViewModel> create(modelClass: Class<T>): T {

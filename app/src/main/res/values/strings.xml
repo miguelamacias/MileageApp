@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version" translatable="false">v1.3-alpha03</string>
+    <string name="app_version" translatable="false">v1.3-alpha04</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -112,6 +112,7 @@
     <string name="hide_add_vehicle">Hide \'Add vehicle\' button in Home Screen</string>
     <string name="gui">User interface</string>
     <string name="add_vehicle_when_empty">The button is always shown when no vehicle has been added</string>
+    <string name="import_csv">Import CSV file</string>
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>
