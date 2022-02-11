@@ -44,11 +44,12 @@ class MileageListFragment : Fragment() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setHasOptionsMenu(true)
+
 		importCsvLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 			//Import CSV here!
 			result?.data?.data?.let { uri ->
 				val inputStream = requireContext().contentResolver.openInputStream(uri)
-				showToast(importCsvMileages(readCSV(inputStream!!)).toString())
+				importCsvContent(inputStream)
 			}
 		}
 	}
@@ -112,50 +113,59 @@ class MileageListFragment : Fragment() {
 	private fun openCsvFile() {
 		var chooseFile = Intent(Intent.ACTION_GET_CONTENT).apply {
 			type = "text/*"
+			addCategory(Intent.CATEGORY_OPENABLE)
 		}
 
 		chooseFile = Intent(Intent.createChooser(chooseFile, "Choose a file!"))
 		importCsvLauncher.launch(chooseFile)
 	}
 
-	private fun readCSV(csvFile: InputStream): MutableList<Mileage> {
+	private fun importCsvContent(csvFile: InputStream?) {
 		val dateFormatter = SimpleDateFormat(
 			DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
-			Locale.getDefault())
+			Locale.getDefault()
+		)
 		val scanner = Scanner(csvFile)
 		val parsedMileages = mutableListOf<Mileage>()
 
-		var line = scanner.nextLine() //discards the header
 
-		while (scanner.hasNextLine()) {
-			line = scanner.nextLine()
-			val id = UUID.fromString(line.substringBefore(','))
-			line = line.substringAfter(',')
-			val plateNumber = line.substringBefore(',')
-			line = line.substringAfter(',')
-			val date = dateFormatter.parse(line.substringBefore(','))
-			line = line.substringAfter(',')
-			val km = line.substringBefore(',').toDouble()
-			line = line.substringAfter(',')
-			val l = line.substringBefore(',').toDouble()
-			line = line.substringAfter(',')
-			val mileageValue = line.substringBefore(',').toDouble()
-			val notes = line.substringAfter(',')
+		try {
+			var line = scanner.nextLine() //discards the header
 
-			println("$id -> $plateNumber -> $date -> $km -> $l -> $mileageValue -> $notes")
+			while (scanner.hasNextLine()) {
+				line = scanner.nextLine()
+				val id = UUID.randomUUID()
 
-			parsedMileages.add(Mileage(plateNumber, date ?: Date(), mileageValue, km, l, notes, id))
+				line = line.substringAfter(',')
+				val plateNumber = line.substringBefore(',')
+				line = line.substringAfter(',')
+				val date = dateFormatter.parse(line.substringBefore(','))
+				line = line.substringAfter(',')
+				val km = line.substringBefore(',').toDouble()
+				line = line.substringAfter(',')
+				val l = line.substringBefore(',').toDouble()
+				line = line.substringAfter(',')
+				val mileageValue = line.substringBefore(',').toDouble()
+				val notes = line.substringAfter(',')
 
+
+				parsedMileages.add(Mileage(plateNumber, date ?: Date(), mileageValue, km, l, notes, id))
+			}
+
+			val correspondingMileages = parsedMileages.filter { it.vehiclePlateNumber == mileageListVM.plateNumber }
+
+			if (correspondingMileages.size == parsedMileages.size) {
+				correspondingMileages.forEach {
+					mileageListVM.storeMileage(it)
+				}
+				Snackbar.make(gui.coordinatorLayout, R.string.csv_imported_successfully, Snackbar.LENGTH_LONG).show()
+			} else {
+				Snackbar.make(gui.coordinatorLayout, R.string.wrong_plate_number, Snackbar.LENGTH_LONG).show()
+			}
+		} catch (e: Exception) {
+			e.printStackTrace()
+			Snackbar.make(gui.coordinatorLayout, R.string.wrong_csv_format, Snackbar.LENGTH_LONG).show()
 		}
-
-		return parsedMileages
-	}
-
-	private fun importCsvMileages(csvMileages: List<Mileage>): Boolean {
-		csvMileages.forEach {
-			mileageListVM.storeMileage(it)
-		}
-		return true
 	}
 
 	private fun exportCsvFile(mileages: List<Mileage>) {
@@ -163,7 +173,7 @@ class MileageListFragment : Fragment() {
 
 		mileages.forEach {
 			csvContent.append(
-						"${it.id}," +
+				"${it.id}," +
 						"${it.vehiclePlateNumber}," +
 						"${Utils.formatDate(it.date)}," +
 						"${it.kilometres}," +
@@ -172,8 +182,10 @@ class MileageListFragment : Fragment() {
 						"${it.notes}\n"
 			)
 		}
-		val exportedFile = File(requireContext().cacheDir,
-			"${mileageListVM.plateNumber}_exported_mileages.csv")
+		val exportedFile = File(
+			requireContext().cacheDir,
+			"${mileageListVM.plateNumber}_exported_mileages.csv"
+		)
 		val fileWriter = FileWriter(exportedFile)
 		fileWriter.apply {
 			write(csvContent.toString())
@@ -190,6 +202,7 @@ class MileageListFragment : Fragment() {
 		)
 
 		startActivity(shareFileIntent)
+		showToast(R.string.csv_exported_successfully)
 	}
 
 	private fun clearMileagesItemSelected() {

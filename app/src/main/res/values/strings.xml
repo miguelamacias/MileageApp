@@ -109,10 +109,14 @@
     <string name="exported_csv_subject">Exported CSV</string>
     <string name="exported_csv_text">Exported mileages in a CSV file</string>
     <string name="save_csv">Save CSV file</string>
+    <string name="csv_exported_successfully">CSV file exported successfully!</string>
+    <string name="csv_imported_successfully">CSV file imported successfully!</string>
     <string name="hide_add_vehicle">Hide \'Add vehicle\' button in Home Screen</string>
     <string name="gui">User interface</string>
     <string name="add_vehicle_when_empty">The button is always shown when no vehicle has been added</string>
     <string name="import_csv">Import CSV file</string>
+    <string name="wrong_plate_number">Error: only mileages belonging to this vehicle can be imported</string>
+    <string name="wrong_csv_format">Error: Invalid CSV format. It cannot be imported.</string>
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

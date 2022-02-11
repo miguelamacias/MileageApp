@@ -21,12 +21,13 @@ const val API_STATUS_OK = "OK"
 const val API_STATUS_ZERO_RESULTS = "ZERO_RESULTS"
 const val TRIP_DISTANCE_ZERO_RESULTS_ERROR = -1.0
 
-class MileageRepository private constructor(context: Context) {
+class MileageRepository private constructor(val context: Context) {
 
 	val database: MileagesDataBase = Room.databaseBuilder(
 		context.applicationContext,
 		MileagesDataBase::class.java,
-		DATABASE_NAME)
+		DATABASE_NAME
+	)
 		.build()
 
 	private val mileageDao = database.mileageDao()
@@ -47,19 +48,19 @@ class MileageRepository private constructor(context: Context) {
 	fun getVehicle(plateNumber: String) = mileageDao.getVehicle(plateNumber)
 
 	fun updateVehicle(vehicle: Vehicle) {
-		executor.execute { mileageDao.updateVehicle(vehicle)}
+		executor.execute { mileageDao.updateVehicle(vehicle) }
 	}
 
 	fun deleteVehicle(plateNumber: String) {
-		executor.execute { mileageDao.deleteVehicle(plateNumber)}
+		executor.execute { mileageDao.deleteVehicle(plateNumber) }
 	}
 
 	fun clearMileages(vehiclePlateNumber: String) {
-		executor.execute {mileageDao.clearMileages(vehiclePlateNumber)}
+		executor.execute { mileageDao.clearMileages(vehiclePlateNumber) }
 	}
 
 	fun deleteMileage(mileageId: UUID?) {
-		executor.execute {mileageDao.deleteMileage(mileageId.toString())}
+		executor.execute { mileageDao.deleteMileage(mileageId.toString()) }
 	}
 
 	fun getStatistics() = mileageDao.getStatistics()
@@ -91,7 +92,7 @@ class MileageRepository private constructor(context: Context) {
 				val responseBody = response.body()
 				val apiStatus = responseBody?.status
 				val routeStatus =
-					if(apiStatus == API_STATUS_OK) responseBody.rows.first().elements.first().status else ""
+					if (apiStatus == API_STATUS_OK) responseBody.rows.first().elements.first().status else ""
 
 				if (apiStatus == API_STATUS_OK && routeStatus == API_STATUS_OK) {
 					val tripDistance = responseBody
