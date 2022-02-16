@@ -159,7 +159,7 @@ class HomeFragment : Fragment() {
 												.setAction(R.string.undo) { homeFragmentVM.restoreDeletedVehicle() }
 												.show()
 										}
-										.setNegativeButton(R.string.cancel) { _, _ -> } //Nothing to do here
+										.setNegativeButton(R.string.cancel, null)
 										.show()
 
 									true

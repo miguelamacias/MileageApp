@@ -3,7 +3,6 @@ package com.macisdev.mileageapp
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
@@ -24,12 +23,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.macisdev.mileageapp.databinding.FragmentMileageListBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.utils.Utils
+import com.macisdev.mileageapp.utils.setContentPadded
 import com.macisdev.mileageapp.utils.showToast
 import com.macisdev.mileageapp.viewModels.MileageListViewModel
 import java.io.File
 import java.io.FileWriter
-import java.io.InputStream
-import java.text.SimpleDateFormat
 import java.util.*
 
 class MileageListFragment : Fragment() {
@@ -46,10 +44,9 @@ class MileageListFragment : Fragment() {
 		setHasOptionsMenu(true)
 
 		importCsvLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-			//Import CSV here!
 			result?.data?.data?.let { uri ->
 				val inputStream = requireContext().contentResolver.openInputStream(uri)
-				importCsvContent(inputStream)
+				showImportedCsvResults(mileageListVM.importCsvContent(inputStream))
 			}
 		}
 	}
@@ -120,60 +117,39 @@ class MileageListFragment : Fragment() {
 		importCsvLauncher.launch(chooseFile)
 	}
 
-	private fun importCsvContent(csvFile: InputStream?) {
-		val dateFormatter = SimpleDateFormat(
-			DateFormat.getBestDateTimePattern(Locale.getDefault(), "ddMMyy"),
-			Locale.getDefault()
-		)
-		val scanner = Scanner(csvFile)
-		val parsedMileages = mutableListOf<Mileage>()
-
-
-		try {
-			var line = scanner.nextLine() //discards the header
-
-			while (scanner.hasNextLine()) {
-				line = scanner.nextLine()
-				val id = UUID.randomUUID()
-
-				line = line.substringAfter(',')
-				val plateNumber = line.substringBefore(',')
-				line = line.substringAfter(',')
-				val date = dateFormatter.parse(line.substringBefore(','))
-				line = line.substringAfter(',')
-				val km = line.substringBefore(',').toDouble()
-				line = line.substringAfter(',')
-				val l = line.substringBefore(',').toDouble()
-				line = line.substringAfter(',')
-				val mileageValue = line.substringBefore(',').toDouble()
-				val notes = line.substringAfter(',')
-
-
-				parsedMileages.add(Mileage(plateNumber, date ?: Date(), mileageValue, km, l, notes, id))
-			}
-
-			val correspondingMileages = parsedMileages.filter { it.vehiclePlateNumber == mileageListVM.plateNumber }
-
-			if (correspondingMileages.size == parsedMileages.size) {
-				correspondingMileages.forEach {
-					mileageListVM.storeMileage(it)
-				}
+	private fun showImportedCsvResults(result: Int) {
+		when (result) {
+			0 -> {
 				Snackbar.make(gui.coordinatorLayout, R.string.csv_imported_successfully, Snackbar.LENGTH_LONG).show()
-			} else {
-				Snackbar.make(gui.coordinatorLayout, R.string.wrong_plate_number, Snackbar.LENGTH_LONG).show()
 			}
-		} catch (e: Exception) {
-			e.printStackTrace()
-			Snackbar.make(gui.coordinatorLayout, R.string.wrong_csv_format, Snackbar.LENGTH_LONG).show()
+			-1 -> {
+				Snackbar.make(gui.coordinatorLayout, R.string.csv_not_imported, Snackbar.LENGTH_LONG).show()
+			}
+			else -> {
+				val snackbarText = getString(R.string.csv_imported_with_fails, result)
+				Snackbar
+					.make(gui.coordinatorLayout, snackbarText, Snackbar.LENGTH_LONG)
+					.setAction(R.string.show_unimported_lines) {
+						val dialogView = View.inflate(requireContext(), R.layout.dialog_unimported_csv_lines, null)
+						val dialog = AlertDialog.Builder(requireContext())
+							.setTitle(R.string.unimported_lines)
+							.setContentPadded(dialogView)
+							.setNegativeButton(R.string.close, null)
+							.show()
+
+						val dialogContent = dialog.findViewById<TextView>(R.id.unimported_lines_content)
+						dialogContent?.text = mileageListVM.getUnimportedLines()
+					}
+					.show()
+			}
 		}
 	}
 
 	private fun exportCsvFile(mileages: List<Mileage>) {
-		val csvContent = StringBuilder("id,plateNumber,date,kilometres,litres,mileage,notes\n")
+		val csvContent = StringBuilder("plateNumber,date,kilometres,litres,mileage,notes\n")
 
 		mileages.forEach {
 			csvContent.append(
-				"${it.id}," +
 						"${it.vehiclePlateNumber}," +
 						"${Utils.formatDate(it.date)}," +
 						"${it.kilometres}," +
@@ -218,7 +194,7 @@ class MileageListFragment : Fragment() {
 					.setAction(R.string.undo) { mileageListVM.restoreClearedMileages() }
 					.show()
 			}
-			.setNegativeButton(R.string.cancel) { _, _ -> } //Nothing to do here
+			.setNegativeButton(R.string.cancel, null)
 			.show()
 	}
 
@@ -239,7 +215,7 @@ class MileageListFragment : Fragment() {
 
 				findNavController().navigateUp()
 			}
-			.setNegativeButton(R.string.cancel) { _, _ -> } //Nothing to do here
+			.setNegativeButton(R.string.cancel, null)
 			.show()
 	}
 

@@ -6,11 +6,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Resources
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.macisdev.mileageapp.MainActivity
@@ -51,6 +54,31 @@ fun Fragment.log(message: String) {
 
 fun Activity.log(message: String) {
 	Log.d(MainActivity.TAG, message)
+}
+
+val Float.toPx: Int
+	get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+fun AlertDialog.Builder.setContentPadded(view: View): AlertDialog.Builder {
+	val container = FrameLayout(context)
+	container.addView(view)
+	val containerParams = FrameLayout.LayoutParams(
+		FrameLayout.LayoutParams.WRAP_CONTENT,
+		FrameLayout.LayoutParams.WRAP_CONTENT
+	)
+	val marginHorizontal = 48F
+	val marginTop = 16F
+	containerParams.topMargin = (marginTop / 2).toPx
+	containerParams.leftMargin = marginHorizontal.toInt()
+	containerParams.rightMargin = marginHorizontal.toInt()
+	container.layoutParams = containerParams
+
+	val superContainer = FrameLayout(context)
+	superContainer.addView(container)
+
+	setView(superContainer)
+
+	return this
 }
 
 class Utils {
