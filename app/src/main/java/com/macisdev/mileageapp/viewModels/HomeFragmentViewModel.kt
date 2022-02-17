@@ -2,9 +2,11 @@ package com.macisdev.mileageapp.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
+import kotlinx.coroutines.launch
 
 class HomeFragmentViewModel : ViewModel() {
 	private val mileageRepository = MileageRepository.get()
@@ -33,7 +35,7 @@ class HomeFragmentViewModel : ViewModel() {
 	}
 
 	fun restoreDeletedVehicle() {
-		deletedVehicle?.let { mileageRepository.addVehicle(it) }
+		deletedVehicle?.let { viewModelScope.launch { mileageRepository.addVehicle(it) } }
 		restoreClearedMileages()
 	}
 }

@@ -162,7 +162,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 							R.string.save_backup
 						)
 
-						shareBackupIntent.let { resultLauncher.launch(it) }
+						shareBackupIntent?.let { resultLauncher.launch(it) }
 
 						showToast(R.string.backup_created)
 

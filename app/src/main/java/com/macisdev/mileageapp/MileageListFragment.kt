@@ -146,6 +146,11 @@ class MileageListFragment : Fragment() {
 	}
 
 	private fun exportCsvFile(mileages: List<Mileage>) {
+		if (mileages.isEmpty()) {
+			showToast(R.string.csv_empty)
+			return
+		}
+
 		val csvContent = StringBuilder("plateNumber,date,kilometres,litres,mileage,notes\n")
 
 		mileages.forEach {
@@ -225,7 +230,6 @@ class MileageListFragment : Fragment() {
 		gui.recordsCountTextView.text = mileages.size.toString()
 		gui.averageMileageTextView.text = calculateAverageMileage(mileages)
 
-
 		if (mileages.isEmpty()) {
 			gui.noMileagesTextView.visibility = View.VISIBLE
 		} else {
@@ -235,6 +239,7 @@ class MileageListFragment : Fragment() {
 
 	private fun calculateAverageMileage(mileages: List<Mileage>) = String.format(Locale.getDefault(), "%.2f",
 		mileages.sumOf { it.mileage } / mileages.size)
+
 
 
 	private inner class MileageAdapter : ListAdapter<Mileage, MileageAdapter.MileageViewHolder>(MileageDiffCallback) {

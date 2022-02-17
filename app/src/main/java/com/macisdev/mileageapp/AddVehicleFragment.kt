@@ -135,14 +135,19 @@ class AddVehicleFragment : DialogFragment() {
 
 		if (!emptyField) {
 			val vehicle = Vehicle(plateNumber, maker, model, icon, color)
-
 			addVehicleVM.storeVehicle(vehicle)
 
-			parentFragment?.view?.let { parentView ->
-				Snackbar.make(parentView, R.string.vehicle_added, Snackbar.LENGTH_LONG).show()
-			}
+			addVehicleVM.lastPlateNumberInserted.observe(viewLifecycleOwner) {
+				if (it.isNotEmpty()) {
+					parentFragment?.view?.let { parentView ->
+						Snackbar.make(parentView, R.string.vehicle_added, Snackbar.LENGTH_LONG).show()
+					}
 
-			findNavController().navigateUp()
+					findNavController().navigateUp()
+				} else {
+					gui.plateEditText.error = getString(R.string.duplicate_plate_number)
+				}
+			}
 		}
 	}
 

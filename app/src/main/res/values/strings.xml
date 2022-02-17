@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version" translatable="false">v1.3-beta01</string>
+    <string name="app_version" translatable="false">v1.3-beta02</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -111,6 +111,7 @@
     <string name="save_csv">Save CSV file</string>
     <string name="csv_exported_successfully">CSV file exported successfully!</string>
     <string name="csv_imported_successfully">CSV file imported successfully!</string>
+    <string name="csv_empty">There are no mileages to export!</string>
     <string name="hide_add_vehicle">Hide \'Add vehicle\' button in Home Screen</string>
     <string name="gui">User interface</string>
     <string name="add_vehicle_when_empty">The button is always shown when no vehicle has been added</string>
@@ -120,6 +121,7 @@
     <string name="show_unimported_lines">Show unimported lines</string>
     <string name="unimported_lines">Unimported lines</string>
     <string name="close">Close</string>
+    <string name="duplicate_plate_number">Error: plate number already exists</string>
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

@@ -41,9 +41,7 @@ class MileageRepository private constructor(val context: Context) {
 		executor.execute { mileageDao.addMileage(mileage) }
 	}
 
-	fun addVehicle(vehicle: Vehicle) {
-		executor.execute { mileageDao.addVehicle(vehicle) }
-	}
+	suspend fun addVehicle(vehicle: Vehicle) = mileageDao.addVehicle(vehicle)
 
 	fun getVehicle(plateNumber: String) = mileageDao.getVehicle(plateNumber)
 
