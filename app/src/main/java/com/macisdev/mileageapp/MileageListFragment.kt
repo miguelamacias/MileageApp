@@ -126,7 +126,7 @@ class MileageListFragment : Fragment() {
 				Snackbar.make(gui.coordinatorLayout, R.string.csv_not_imported, Snackbar.LENGTH_LONG).show()
 			}
 			else -> {
-				val snackbarText = getString(R.string.csv_imported_with_fails, result)
+				val snackbarText = resources.getQuantityString(R.plurals.csv_imported_with_fails, result, result)
 				Snackbar
 					.make(gui.coordinatorLayout, snackbarText, Snackbar.LENGTH_LONG)
 					.setAction(R.string.show_unimported_lines) {

@@ -97,4 +97,24 @@
     <string name="privacy_policy">Política de privacidad</string>
     <string name="terms_of_service">Términos del servicio</string>
     <string name="legal">Legal</string>
+    <string name="export_csv">Exportar archivo CSV</string>
+    <string name="exported_csv_subject">CSV exportado</string>
+    <string name="exported_csv_text">Consumos exportados en CSV</string>
+    <string name="save_csv">Guardar archivo CSV</string>
+    <string name="csv_exported_successfully">Archivo CSV exportado correctamente</string>
+    <string name="csv_imported_successfully">Archivo CSV importado correctamente</string>
+    <string name="csv_empty">No hay consumos para exportar</string>
+    <string name="hide_add_vehicle">Ocultar el botón \'Añadir vehículo\' de la pantalla de inicio</string>
+    <string name="gui">Interfaz de usuario</string>
+    <string name="add_vehicle_when_empty">El botón siempre se muestra cuando no hay ningún vehículo</string>
+    <string name="import_csv">Importar archivo CSV</string>
+    <string name="csv_not_imported">Error al importar el archivo CSV. No se han encontrado registros válidos</string>
+    <string name="show_unimported_lines">Ver líneas no importadas</string>
+    <string name="unimported_lines">Líneas no importadas</string>
+    <string name="close">Cerrar</string>
+    <string name="duplicate_plate_number">Error: esta matrícula ya existe.</string>
+    <plurals name="csv_imported_with_fails">
+        <item quantity="one">Archivo CSV importado con errores: %d registro no ha sido importado</item>
+        <item quantity="other">Archivo CSV importado con errores: %d registros no han sido importados</item>
+    </plurals>
 </resources>

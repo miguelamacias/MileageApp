@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version" translatable="false">v1.3-beta02</string>
+    <string name="app_version" translatable="false">v1.3</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -116,12 +116,15 @@
     <string name="gui">User interface</string>
     <string name="add_vehicle_when_empty">The button is always shown when no vehicle has been added</string>
     <string name="import_csv">Import CSV file</string>
-    <string name="csv_imported_with_fails">CSV file imported with fails. %1$d record(s) couldn\'t be imported</string>
     <string name="csv_not_imported">Failed to import CSV file. No valid records were found</string>
     <string name="show_unimported_lines">Show unimported lines</string>
     <string name="unimported_lines">Unimported lines</string>
     <string name="close">Close</string>
     <string name="duplicate_plate_number">Error: plate number already exists</string>
+    <plurals name="csv_imported_with_fails">
+        <item quantity="one">CSV file imported with fails. %d record couldn\'t be imported</item>
+        <item quantity="other">CSV file imported with fails. %d records couldn\'t be imported</item>
+    </plurals>
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

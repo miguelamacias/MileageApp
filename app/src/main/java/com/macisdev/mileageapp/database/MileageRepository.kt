@@ -1,5 +1,6 @@
 package com.macisdev.mileageapp.database
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -122,6 +123,7 @@ class MileageRepository private constructor(val context: Context) {
 	}
 
 	companion object {
+		@SuppressLint("StaticFieldLeak")
 		private var INSTANCE: MileageRepository? = null
 
 		fun initialize(context: Context) {
