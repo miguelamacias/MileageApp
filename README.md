@@ -21,6 +21,6 @@ Available in Google Play: https://play.google.com/store/apps/details?id=com.maci
 
 New functions to be added in next versions:   
 -~~Trip cost calculator using Google Maps API~~ Implemented in v1.1  
--DB backup  
--Export data in CSV  
+-~~DB backup~~ Implemented in v1.2  
+-~~Export data in CSV~~ Implemented in v1.3  
 -Keeping track of vehicles maintenance
