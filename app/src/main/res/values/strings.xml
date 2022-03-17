@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version" translatable="false">v1.3</string>
+    <string name="app_version" translatable="false">v1.3.1</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -125,6 +125,14 @@
         <item quantity="one">CSV file imported with fails. %d record couldn\'t be imported</item>
         <item quantity="other">CSV file imported with fails. %d records couldn\'t be imported</item>
     </plurals>
+
+    <!--v1.3.1 strings -->
+    <string name="origin_missing">Please, specify a valid origin.</string>
+    <string name="destination_missing">Please, specify a valid destination.</string>
+    <string name="origin_destination_missing">Please, specify a valid origin and destination.</string>
+    <string name="enter_valid_mileage">Specify a valid mileage</string>
+    <string name="enter_valid_fuel_price">Specify a valid price</string>
+
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

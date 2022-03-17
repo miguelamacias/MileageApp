@@ -117,4 +117,9 @@
         <item quantity="one">Archivo CSV importado con errores: %d registro no ha sido importado</item>
         <item quantity="other">Archivo CSV importado con errores: %d registros no han sido importados</item>
     </plurals>
+    <string name="origin_missing">Por favor, introduzca un punto de origen válido.</string>
+    <string name="destination_missing">Por favor, introduzca un punto de destino válido.</string>
+    <string name="origin_destination_missing">Por favor, introduzca el origen y el destino.</string>
+    <string name="enter_valid_mileage">Especifique un consumo válido</string>
+    <string name="enter_valid_fuel_price">Especifique un precio válido</string>
 </resources>

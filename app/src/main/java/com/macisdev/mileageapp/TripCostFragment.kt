@@ -28,6 +28,7 @@ import com.macisdev.mileageapp.utils.putDouble
 import com.macisdev.mileageapp.utils.showToast
 import com.macisdev.mileageapp.viewModels.TripCostViewModel
 import java.text.DecimalFormat
+import java.text.ParseException
 import java.util.*
 
 class TripCostFragment : Fragment() {
@@ -185,12 +186,12 @@ class TripCostFragment : Fragment() {
 					setText(place.name)
 
 					view?.findViewById<ImageView>(R.id.places_autocomplete_clear_button)
-					?.setOnClickListener {
-						setText("")
-						gui.destinationFullAdressTextView.text = ""
-						tripCostViewModel.destinationAddress = ""
-						tripCostViewModel.destination = ""
-					}
+						?.setOnClickListener {
+							setText("")
+							gui.destinationFullAdressTextView.text = ""
+							tripCostViewModel.destinationAddress = ""
+							tripCostViewModel.destination = ""
+						}
 				}
 			}
 
@@ -202,97 +203,118 @@ class TripCostFragment : Fragment() {
 	}
 
 	private fun calculateTripCost() {
-		try {
-			gui.loadingBar.visibility = View.VISIBLE
-			gui.resultsCardView.visibility = View.GONE
-			hideKeyboard()
+		hideKeyboard()
+		gui.loadingBar.visibility = View.VISIBLE
+		gui.resultsCardView.visibility = View.GONE
+		gui.googleTextView.visibility = View.GONE
+		gui.rootScrollView.post {
+			gui.rootScrollView.smoothScrollTo(0, gui.loadingBar.bottom)
+		}
 
-			val decimalFormatter = DecimalFormat.getInstance(Locale.getDefault())
-			val mileage = decimalFormatter.parse(gui.customMileageEditText.text.toString())?.toDouble() ?: 0.0
-			val fuelPrice = decimalFormatter.parse(gui.fuelPriceEditText.text.toString())?.toDouble() ?: 0.0
+		var validData = true
 
-			val avoidTolls = gui.avoidTollsCheckBox.isChecked
+		val decimalFormatter = DecimalFormat.getInstance(Locale.getDefault())
 
-			if (tripCostViewModel.origin == "" || tripCostViewModel.destination == "") {
-				throw IllegalStateException("Origin and destination must be set when calling the web service")
-			}
+		val mileage = try {
+			decimalFormatter.parse(gui.customMileageEditText.text.toString())?.toDouble() ?: 0.0
+		} catch (e: ParseException) {
+			0.0
+		}
 
-			gui.rootScrollView.post {
-				gui.rootScrollView.smoothScrollTo(0, gui.loadingBar.bottom)
-			}
+		val fuelPrice = try {
+			decimalFormatter.parse(gui.fuelPriceEditText.text.toString())?.toDouble() ?: 0.0
+		} catch (e: ParseException) {
+			0.0
+		}
 
+		val avoidTolls = gui.avoidTollsCheckBox.isChecked
+
+		if (tripCostViewModel.origin == "" && tripCostViewModel.destination == "") {
+			showToast(R.string.origin_destination_missing)
+			validData = false
+		} else if (tripCostViewModel.origin == "") {
+			showToast(R.string.origin_missing)
+			validData = false
+		} else if (tripCostViewModel.destination == "") {
+			showToast(R.string.destination_missing)
+			validData = false
+		}
+
+		if (mileage == 0.0) {
+			gui.customMileageEditText.error = getString(R.string.enter_valid_mileage)
+			validData = false
+		}
+
+		if (fuelPrice == 0.0) {
+			gui.fuelPriceEditText.error = getString(R.string.enter_valid_fuel_price)
+			validData = false
+		}
+
+		if (validData) {
 			showTripCost(mileage, fuelPrice, avoidTolls)
-		} catch (e: Exception) {
-			showToast(R.string.enter_valid_data)
+		} else {
 			gui.resultsCardView.visibility = View.GONE
 			gui.loadingBar.visibility = View.GONE
 		}
 	}
 
 	private fun showTripCost(mileage: Double, fuelPrice: Double, avoidTolls: Boolean) {
-		if (mileage > 0 && fuelPrice > 0) {
-			preferences.edit { putDouble(FUEL_PRICE_KEY, fuelPrice) }
+		preferences.edit { putDouble(FUEL_PRICE_KEY, fuelPrice) }
 
-			tripCostViewModel.getTripDistance(avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
-				when {
-					oneWayDistance > 0 -> {
-						val tripDistance =
-							if (gui.roundTripCheckBox.isChecked) oneWayDistance * 2 else oneWayDistance
+		tripCostViewModel.getTripDistance(avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
+			when {
+				oneWayDistance > 0 -> {
+					val tripDistance =
+						if (gui.roundTripCheckBox.isChecked) oneWayDistance * 2 else oneWayDistance
 
-						gui.tripDistanceTextView.text = String.format(
-							Locale.getDefault(),
-							"%,.2f KM", tripDistance
-						)
+					gui.tripDistanceTextView.text = String.format(
+						Locale.getDefault(),
+						"%,.2f KM", tripDistance
+					)
 
-						val tripLitres = tripDistance * mileage / 100.0
-						gui.tripFuelTextView.text = String.format(
-							Locale.getDefault(), "%,.2f L", tripLitres
-						)
+					val tripLitres = tripDistance * mileage / 100.0
+					gui.tripFuelTextView.text = String.format(
+						Locale.getDefault(), "%,.2f L", tripLitres
+					)
 
-						val currencySign = Currency.getInstance(Locale.getDefault()).symbol
-						val tripCost = tripLitres * fuelPrice
-						gui.tripCostTextView.text = String.format(
-							Locale.getDefault(),
-							"%.2f%s", tripCost, currencySign
-						)
+					val currencySign = Currency.getInstance(Locale.getDefault()).symbol
+					val tripCost = tripLitres * fuelPrice
+					gui.tripCostTextView.text = String.format(
+						Locale.getDefault(),
+						"%.2f%s", tripCost, currencySign
+					)
 
-						tripCostViewModel.getTripDuration().observe(viewLifecycleOwner) { oneWayDuration ->
-							val tripDuration =
-								if (gui.roundTripCheckBox.isChecked) oneWayDuration * 2 else oneWayDuration
-							val hours = tripDuration / 60
-							val minutes = tripDuration % 60
-							gui.tripDurationTextView.text = getString(R.string.hours_minutes, hours, minutes)
-						}
-
-						gui.resultsCardView.visibility = View.VISIBLE
-						gui.loadingBar.visibility = View.GONE
-						gui.googleTextView.visibility = View.VISIBLE
-
-						gui.rootScrollView.post {
-							gui.rootScrollView.smoothScrollTo(0, gui.resultsCardView.bottom)
-						}
+					tripCostViewModel.getTripDuration().observe(viewLifecycleOwner) { oneWayDuration ->
+						val tripDuration =
+							if (gui.roundTripCheckBox.isChecked) oneWayDuration * 2 else oneWayDuration
+						val hours = tripDuration / 60
+						val minutes = tripDuration % 60
+						gui.tripDurationTextView.text = getString(R.string.hours_minutes, hours, minutes)
 					}
 
-					oneWayDistance == TRIP_DISTANCE_ZERO_RESULTS_ERROR -> {
-						showToast(R.string.no_routes_found)
-						gui.resultsCardView.visibility = View.GONE
-						gui.loadingBar.visibility = View.GONE
-						gui.googleTextView.visibility = View.VISIBLE
-					}
+					gui.resultsCardView.visibility = View.VISIBLE
+					gui.loadingBar.visibility = View.GONE
+					gui.googleTextView.visibility = View.VISIBLE
 
-					else -> {
-						showToast(R.string.something_wrong)
-						gui.resultsCardView.visibility = View.GONE
-						gui.loadingBar.visibility = View.GONE
-						gui.googleTextView.visibility = View.VISIBLE
+					gui.rootScrollView.post {
+						gui.rootScrollView.smoothScrollTo(0, gui.resultsCardView.bottom)
 					}
 				}
+
+				oneWayDistance == TRIP_DISTANCE_ZERO_RESULTS_ERROR -> {
+					showToast(R.string.no_routes_found)
+					gui.resultsCardView.visibility = View.GONE
+					gui.loadingBar.visibility = View.GONE
+					gui.googleTextView.visibility = View.VISIBLE
+				}
+
+				else -> {
+					showToast(R.string.something_wrong)
+					gui.resultsCardView.visibility = View.GONE
+					gui.loadingBar.visibility = View.GONE
+					gui.googleTextView.visibility = View.VISIBLE
+				}
 			}
-		} else {
-			showToast(R.string.enter_valid_data)
-			gui.resultsCardView.visibility = View.GONE
-			gui.loadingBar.visibility = View.GONE
-			gui.googleTextView.visibility = View.VISIBLE
 		}
 	}
 
