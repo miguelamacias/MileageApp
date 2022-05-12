@@ -2,9 +2,11 @@ package com.macisdev.mileageapp.database
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
+import com.macisdev.mileageapp.MainActivity
 import com.macisdev.mileageapp.api.MapsServiceCalls
 import com.macisdev.mileageapp.api.MatrixResponse
 import com.macisdev.mileageapp.model.Mileage
@@ -108,15 +110,19 @@ class MileageRepository private constructor(val context: Context) {
 						.duration
 						.value / 60
 
+					Log.i(MainActivity.TAG, "Distance Matrix API called successfully.")
 				} else if (routeStatus == API_STATUS_ZERO_RESULTS) {
 					responseLiveData.value = -1.0
+					Log.i(MainActivity.TAG, "Distance Matrix API called successfully, but no route was found.")
 				} else {
 					responseLiveData.value = -2.0
+					Log.e(MainActivity.TAG, "Distance Matrix API call returned an error: $apiStatus")
 				}
 			}
 
 			override fun onFailure(call: Call<MatrixResponse>, t: Throwable) {
 				responseLiveData.value = -2.0
+				Log.e(MainActivity.TAG, "Distance Matrix API call failed.")
 			}
 		})
 		return responseLiveData
