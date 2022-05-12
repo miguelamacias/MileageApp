@@ -14,8 +14,8 @@ android {
         applicationId "com.macisdev.mileageapp"
         minSdk 25
         targetSdk 31
-        versionCode 132
-        versionName "1.3.2"
+        versionCode 133
+        versionName "1.3.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -42,8 +42,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        freeCompilerArgs = ['-Xjvm-default=compatibility']
+        freeCompilerArgs = ['-Xjvm-default=all-compatibility']
     }
+    namespace 'com.macisdev.mileageapp'
 }
 
 dependencies {
@@ -51,22 +52,22 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.room:room-ktx:2.4.1'
-    kapt 'androidx.room:room-compiler:2.4.1'
-    implementation 'androidx.room:room-runtime:2.4.1'
-    implementation "androidx.navigation:navigation-fragment-ktx:2.5.0-alpha02"
-    implementation "androidx.navigation:navigation-ui-ktx:2.5.0-alpha02"
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.5.0-alpha02"
+    implementation 'androidx.room:room-ktx:2.4.2'
+    kapt 'androidx.room:room-compiler:2.4.2'
+    implementation 'androidx.room:room-runtime:2.4.2'
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.0-rc01"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.0-rc01"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.5.0-rc01"
     implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.0'
-    implementation 'com.google.android.libraries.places:places:2.5.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.0.0'
+    implementation 'com.google.android.libraries.places:places:2.6.0'
     implementation "androidx.preference:preference-ktx:1.2.0"
     implementation 'de.raphaelebner:roomdatabasebackup:1.0.0-beta10'
 

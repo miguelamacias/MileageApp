@@ -11,6 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -41,7 +43,44 @@ class MileageListFragment : Fragment() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setHasOptionsMenu(true)
+
+		val menuHost: MenuHost = requireActivity()
+
+		menuHost.addMenuProvider(object : MenuProvider {
+			@SuppressLint("RestrictedApi")
+			override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+				menuInflater.inflate(R.menu.menu_list_mileage, menu)
+				if (menu is MenuBuilder) menu.setOptionalIconsVisible(true)
+			}
+
+			override fun onMenuItemSelected(item: MenuItem): Boolean {
+				return when (item.itemId) {
+					R.id.edit_vehicle -> {
+						val directions = MileageListFragmentDirections
+							.actionMileageListFragmentToAddVehicleFragment(true, mileageListVM.plateNumber)
+						findNavController().navigate(directions)
+						true
+					}
+					R.id.clear_mileages -> {
+						clearMileagesItemSelected()
+						true
+					}
+					R.id.delete_vehicle -> {
+						deleteVehicleItemSelected()
+						true
+					}
+					R.id.export_csv -> {
+						exportCsvFile(mileageListVM.mileageListLiveData.value ?: emptyList())
+						true
+					}
+					R.id.import_csv -> {
+						openCsvFile()
+						true
+					}
+					else -> false
+				}
+			}
+		})
 
 		importCsvLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 			result?.data?.data?.let { uri ->
@@ -69,41 +108,6 @@ class MileageListFragment : Fragment() {
 			val directions = MileageListFragmentDirections
 				.actionMileageListFragmentToAddMileageFragment(mileageListVM.plateNumber)
 			findNavController().navigate(directions)
-		}
-	}
-
-	@SuppressLint("RestrictedApi")
-	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-		super.onCreateOptionsMenu(menu, inflater)
-		inflater.inflate(R.menu.menu_list_mileage, menu)
-		if (menu is MenuBuilder) menu.setOptionalIconsVisible(true)
-	}
-
-	override fun onOptionsItemSelected(item: MenuItem): Boolean {
-		return when (item.itemId) {
-			R.id.edit_vehicle -> {
-				val directions = MileageListFragmentDirections
-					.actionMileageListFragmentToAddVehicleFragment(true, mileageListVM.plateNumber)
-				findNavController().navigate(directions)
-				true
-			}
-			R.id.clear_mileages -> {
-				clearMileagesItemSelected()
-				true
-			}
-			R.id.delete_vehicle -> {
-				deleteVehicleItemSelected()
-				true
-			}
-			R.id.export_csv -> {
-				exportCsvFile(mileageListVM.mileageListLiveData.value ?: emptyList())
-				true
-			}
-			R.id.import_csv -> {
-				openCsvFile()
-				true
-			}
-			else -> super.onOptionsItemSelected(item)
 		}
 	}
 

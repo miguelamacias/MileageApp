@@ -133,7 +133,7 @@ class MileageRepository private constructor(val context: Context) {
 		}
 
 		fun get(): MileageRepository {
-			return INSTANCE ?: throw IllegalStateException("CrimeRepository must be initialized")
+			return INSTANCE ?: throw IllegalStateException("MileageRepository must be initialized")
 		}
 	}
 }
