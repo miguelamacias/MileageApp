@@ -111,9 +111,9 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 	}
 
 	private fun loadMileageData(mileage: Mileage) {
-		gui.kilometresEditText.setText(mileage.kilometres.toString())
-		gui.litresEditText.setText(mileage.litres.toString())
-		gui.mileageResultEditText.setText(mileage.mileage.toString())
+		gui.kilometresEditText.setText(String.format(Locale.getDefault(), "%.2f", mileage.kilometres))
+		gui.litresEditText.setText(String.format(Locale.getDefault(), "%.2f", mileage.litres))
+		gui.mileageResultEditText.setText(String.format(Locale.getDefault(), "%.2f", mileage.mileage))
 		addMileageVM.date = mileage.date
 		gui.dateEditText.setText(addMileageVM.formattedDate)
 		gui.notesContent.setText(mileage.notes)
