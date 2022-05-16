@@ -15,6 +15,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
@@ -43,6 +44,22 @@ class MileageListFragment : Fragment() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		importCsvLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+			result?.data?.data?.let { uri ->
+				val inputStream = requireContext().contentResolver.openInputStream(uri)
+				showImportedCsvResults(mileageListVM.importCsvContent(inputStream))
+			}
+		}
+	}
+
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+		gui = FragmentMileageListBinding.inflate(inflater, container, false)
+		return gui.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
 		val menuHost: MenuHost = requireActivity()
 
@@ -80,23 +97,7 @@ class MileageListFragment : Fragment() {
 					else -> false
 				}
 			}
-		})
-
-		importCsvLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-			result?.data?.data?.let { uri ->
-				val inputStream = requireContext().contentResolver.openInputStream(uri)
-				showImportedCsvResults(mileageListVM.importCsvContent(inputStream))
-			}
-		}
-	}
-
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		gui = FragmentMileageListBinding.inflate(inflater, container, false)
-		return gui.root
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
+		}, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
 		mileageListVM.mileageListLiveData.observe(viewLifecycleOwner) { updateMileages(it) }
 
@@ -106,7 +107,10 @@ class MileageListFragment : Fragment() {
 
 		gui.addMileageFab.setOnClickListener {
 			val directions = MileageListFragmentDirections
-				.actionMileageListFragmentToAddMileageFragment(mileageListVM.plateNumber)
+				.actionMileageListFragmentToAddMileageFragment(
+					mileageListVM.plateNumber,
+					false,
+					"")
 			findNavController().navigate(directions)
 		}
 	}
@@ -260,12 +264,25 @@ class MileageListFragment : Fragment() {
 				itemView.setOnLongClickListener {
 					val popup = PopupMenu(view.context, litresContentTextView)
 					popup.inflate(R.menu.menu_popup_mileage)
-					popup.setOnMenuItemClickListener {
-						mileageListVM.deleteMileage(currentMileage)
-						Snackbar
-							.make(gui.coordinatorLayout, R.string.deleted_mileage, Snackbar.LENGTH_LONG)
-							.setAction(R.string.undo) { mileageListVM.restoreDeletedMileages() }
-							.show()
+					popup.setOnMenuItemClickListener { item ->
+						when (item.itemId) {
+							R.id.edit_mileage -> {
+								val directions = MileageListFragmentDirections
+									.actionMileageListFragmentToAddMileageFragment(
+										mileageListVM.plateNumber,
+										true,
+										currentMileage?.id.toString())
+								findNavController().navigate(directions)
+							}
+
+							R.id.delete_mileage -> {
+								mileageListVM.deleteMileage(currentMileage)
+								Snackbar
+									.make(gui.coordinatorLayout, R.string.deleted_mileage, Snackbar.LENGTH_LONG)
+									.setAction(R.string.undo) { mileageListVM.restoreDeletedMileages() }
+									.show()
+							}
+						}
 						true
 					}
 					popup.show()

@@ -77,6 +77,14 @@
         <argument
                 android:name="plateNumber"
                 app:argType="string" />
+        <argument
+                android:name="editMode"
+                app:argType="boolean"
+                android:defaultValue="false" />
+        <argument
+                android:name="mileageId"
+                app:argType="string"
+                android:defaultValue='""' />
     </dialog>
     <fragment
             android:id="@+id/tripCostFragment"

@@ -8,12 +8,16 @@ import androidx.room.Update
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Statistics
 import com.macisdev.mileageapp.model.Vehicle
+import java.util.*
 
 @Dao
 interface MileageDao {
 
 	@Query("SELECT * FROM mileage WHERE vehiclePlateNumber=(:vehiclePlateNumber) ORDER BY date DESC")
 	fun getMileages(vehiclePlateNumber: String) : LiveData<List<Mileage>>
+
+	@Query("SELECT * FROM mileage WHERE id = :id")
+	fun getMileage(id: UUID) : LiveData<Mileage>
 
 	@Query("SELECT * FROM vehicle")
 	fun getVehicles() : LiveData<List<Vehicle>>
@@ -23,6 +27,9 @@ interface MileageDao {
 
 	@Update
 	fun updateVehicle(vehicle: Vehicle)
+
+	@Update
+	fun updateMileage(mileage: Mileage)
 
 	@Insert
 	fun addMileage(mileage: Mileage)

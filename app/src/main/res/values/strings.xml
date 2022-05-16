@@ -133,6 +133,10 @@
     <string name="enter_valid_mileage">Specify a valid mileage</string>
     <string name="enter_valid_fuel_price">Specify a valid price</string>
 
+    <!--v1.4 strings -->
+    <string name="edit_mileage">Edit mileage</string>
+    <string name="mileage_updated">Mileage updated successfully!</string>
+
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

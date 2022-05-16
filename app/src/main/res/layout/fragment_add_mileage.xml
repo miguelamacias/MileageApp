@@ -60,7 +60,7 @@
             android:enabled="false"
             android:id="@+id/save_mileage_button"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView10" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/add_mileage_title" />
 
     <TextView
             android:text="@string/mileage_unit"
@@ -128,7 +128,7 @@
             android:layout_marginStart="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:labelFor="@id/date_edit_text"
-            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:layout_constraintTop_toBottomOf="@+id/add_mileage_title"
             android:layout_marginTop="24dp" />
 
     <EditText
@@ -170,7 +170,7 @@
             android:text="@string/add_mileage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView10"
+            android:id="@+id/add_mileage_title"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"

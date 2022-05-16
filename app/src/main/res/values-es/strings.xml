@@ -37,14 +37,14 @@
     <string name="edit_vehicle">Editar vehículo</string>
     <string name="delete_vehicle">Eliminar vehículo</string>
     <string name="deleted_vehicle">¡Vehículo borrado!</string>
-    <string name="clear_mileages">Borrar todos los consumos</string>
-    <string name="cleared_mileages">¡Todos los consumos han sido borrados!</string>
+    <string name="clear_mileages">Borrar todos los registros</string>
+    <string name="cleared_mileages">¡Todos los registros han sido borrados!</string>
     <string name="save_changes">Guardar cambios</string>
     <string name="action_cannot_be_undone">¿Estás seguro? Esta acción no se puede deshacer</string>
     <string name="cancel">Cancelar</string>
     <string name="accept">Continuar</string>
-    <string name="delete_mileage">Eliminar consumo</string>
-    <string name="deleted_mileage">¡Consumo eliminado!</string>
+    <string name="delete_mileage">Eliminar registro</string>
+    <string name="deleted_mileage">¡Registro eliminado!</string>
     <string name="undo">Deshacer</string>
     <string name="my_vehicles">Mis vehículos:</string>
     <string name="stats">Resumen</string>
@@ -122,4 +122,6 @@
     <string name="origin_destination_missing">Por favor, introduzca el origen y el destino.</string>
     <string name="enter_valid_mileage">Especifique un consumo válido</string>
     <string name="enter_valid_fuel_price">Especifique un precio válido</string>
+    <string name="edit_mileage">Editar registro</string>
+    <string name="mileage_updated">¡Registro editado!</string>
 </resources>

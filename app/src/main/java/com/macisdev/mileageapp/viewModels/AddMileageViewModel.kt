@@ -1,5 +1,6 @@
 package com.macisdev.mileageapp.viewModels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.model.Mileage
@@ -11,7 +12,7 @@ class AddMileageViewModel : ViewModel() {
 
 	var date = Date()
 
-	var formatedDate: String = ""
+	var formattedDate: String = ""
 		get() {
 			return Utils.formatDate(date)
 		}
@@ -19,5 +20,11 @@ class AddMileageViewModel : ViewModel() {
 
 	fun storeMileage(mileage: Mileage) {
 		milageRepository.storeMileage(mileage)
+	}
+
+	fun getMileage(id: String): LiveData<Mileage> = milageRepository.getMileage(UUID.fromString(id))
+
+	fun updateMileage(mileage: Mileage) {
+		milageRepository.updateMileage(mileage)
 	}
 }

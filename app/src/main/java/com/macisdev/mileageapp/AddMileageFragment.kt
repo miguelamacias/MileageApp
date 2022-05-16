@@ -42,6 +42,11 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		if(fragmentArgs.editMode) {
+			addMileageVM.getMileage(fragmentArgs.mileageId).observe(viewLifecycleOwner) {loadMileageData(it)}
+			gui.addMileageTitle.setText(R.string.edit_mileage)
+		}
+
 		gui.kilometresEditText.addTextChangedListener(object : TextWatcher {
 			override fun afterTextChanged(sequence: Editable?) {
 				if (gui.litresEditText.text.isNotEmpty()) calculateMileage()
@@ -72,12 +77,25 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 				val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: -1.0
 				val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: -1.0
 				val notes = gui.notesContent.text.toString()
-				addMileageVM.storeMileage(
-					Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres, notes))
+				val id = if (fragmentArgs.editMode) {
+					UUID.fromString(fragmentArgs.mileageId)
+				} else {
+					UUID.randomUUID()
+				}
+
+				val mileage = Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres, notes, id)
+
+				val successfulMessage: Int = if (fragmentArgs.editMode) {
+					addMileageVM.updateMileage(mileage)
+					R.string.mileage_updated
+				} else {
+					addMileageVM.storeMileage(mileage)
+					R.string.mileage_added
+				}
 
 				parentFragment?.view?.let { parentView ->
 					val coordinatorLayout = parentView.findViewById<CoordinatorLayout>(R.id.coordinator_layout)
-					Snackbar.make(coordinatorLayout, R.string.mileage_added, Snackbar.LENGTH_LONG).show()
+					Snackbar.make(coordinatorLayout, successfulMessage, Snackbar.LENGTH_LONG).show()
 				}
 
 				findNavController().navigateUp()
@@ -85,11 +103,20 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 		}
 
 		gui.dateEditText.apply {
-			setText(addMileageVM.formatedDate)
+			setText(addMileageVM.formattedDate)
 			setOnClickListener {
 				selectDate()
 			}
 		}
+	}
+
+	private fun loadMileageData(mileage: Mileage) {
+		gui.kilometresEditText.setText(mileage.kilometres.toString())
+		gui.litresEditText.setText(mileage.litres.toString())
+		gui.mileageResultEditText.setText(mileage.mileage.toString())
+		addMileageVM.date = mileage.date
+		gui.dateEditText.setText(addMileageVM.formattedDate)
+		gui.notesContent.setText(mileage.notes)
 	}
 
 	private fun selectDate() {
@@ -108,7 +135,7 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 				selectedDate.set(Calendar.DAY_OF_MONTH, selectedDay)
 
 				addMileageVM.date = selectedDate.time
-				gui.dateEditText.setText(addMileageVM.formatedDate)
+				gui.dateEditText.setText(addMileageVM.formattedDate)
 
 			}, currentYear, currentMonth, currentDay
 		)

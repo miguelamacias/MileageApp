@@ -38,6 +38,8 @@ class MileageRepository private constructor(val context: Context) {
 
 	fun getVehicles() = mileageDao.getVehicles()
 
+	fun getMileage(id: UUID) = mileageDao.getMileage(id)
+
 	fun getMileages(vehiclePlateNumber: String) = mileageDao.getMileages(vehiclePlateNumber)
 
 	fun storeMileage(mileage: Mileage) {
@@ -62,6 +64,10 @@ class MileageRepository private constructor(val context: Context) {
 
 	fun deleteMileage(mileageId: UUID?) {
 		executor.execute { mileageDao.deleteMileage(mileageId.toString()) }
+	}
+
+	fun updateMileage(mileage: Mileage) {
+		executor.execute { mileageDao.updateMileage(mileage) }
 	}
 
 	fun getStatistics() = mileageDao.getStatistics()
