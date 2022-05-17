@@ -47,7 +47,7 @@ class AddVehicleViewModel : ViewModel() {
 		R.color.green,
 		R.color.dark_blue,
 		R.color.blue,
-		R.color.ligth_blue,
+		R.color.light_blue,
 		R.color.orange,
 		R.color.golden,
 		R.color.yellow,

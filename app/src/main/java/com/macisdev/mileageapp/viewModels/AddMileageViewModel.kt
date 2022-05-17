@@ -8,7 +8,7 @@ import com.macisdev.mileageapp.utils.Utils
 import java.util.*
 
 class AddMileageViewModel : ViewModel() {
-	private val milageRepository = MileageRepository.get()
+	private val mileageRepository = MileageRepository.get()
 
 	var date = Date()
 
@@ -19,12 +19,12 @@ class AddMileageViewModel : ViewModel() {
 		private set
 
 	fun storeMileage(mileage: Mileage) {
-		milageRepository.storeMileage(mileage)
+		mileageRepository.storeMileage(mileage)
 	}
 
-	fun getMileage(id: String): LiveData<Mileage> = milageRepository.getMileage(UUID.fromString(id))
+	fun getMileage(id: String): LiveData<Mileage> = mileageRepository.getMileage(UUID.fromString(id))
 
 	fun updateMileage(mileage: Mileage) {
-		milageRepository.updateMileage(mileage)
+		mileageRepository.updateMileage(mileage)
 	}
 }

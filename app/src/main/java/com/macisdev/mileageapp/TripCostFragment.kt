@@ -48,23 +48,27 @@ class TripCostFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		configureAdressAutocomplete()
+		configureAddressAutocomplete()
 
-		gui.originFullAdressTextView.text = tripCostViewModel.originAddress
-		gui.destinationFullAdressTextView.text = tripCostViewModel.destinationAddress
+		gui.originFullAddressTextView.text = tripCostViewModel.originAddress
+		gui.destinationFullAddressTextView.text = tripCostViewModel.destinationAddress
 		gui.resultsCardView.visibility = tripCostViewModel.resultsCardViewVisibility
 		gui.tripDistanceTextView.text = tripCostViewModel.currentTripDistance
 		gui.tripFuelTextView.text = tripCostViewModel.currentTripFuel
 		gui.tripDurationTextView.text = tripCostViewModel.currentTripDuration
 		gui.tripCostTextView.text = tripCostViewModel.currentTripCost
+		gui.sharedTripCostTextView.text = tripCostViewModel.sharedTripCost
+		gui.sharedTripCostTextView.visibility = tripCostViewModel.sharedTripCostVisibility
+		gui.costByPassengerTextView.visibility = tripCostViewModel.sharedTripCostVisibility
 		gui.googleTextView.visibility = tripCostViewModel.resultsCardViewVisibility
 
 		gui.fuelPriceEditText.setText(
-			String.format(
-				Locale.getDefault(), "%.3f",
-				preferences.getDouble(FUEL_PRICE_KEY, 0.0)
-			)
+			String.format(Locale.getDefault(), "%.3f", preferences.getDouble(FUEL_PRICE_KEY, 0.0))
 		)
+
+		if (gui.fuelPriceEditText.text.toString() == "0.000") {
+			gui.fuelPriceEditText.setText("")
+		}
 
 		var currentVehicleMileage = ""
 
@@ -86,6 +90,20 @@ class TripCostFragment : Fragment() {
 						setText("")
 					}
 					gui.vehicleSpinner.visibility = View.INVISIBLE
+				}
+			}
+		}
+
+		gui.checkShareTripCost.setOnCheckedChangeListener { _, isChecked ->
+			when (isChecked) {
+				true -> {
+					gui.peopleTextView.visibility = View.VISIBLE
+					gui.spinnerShareCost.visibility = View.VISIBLE
+				}
+
+				false -> {
+					gui.peopleTextView.visibility = View.INVISIBLE
+					gui.spinnerShareCost.visibility = View.INVISIBLE
 				}
 			}
 		}
@@ -116,7 +134,7 @@ class TripCostFragment : Fragment() {
 		}
 	}
 
-	private fun configureAdressAutocomplete() {
+	private fun configureAddressAutocomplete() {
 		// Initialize the Places SDK
 		Places.initialize(requireActivity().applicationContext, BuildConfig.MAPS_API_KEY)
 
@@ -152,7 +170,7 @@ class TripCostFragment : Fragment() {
 		// Set up a PlaceSelectionListener to handle the response.
 		autocompleteFragmentOrigin.setOnPlaceSelectedListener(object : PlaceSelectionListener {
 			override fun onPlaceSelected(place: Place) {
-				gui.originFullAdressTextView.text = place.address
+				gui.originFullAddressTextView.text = place.address
 
 				tripCostViewModel.origin = "place_id:".plus(place.id)
 				tripCostViewModel.originAddress = place.address ?: ""
@@ -163,7 +181,7 @@ class TripCostFragment : Fragment() {
 					view?.findViewById<ImageView>(R.id.places_autocomplete_clear_button)
 						?.setOnClickListener {
 							setText("")
-							gui.originFullAdressTextView.text = ""
+							gui.originFullAddressTextView.text = ""
 							tripCostViewModel.originAddress = ""
 							tripCostViewModel.origin = ""
 						}
@@ -177,7 +195,7 @@ class TripCostFragment : Fragment() {
 
 		autocompleteFragmentDestination.setOnPlaceSelectedListener(object : PlaceSelectionListener {
 			override fun onPlaceSelected(place: Place) {
-				gui.destinationFullAdressTextView.text = place.address
+				gui.destinationFullAddressTextView.text = place.address
 
 				tripCostViewModel.destination = "place_id:".plus(place.id)
 				tripCostViewModel.destinationAddress = place.address ?: ""
@@ -188,7 +206,7 @@ class TripCostFragment : Fragment() {
 					view?.findViewById<ImageView>(R.id.places_autocomplete_clear_button)
 						?.setOnClickListener {
 							setText("")
-							gui.destinationFullAdressTextView.text = ""
+							gui.destinationFullAddressTextView.text = ""
 							tripCostViewModel.destinationAddress = ""
 							tripCostViewModel.destination = ""
 						}
@@ -284,6 +302,18 @@ class TripCostFragment : Fragment() {
 						"%.2f%s", tripCost, currencySign
 					)
 
+					if (gui.checkShareTripCost.isChecked) {
+						gui.costByPassengerTextView.visibility = View.VISIBLE
+						gui.sharedTripCostTextView.visibility = View.VISIBLE
+						val passengers = gui.spinnerShareCost.selectedItem.toString().toDouble()
+						gui.sharedTripCostTextView.text = String.format(
+							Locale.getDefault(),
+							"%.2f%s", tripCost / passengers, currencySign)
+					} else {
+						gui.costByPassengerTextView.visibility = View.GONE
+						gui.sharedTripCostTextView.visibility = View.GONE
+					}
+
 					tripCostViewModel.getTripDuration().observe(viewLifecycleOwner) { oneWayDuration ->
 						val tripDuration =
 							if (gui.roundTripCheckBox.isChecked) oneWayDuration * 2 else oneWayDuration
@@ -324,6 +354,8 @@ class TripCostFragment : Fragment() {
 		tripCostViewModel.currentTripFuel = gui.tripFuelTextView.text.toString()
 		tripCostViewModel.currentTripDuration = gui.tripDurationTextView.text.toString()
 		tripCostViewModel.currentTripCost = gui.tripCostTextView.text.toString()
+		tripCostViewModel.sharedTripCost = gui.sharedTripCostTextView.text.toString()
+		tripCostViewModel.sharedTripCostVisibility = gui.sharedTripCostTextView.visibility
 		tripCostViewModel.resultsCardViewVisibility = gui.resultsCardView.visibility
 	}
 }

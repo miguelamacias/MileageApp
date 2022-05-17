@@ -14,6 +14,8 @@
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_export_csv_24.xml" value="0.1525" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_fuel_24.xml" value="0.2824074074074074" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_import_export_24.xml" value="0.1525" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_money_share.xml" value="0.1545" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_money_svgrepo_com.xml" value="0.279" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_motorbike_scooter.xml" value="0.4451754385964912" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_trip_cost.xml" value="0.4451754385964912" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/drawable/ic_vehicle_bus_double_decker.xml" value="0.4451754385964912" />
@@ -43,7 +45,7 @@
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_mileage_list.xml" value="0.4280701754385965" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_preferences.xml" value="0.33" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_quick_mileage.xml" value="0.5083333333333333" />
-        <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_trip_cost.xml" value="0.5" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/fragment_trip_cost.xml" value="0.33" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/list_item_icon_vehicle.xml" value="0.4280701754385965" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/list_item_mileage.xml" value="0.33" />
         <entry key="..\:/Workspaces/AndroidWorkspace/MileageApp/app/src/main/res/layout/list_item_vehicle.xml" value="0.33" />

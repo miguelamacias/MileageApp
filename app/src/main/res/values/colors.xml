@@ -2,7 +2,7 @@
 <resources>
     <color name="primary">#03a9f4</color>
     <color name="primary_dark">#0288d1</color>
-    <color name="primary_ligth">#b3e5fc</color>
+    <color name="primary_light">#b3e5fc</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="add_icon_color">#89000000</color>
@@ -11,7 +11,7 @@
     <color name="dark_red">#7A1010</color>
     <color name="red">#D70000</color>
     <color name="blue">#0000CD</color>
-    <color name="ligth_blue">#00BFFF</color>
+    <color name="light_blue">#00BFFF</color>
     <color name="dark_blue">#000080</color>
     <color name="silver">#AAAAAA</color>
     <color name="grey">#5F5F5F</color>

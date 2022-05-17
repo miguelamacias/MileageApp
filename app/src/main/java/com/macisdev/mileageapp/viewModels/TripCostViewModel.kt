@@ -12,10 +12,12 @@ class TripCostViewModel : ViewModel() {
 	var destinationAddress = ""
 
 	var resultsCardViewVisibility = View.GONE
+	var sharedTripCostVisibility = View.GONE
 	var currentTripDistance = ""
 	var currentTripFuel = ""
 	var currentTripDuration = ""
 	var currentTripCost = ""
+	var sharedTripCost = ""
 
 	private val mileageRepository = MileageRepository.get()
 

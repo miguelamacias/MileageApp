@@ -68,9 +68,9 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 		val parsedMileages = mutableListOf<Mileage>()
 
 		var line: String
-		var originalReadedLine = ""
+		var originalReadLine = ""
 		var wrongLinesCount = 0
-		var readedLines = 0
+		var readLines = 0
 		val wrongLinesContent: MutableList<String> = mutableListOf()
 		if (scanner.hasNextLine()) {
 			scanner.nextLine() //discards the header
@@ -79,7 +79,7 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 		while (scanner.hasNextLine()) {
 			try {
 				line = scanner.nextLine()
-				originalReadedLine = line
+				originalReadLine = line
 
 				if (line.count { it == ',' } == 5) {
 					val id = UUID.randomUUID()
@@ -99,17 +99,17 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 						parsedMileages.add(Mileage(plateNumber, date ?: Date(), mileageValue, km, l, notes, id))
 					} else {
 						wrongLinesCount++
-						wrongLinesContent.add(originalReadedLine)
+						wrongLinesContent.add(originalReadLine)
 					}
 				} else {
 					wrongLinesCount++
-					wrongLinesContent.add(originalReadedLine)
+					wrongLinesContent.add(originalReadLine)
 				}
 			} catch (e: Exception) {
 				wrongLinesCount++
-				wrongLinesContent.add(originalReadedLine)
+				wrongLinesContent.add(originalReadLine)
 			} finally {
-				readedLines++
+				readLines++
 			}
 		}
 
@@ -123,7 +123,7 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 			0 -> {
 				0
 			}
-			readedLines -> {
+			readLines -> {
 				-1
 			}
 			else -> {
