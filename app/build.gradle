@@ -14,8 +14,8 @@ android {
         applicationId "com.macisdev.mileageapp"
         minSdk 25
         targetSdk 31
-        versionCode 133
-        versionName "1.3.3"
+        versionCode 140
+        versionName "1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -60,7 +60,7 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:2.5.0-rc01"
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
