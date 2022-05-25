@@ -1,6 +1,6 @@
 <resources>
     <!-- v1.0 strings -->
-    <string name="app_version" translatable="false">v1.4-Alpha4</string>
+    <string name="app_version" translatable="false">v1.4-Beta1</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -138,7 +138,7 @@
     <string name="edit_mileage">Edit mileage</string>
     <string name="mileage_updated">Mileage updated successfully!</string>
     <string name="share_trip_cost">Share trip cost</string>
-    <string name="share_trip_passengers">Passengers:</string>
+    <string name="share_trip_passengers">passengers</string>
     <string name="cost_by_passenger">Cost by passenger:</string>
 
 

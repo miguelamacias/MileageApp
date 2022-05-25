@@ -125,6 +125,6 @@
     <string name="edit_mileage">Editar registro</string>
     <string name="mileage_updated">¡Registro editado!</string>
     <string name="share_trip_cost">Compartir coste</string>
-    <string name="share_trip_passengers">Pasajeros:</string>
+    <string name="share_trip_passengers">pasajeros</string>
     <string name="cost_by_passenger">Coste por pasajero:</string>
 </resources>
