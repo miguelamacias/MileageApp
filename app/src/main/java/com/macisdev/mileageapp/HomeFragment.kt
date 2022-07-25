@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.databinding.FragmentHomeBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Statistics
@@ -50,6 +51,9 @@ class HomeFragment : Fragment() {
 		homeFragmentVM.vehiclesList.observe(viewLifecycleOwner) { updateVehicles(it) }
 		homeFragmentVM.getStatistics().observe(viewLifecycleOwner) { updateStatistics(it) }
 		homeFragmentVM.getLastMileage().observe(viewLifecycleOwner) { updateLastMileage(it) }
+
+		//TODO Delete this after testing
+		MileageRepository.get().getFuelPrices()
 	}
 
 	private fun updateStatistics(stats: Statistics) {

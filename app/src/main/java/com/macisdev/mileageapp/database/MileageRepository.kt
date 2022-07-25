@@ -7,8 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.macisdev.mileageapp.MainActivity
-import com.macisdev.mileageapp.api.MapsServiceCalls
-import com.macisdev.mileageapp.api.MatrixResponse
+import com.macisdev.mileageapp.api.fuel.FuelResponse
+import com.macisdev.mileageapp.api.fuel.FuelServiceCalls
+import com.macisdev.mileageapp.api.maps.MapsServiceCalls
+import com.macisdev.mileageapp.api.maps.MatrixResponse
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
 import retrofit2.Call
@@ -131,6 +133,38 @@ class MileageRepository private constructor(val context: Context) {
 				Log.e(MainActivity.TAG, "Distance Matrix API call failed.")
 			}
 		})
+		return responseLiveData
+	}
+
+	fun getFuelPrices(): LiveData<String> {
+		val responseLiveData: MutableLiveData<String> = MutableLiveData()
+
+		val retrofit: Retrofit = Retrofit.Builder()
+			.baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
+			.addConverterFactory(GsonConverterFactory.create())
+			.build()
+
+		val fuelAPI = retrofit.create(FuelServiceCalls::class.java)
+
+		fuelAPI.getByCity(6089).enqueue(object : Callback<FuelResponse> {
+			override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
+				val responseBody = response.body()
+
+				responseLiveData.value = responseBody?.fecha ?: "This ain't working!"
+
+				val gasStation = responseBody?.listaEESSPrecio?.first()?.toString() ?: "Not found"
+
+
+				Log.i(MainActivity.TAG, responseLiveData.value.toString())
+				Log.i(MainActivity.TAG, gasStation)
+			}
+
+			override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
+				Log.e(MainActivity.TAG, "ERROR CALLING FUEL SERVICE!!")
+			}
+
+		})
+
 		return responseLiveData
 	}
 
