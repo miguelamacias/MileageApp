@@ -9,6 +9,7 @@ import androidx.room.Room
 import com.macisdev.mileageapp.MainActivity
 import com.macisdev.mileageapp.api.fuel.FuelResponse
 import com.macisdev.mileageapp.api.fuel.FuelServiceCalls
+import com.macisdev.mileageapp.api.fuel.ListaEESSPrecio
 import com.macisdev.mileageapp.api.maps.MapsServiceCalls
 import com.macisdev.mileageapp.api.maps.MatrixResponse
 import com.macisdev.mileageapp.model.Mileage
@@ -136,9 +137,8 @@ class MileageRepository private constructor(val context: Context) {
 		return responseLiveData
 	}
 
-	fun getFuelPrices(): LiveData<String> {
-		val responseLiveData: MutableLiveData<String> = MutableLiveData()
-
+	fun getCityCodeByZipCode(zip: String): LiveData<Int> {
+		val cityCode: MutableLiveData<Int> = MutableLiveData()
 		val retrofit: Retrofit = Retrofit.Builder()
 			.baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
 			.addConverterFactory(GsonConverterFactory.create())
@@ -146,26 +146,55 @@ class MileageRepository private constructor(val context: Context) {
 
 		val fuelAPI = retrofit.create(FuelServiceCalls::class.java)
 
-		fuelAPI.getByCity(6089).enqueue(object : Callback<FuelResponse> {
+		fuelAPI.getAllFuelStations().enqueue(object : Callback<FuelResponse> {
 			override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
 				val responseBody = response.body()
+				var codeFound = false
 
-				responseLiveData.value = responseBody?.fecha ?: "This ain't working!"
-
-				val gasStation = responseBody?.listaEESSPrecio?.first()?.toString() ?: "Not found"
-
-
-				Log.i(MainActivity.TAG, responseLiveData.value.toString())
-				Log.i(MainActivity.TAG, gasStation)
+				if (responseBody?.resultadoConsulta == API_STATUS_OK) {
+					responseBody.listaEESSPrecio.takeWhile { !codeFound }.forEach { fuelStation ->
+						if (fuelStation.CP.toString() == zip) {
+							cityCode.value = fuelStation.iDMunicipio
+							codeFound = true
+						}
+					}
+				}
 			}
 
 			override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
-				Log.e(MainActivity.TAG, "ERROR CALLING FUEL SERVICE!!")
+				Log.e(MainActivity.TAG, "ERROR CALLING FUEL SERVICE!")
 			}
 
 		})
 
-		return responseLiveData
+		return cityCode
+	}
+
+	fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<ListaEESSPrecio>> {
+		val fuelStationsList: MutableLiveData<List<ListaEESSPrecio>> = MutableLiveData()
+		val retrofit: Retrofit = Retrofit.Builder()
+			.baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
+			.addConverterFactory(GsonConverterFactory.create())
+			.build()
+
+		val fuelAPI = retrofit.create(FuelServiceCalls::class.java)
+
+		fuelAPI.getByCity(cityCode).enqueue(object : Callback<FuelResponse> {
+			override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
+				val responseBody = response.body()
+
+				if (responseBody?.resultadoConsulta == API_STATUS_OK) {
+					fuelStationsList.value = responseBody.listaEESSPrecio
+				}
+			}
+
+			override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
+				Log.e(MainActivity.TAG, "ERROR CALLING FUEL SERVICE!")
+			}
+
+		})
+
+		return fuelStationsList
 	}
 
 	companion object {

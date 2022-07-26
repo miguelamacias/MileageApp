@@ -6,7 +6,7 @@ import retrofit2.http.Path
 
 interface FuelServiceCalls {
     @GET("./")
-    fun getAllFuelPosts(): Call<FuelResponse>
+    fun getAllFuelStations(): Call<FuelResponse>
 
     @GET("FiltroMunicipio/{city}")
     fun getByCity(

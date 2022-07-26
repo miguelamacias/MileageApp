@@ -127,4 +127,13 @@
     <string name="share_trip_cost">Compartir coste</string>
     <string name="share_trip_passengers">pasajeros</string>
     <string name="cost_by_passenger">Coste por pasajero:</string>
+    <string name="fuel_preferences">Preferencias combustible</string>
+    <string name="fuel_price_service_activate">Activar el precio del combustible automático en la calculadora de viajes</string>
+    <string name="choose_preferred_fuel_station">Escoge tu gasolinera…</string>
+    <string name="zip_code_label">Código Postal:</string>
+    <string name="diesel_price_label">Gasóleo A:</string>
+    <string name="petrol_price_label">Gasolina 95:</string>
+    <string name="fuel_stations">Gasolineras</string>
+    <string name="no_preferred_station">Ninguna</string>
+    <string name="preferred_station">Actual: %1$s</string>
 </resources>

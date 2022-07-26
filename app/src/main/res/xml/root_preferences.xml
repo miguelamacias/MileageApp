@@ -9,6 +9,19 @@
                 android:key="hide_add_vehicle"
                 android:summary="@string/add_vehicle_when_empty" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/fuel_preferences">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="fuel_service_activate"
+            android:title="@string/fuel_price_service_activate" />
+        <Preference
+            android:id="@+id/preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:key="choose_fuel_station"
+            app:title="@string/choose_preferred_fuel_station" />
+    </PreferenceCategory>
     <PreferenceCategory app:title="@string/backup">
 
         <Preference

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/fuel_station_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="REPSOL" />
+
+        <TextView
+            android:id="@+id/fuel_station_address_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fuel_station_name_tv"
+            tools:text="Av. Blanca Paloma nº 27" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/diesel_price_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fuel_station_address_tv" />
+
+        <TextView
+            android:id="@+id/diesel_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView24"
+            app:layout_constraintStart_toEndOf="@+id/textView24"
+            tools:text="1,892€" />
+
+        <TextView
+            android:id="@+id/petrol_price_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="@string/petrol_price_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintBaseline_toBaselineOf="@+id/diesel_price_tv"
+            app:layout_constraintStart_toEndOf="@+id/diesel_price_tv" />
+
+        <TextView
+            android:id="@+id/petrol_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/petrol_price_label"
+            app:layout_constraintStart_toEndOf="@+id/petrol_price_label"
+            tools:text="1,923€" />
+
+        <TextView
+            android:id="@+id/opening_hours_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/fuel_station_name_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/fuel_station_name_tv"
+            tools:text="L-D: 24H" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

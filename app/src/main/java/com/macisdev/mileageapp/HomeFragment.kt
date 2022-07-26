@@ -20,11 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.databinding.FragmentHomeBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Statistics
 import com.macisdev.mileageapp.model.Vehicle
+import com.macisdev.mileageapp.utils.Constants.Companion.HIDE_ADD_VEHICLE_PREFERENCE
 import com.macisdev.mileageapp.utils.Utils
 import com.macisdev.mileageapp.viewModels.HomeFragmentViewModel
 import java.util.*
@@ -51,9 +51,6 @@ class HomeFragment : Fragment() {
 		homeFragmentVM.vehiclesList.observe(viewLifecycleOwner) { updateVehicles(it) }
 		homeFragmentVM.getStatistics().observe(viewLifecycleOwner) { updateStatistics(it) }
 		homeFragmentVM.getLastMileage().observe(viewLifecycleOwner) { updateLastMileage(it) }
-
-		//TODO Delete this after testing
-		MileageRepository.get().getFuelPrices()
 	}
 
 	private fun updateStatistics(stats: Statistics) {
@@ -110,7 +107,7 @@ class HomeFragment : Fragment() {
 
 		val mutableVehicles = vehicles.toMutableList()
 
-		if (!preferences.getBoolean(SettingsFragment.HIDE_ADD_VEHICLE, false)
+		if (!preferences.getBoolean(HIDE_ADD_VEHICLE_PREFERENCE, false)
 			|| vehicles.isEmpty()
 		) {
 			val addVehicle = Vehicle(getString(R.string.add_vehicle), "", "", addIconEntryName, addIconColor)

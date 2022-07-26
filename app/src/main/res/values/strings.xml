@@ -1,6 +1,6 @@
 <resources>
     <!-- v1.0 strings -->
-    <string name="app_version" translatable="false">v1.4</string>
+    <string name="app_version" translatable="false">v1.5-preAlpha</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -150,6 +150,17 @@
         <item>"6"</item>
         <item>"7"</item>
     </array>
+
+    <!--v1.5 strings -->
+    <string name="fuel_preferences">Fuel price preferences</string>
+    <string name="fuel_price_service_activate">Turn on Automatic fuel prices in the Trip Calculator</string>
+    <string name="choose_preferred_fuel_station">Set preferred fuel station…</string>
+    <string name="zip_code_label">ZIP code:</string>
+    <string name="diesel_price_label">Diesel price:</string>
+    <string name="petrol_price_label">Petrol price:</string>
+    <string name="fuel_stations">Fuel Stations</string>
+    <string name="no_preferred_station">None</string>
+    <string name="preferred_station">Current: %1$s</string>
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

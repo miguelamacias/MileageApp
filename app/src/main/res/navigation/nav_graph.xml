@@ -94,5 +94,14 @@
     <fragment
             android:id="@+id/settingsFragment"
             android:name="com.macisdev.mileageapp.SettingsFragment"
-            android:label="@string/settings" />
+            android:label="@string/settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_fuelStationsFragment"
+            app:destination="@id/fuelStationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fuelStationsFragment"
+        android:name="com.macisdev.mileageapp.FuelStationsFragment"
+        android:label="@string/fuel_stations"
+        tools:layout="@layout/fragment_fuel_stations" />
 </navigation>

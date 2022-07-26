@@ -2,6 +2,7 @@ package com.macisdev.mileageapp
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import com.macisdev.mileageapp.database.MileageRepository
+import com.macisdev.mileageapp.utils.Constants
 import com.macisdev.mileageapp.utils.Utils
 import com.macisdev.mileageapp.utils.log
 import com.macisdev.mileageapp.utils.showToast
@@ -20,12 +24,10 @@ import java.io.File
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
-	companion object {
-		const val HIDE_ADD_VEHICLE = "hide_add_vehicle"
-	}
-
 	private lateinit var roomBackup: RoomBackup
 	private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+	private lateinit var preferences: SharedPreferences
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -43,11 +45,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 	override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 		setPreferencesFromResource(R.xml.root_preferences, rootKey)
+		preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		val activity = activity as MainActivity
 		roomBackup = activity.roomBackup
+
+		val currentPreferredStation =
+			preferences.getString(Constants.PREFERRED_GAS_STATION_NAME, getString(R.string.no_preferred_station))
+
+		preferenceManager.findPreference<Preference>("choose_fuel_station")?.summary =
+			getString(R.string.preferred_station, currentPreferredStation)
 
 		preferenceManager.findPreference<Preference>("create_local_backup")?.setOnPreferenceClickListener {
 			createLocalBackup()
@@ -76,6 +85,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 		preferenceManager.findPreference<Preference>("terms_of_service")?.setOnPreferenceClickListener {
 			openTerms()
+			true
+		}
+
+		preferenceManager.findPreference<Preference>("choose_fuel_station")?.setOnPreferenceClickListener {
+			chooseFuelStation()
 			true
 		}
 
@@ -191,4 +205,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 	private fun openPrivacy() =
 		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_policy_url))))
+
+	private fun chooseFuelStation() {
+		val directions = SettingsFragmentDirections.actionSettingsFragmentToFuelStationsFragment()
+		findNavController().navigate(directions)
+	}
 }
