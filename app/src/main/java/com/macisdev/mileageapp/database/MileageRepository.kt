@@ -2,24 +2,13 @@ package com.macisdev.mileageapp.database
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
-import com.macisdev.mileageapp.MainActivity
-import com.macisdev.mileageapp.api.fuel.FuelResponse
-import com.macisdev.mileageapp.api.fuel.FuelServiceCalls
+import com.macisdev.mileageapp.api.FuelServiceImpl
+import com.macisdev.mileageapp.api.MapsServiceImpl
 import com.macisdev.mileageapp.api.fuel.ListaEESSPrecio
-import com.macisdev.mileageapp.api.maps.MapsServiceCalls
-import com.macisdev.mileageapp.api.maps.MatrixResponse
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
-import com.macisdev.mileageapp.utils.Utils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -39,6 +28,8 @@ class MileageRepository private constructor(val context: Context) {
 
 	private val mileageDao = database.mileageDao()
 	private val executor = Executors.newSingleThreadExecutor()
+	private val fuelService = FuelServiceImpl()
+	private val mapsService = MapsServiceImpl()
 
 	fun getVehicles() = mileageDao.getVehicles()
 
@@ -80,163 +71,18 @@ class MileageRepository private constructor(val context: Context) {
 
 	fun getVehicleAverageMileage(vehiclePlateNumber: String) = mileageDao.getVehicleAverageMileage(vehiclePlateNumber)
 
-	var tripDuration = MutableLiveData<Int>()
+	fun getCityCodeByZipCode(zip: String): LiveData<Int> = fuelService.getCityCodeByZipCode(zip)
 
-	fun getTripDistance(origin: String, destination: String, avoidTolls: Boolean): LiveData<Double> {
-		val responseLiveData: MutableLiveData<Double> = MutableLiveData()
+	fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<ListaEESSPrecio>> =
+		fuelService.getFuelStationsByCityCode(cityCode)
 
-		val retrofit: Retrofit = Retrofit.Builder()
-			.baseUrl("https://maps.googleapis.com/maps/api/distancematrix/")
-			.addConverterFactory(GsonConverterFactory.create())
-			.build()
+	fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<ListaEESSPrecio> =
+		fuelService.getPreferredFuelStation(cityCode, stationId)
 
-		val mapsAPI = retrofit.create(MapsServiceCalls::class.java)
+	fun getTripDistance(origin: String, destination: String, avoidTolls: Boolean): LiveData<Double> =
+		mapsService.getTripDistance(origin, destination, avoidTolls)
 
-		val mapsRequest: Call<MatrixResponse> = if (avoidTolls) {
-			mapsAPI.getDistanceAvoidTolls(origin, destination)
-		} else {
-			mapsAPI.getDistance(origin, destination)
-		}
-
-		mapsRequest.enqueue(object : Callback<MatrixResponse> {
-			override fun onResponse(call: Call<MatrixResponse>, response: Response<MatrixResponse>) {
-				val responseBody = response.body()
-				val apiStatus = responseBody?.status
-				val routeStatus =
-					if (apiStatus == API_STATUS_OK) responseBody.rows.first().elements.first().status else ""
-
-				if (apiStatus == API_STATUS_OK && routeStatus == API_STATUS_OK) {
-					val tripDistance = responseBody
-						.rows.first()
-						.elements.first()
-						.distance
-						.value / 1000.0
-
-					responseLiveData.value = tripDistance
-
-					tripDuration.value = responseBody
-						.rows.first()
-						.elements.first()
-						.duration
-						.value / 60
-
-					Log.i(MainActivity.TAG, "Distance Matrix API called successfully.")
-				} else if (routeStatus == API_STATUS_ZERO_RESULTS) {
-					responseLiveData.value = -1.0
-					Log.i(MainActivity.TAG, "Distance Matrix API called successfully, but no route was found.")
-				} else {
-					responseLiveData.value = -2.0
-					Log.e(MainActivity.TAG, "Distance Matrix API call returned an error: $apiStatus")
-				}
-			}
-
-			override fun onFailure(call: Call<MatrixResponse>, t: Throwable) {
-				responseLiveData.value = -2.0
-				Log.e(MainActivity.TAG, "Distance Matrix API call failed.")
-			}
-		})
-		return responseLiveData
-	}
-
-	fun getCityCodeByZipCode(zip: String): LiveData<Int> {
-		val cityCode: MutableLiveData<Int> = MutableLiveData()
-		val retrofit: Retrofit = Retrofit.Builder()
-			.baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
-			.addConverterFactory(GsonConverterFactory.create())
-			.build()
-
-		val fuelAPI = retrofit.create(FuelServiceCalls::class.java)
-
-		fuelAPI.getAllFuelStations().enqueue(object : Callback<FuelResponse> {
-			override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
-				val responseBody = response.body()
-				var codeFound = false
-
-				if (responseBody?.resultadoConsulta == API_STATUS_OK) {
-					responseBody.listaEESSPrecio.takeWhile { !codeFound }.forEach { fuelStation ->
-						if (fuelStation.CP.toString() == zip) {
-							cityCode.value = fuelStation.iDMunicipio
-							codeFound = true
-						}
-					}
-				}
-			}
-
-			override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
-				Log.e(MainActivity.TAG, "Error calling fuel service in getCityCodeByZipCode")
-			}
-
-		})
-
-		return cityCode
-	}
-
-	fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<ListaEESSPrecio>> {
-		val fuelStationsList: MutableLiveData<List<ListaEESSPrecio>> = MutableLiveData()
-		val retrofit: Retrofit = Retrofit.Builder()
-			.baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
-			.addConverterFactory(GsonConverterFactory.create())
-			.build()
-
-		val fuelAPI = retrofit.create(FuelServiceCalls::class.java)
-
-		fuelAPI.getByCity(cityCode).enqueue(object : Callback<FuelResponse> {
-			override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
-				val responseBody = response.body()
-
-				if (responseBody?.resultadoConsulta == API_STATUS_OK) {
-					fuelStationsList.value = responseBody.listaEESSPrecio
-				}
-			}
-
-			override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
-				Log.e(MainActivity.TAG, "Error calling fuel service in getFuelStationsByCityCode()")
-			}
-
-		})
-
-		return fuelStationsList
-	}
-
-	fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<ListaEESSPrecio> {
-		val station: MutableLiveData<ListaEESSPrecio> = MutableLiveData()
-
-		val retrofit: Retrofit = Retrofit.Builder()
-			.baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
-			.addConverterFactory(GsonConverterFactory.create())
-			.build()
-
-		val fuelAPI = retrofit.create(FuelServiceCalls::class.java)
-
-		fuelAPI.getByCity(cityCode).enqueue(object : Callback<FuelResponse> {
-			override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
-				val responseBody = response.body()
-
-				if (responseBody?.resultadoConsulta == API_STATUS_OK) {
-					var codeFound = false
-
-					responseBody.listaEESSPrecio.takeWhile { !codeFound }.forEach { fuelStation ->
-						if (fuelStation.iDEESS == stationId) {
-							station.value = fuelStation
-							codeFound = true
-						}
-					}
-					if (!codeFound) {
-						station.value = Utils.getEmptyFuelStation()
-					}
-				} else {
-					station.value = Utils.getEmptyFuelStation()
-				}
-			}
-
-			override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
-				station.value = Utils.getEmptyFuelStation()
-				Log.e(MainActivity.TAG, "Error calling fuel service in getPreferredFuelStation()")
-			}
-		})
-
-		return station
-	}
+	var tripDuration = mapsService.tripDuration
 
 	companion object {
 		@SuppressLint("StaticFieldLeak")

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
@@ -38,6 +39,14 @@ class FuelStationsFragment : Fragment() {
 
         gui.searchButton.setOnClickListener {
             searchFuelStations(gui.zipEditText.text.toString())
+        }
+
+        gui.zipEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                searchFuelStations(gui.zipEditText.text.toString())
+                return@setOnEditorActionListener true
+            }
+            false
         }
 
         gui.fuelStationsList.layoutManager = LinearLayoutManager(view.context)
@@ -96,8 +105,8 @@ class FuelStationsFragment : Fragment() {
                     petrolPrice -= 0.2
                 }
 
-                dieselPriceTv.text = dieselPrice.toString()
-                petrolPriceTv.text = petrolPrice.toString()
+                dieselPriceTv.text = dieselPrice.toString().substring(0, 5)
+                petrolPriceTv.text = petrolPrice.toString().substring(0, 5)
 
             }
         }

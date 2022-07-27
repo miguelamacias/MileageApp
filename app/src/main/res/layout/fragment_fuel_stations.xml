@@ -23,8 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="4"
-        android:inputType="textPersonName"
         android:minHeight="48dp"
+        android:imeOptions="actionDone"
+        android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView21"
         app:layout_constraintStart_toEndOf="@+id/textView21" />
 
