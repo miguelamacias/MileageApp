@@ -21,6 +21,17 @@
             android:layout_height="wrap_content"
             app:key="choose_fuel_station"
             app:title="@string/choose_preferred_fuel_station" />
+        <ListPreference
+            android:defaultValue="false"
+            android:entries="@array/fuel_types"
+            android:entryValues="@array/fuel_types"
+            android:key="fuel_type_preference"
+            android:title="@string/fuel_type"
+            app:useSimpleSummaryProvider="true"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="fuel_service_discount"
+            android:title="@string/apply_government_discount" />
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/backup">
 

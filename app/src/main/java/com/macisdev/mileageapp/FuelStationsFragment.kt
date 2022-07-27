@@ -27,7 +27,7 @@ class FuelStationsFragment : Fragment() {
     private lateinit var fuelStationAdapter: FuelStationAdapter
     private lateinit var preferences: SharedPreferences
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         gui = FragmentFuelStationsBinding.inflate(inflater, container, false)
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         return gui.root
@@ -68,10 +68,12 @@ class FuelStationsFragment : Fragment() {
             init {
                 itemView.setOnClickListener {
                     val fuelStationFullName = currentFuelStation?.rotulo + " " + currentFuelStation?.municipio
-
+                    val stationId = currentFuelStation?.iDEESS
+                    val cityId = currentFuelStation?.iDMunicipio
                     preferences.edit {
-                        putInt(Constants.PREFERRED_GAS_STATION_ID, currentFuelStation?.iDEESS ?: 0)
+                        putInt(Constants.PREFERRED_GAS_STATION_ID, stationId ?: 0)
                         putString(Constants.PREFERRED_GAS_STATION_NAME, fuelStationFullName)
+                        putInt(Constants.PREFERRED_GAS_STATION_CITY_ID, cityId ?: 0)
                     }
 
                     findNavController().navigateUp()
@@ -84,8 +86,19 @@ class FuelStationsFragment : Fragment() {
                 fuelStationNameTv.text = fuelStation.rotulo
                 fuelStationOpeningHoursTv.text = fuelStation.horario
                 fuelStationAddressTv.text = fuelStation.direccion
-                dieselPriceTv.text = fuelStation.precioGasoleoA
-                petrolPriceTv.text = fuelStation.precioGasolina95E5
+
+                var dieselPrice = fuelStation.precioGasoleoA.replace(',', '.').toDouble()
+                var petrolPrice = fuelStation.precioGasolina95E5.replace(',', '.').toDouble()
+
+                val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
+                if (applyDiscount) {
+                    dieselPrice -= 0.2
+                    petrolPrice -= 0.2
+                }
+
+                dieselPriceTv.text = dieselPrice.toString()
+                petrolPriceTv.text = petrolPrice.toString()
+
             }
         }
 

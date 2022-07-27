@@ -3,6 +3,7 @@ package com.macisdev.mileageapp.viewModels
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.macisdev.mileageapp.api.fuel.ListaEESSPrecio
 import com.macisdev.mileageapp.database.MileageRepository
 
 class TripCostViewModel : ViewModel() {
@@ -28,4 +29,7 @@ class TripCostViewModel : ViewModel() {
 	fun getTripDistance(avoidTolls: Boolean) = mileageRepository.getTripDistance(origin, destination, avoidTolls)
 
 	fun getTripDuration(): LiveData<Int> = mileageRepository.tripDuration
+
+	fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<ListaEESSPrecio> =
+		mileageRepository.getPreferredFuelStation(cityCode, stationId)
 }

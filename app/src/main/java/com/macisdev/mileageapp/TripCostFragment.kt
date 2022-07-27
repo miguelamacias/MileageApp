@@ -22,10 +22,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.macisdev.mileageapp.database.TRIP_DISTANCE_ZERO_RESULTS_ERROR
 import com.macisdev.mileageapp.databinding.FragmentTripCostBinding
 import com.macisdev.mileageapp.model.Vehicle
-import com.macisdev.mileageapp.utils.getDouble
-import com.macisdev.mileageapp.utils.hideKeyboard
-import com.macisdev.mileageapp.utils.putDouble
-import com.macisdev.mileageapp.utils.showToast
+import com.macisdev.mileageapp.utils.*
 import com.macisdev.mileageapp.viewModels.TripCostViewModel
 import java.text.DecimalFormat
 import java.text.ParseException
@@ -65,6 +62,11 @@ class TripCostFragment : Fragment() {
 		gui.fuelPriceEditText.setText(
 			String.format(Locale.getDefault(), "%.3f", preferences.getDouble(FUEL_PRICE_KEY, 0.0))
 		)
+
+		val fuelPriceServiceActivated = preferences.getBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, false)
+		if (fuelPriceServiceActivated) {
+			loadAutomaticFuelPrice()
+		}
 
 		if (gui.fuelPriceEditText.text.toString() == "0.000") {
 			gui.fuelPriceEditText.setText("")
@@ -131,6 +133,32 @@ class TripCostFragment : Fragment() {
 
 		gui.calculateCostButton.setOnClickListener {
 			calculateTripCost()
+		}
+	}
+
+	private fun loadAutomaticFuelPrice() {
+		val stationCityCode = preferences.getInt(Constants.PREFERRED_GAS_STATION_CITY_ID, 0)
+		val stationId = preferences.getInt(Constants.PREFERRED_GAS_STATION_ID, 0)
+		val fuelType = preferences.getString(Constants.FUEL_TYPE_PREFERENCE, "")
+		var fuelPrice: Double
+
+		tripCostViewModel.getPreferredFuelStation(stationCityCode, stationId)
+			.observe(viewLifecycleOwner) { fuelStation ->
+
+				fuelPrice = if (fuelType == getString(R.string.diesel)) {
+					fuelStation.precioGasoleoA.replace(',', '.').toDouble()
+				} else {
+					fuelStation.precioGasolina95E5.replace(',', '.').toDouble()
+				}
+
+				val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
+				if (applyDiscount) {
+					fuelPrice -= 0.2
+				}
+
+				if (fuelPrice > 0) {
+					gui.fuelPriceEditText.setText(String.format(Locale.getDefault(), "%.3f", fuelPrice))
+				}
 		}
 	}
 
