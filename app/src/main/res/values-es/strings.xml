@@ -140,4 +140,6 @@
     <string name="petrol">Gasolina 95</string>
     <string name="fuel_type">Tipo de combustible</string>
     <string name="apply_government_discount">Aplicar descuento del gobierno</string>
+    <string name="only_available_spain">Sólo disponible para gasolineras de España</string>
+    <string name="discount_info">Descuento de 20 céntimos por litro</string>
 </resources>

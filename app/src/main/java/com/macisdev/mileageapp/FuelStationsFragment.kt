@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.macisdev.mileageapp.api.fuel.ListaEESSPrecio
 import com.macisdev.mileageapp.databinding.FragmentFuelStationsBinding
 import com.macisdev.mileageapp.utils.Constants
+import com.macisdev.mileageapp.utils.hideKeyboard
 import com.macisdev.mileageapp.viewModels.FuelStationsFragmentViewModel
 
 
@@ -42,7 +43,7 @@ class FuelStationsFragment : Fragment() {
         }
 
         gui.zipEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchFuelStations(gui.zipEditText.text.toString())
                 return@setOnEditorActionListener true
             }
@@ -55,6 +56,7 @@ class FuelStationsFragment : Fragment() {
     }
 
     private fun searchFuelStations(zip: String) {
+        hideKeyboard()
         fuelStationsViewModel.getCityCodeByZipCode(zip).observe(viewLifecycleOwner) { cityCode ->
             fuelStationsViewModel.getFuelStationsByCityCode(cityCode).observe(viewLifecycleOwner) { fuelStationsList ->
                 gui.cityNameEditText.setText(fuelStationsList?.first()?.municipio ?: "")

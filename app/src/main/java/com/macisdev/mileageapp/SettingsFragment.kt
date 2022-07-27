@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreference
 import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.utils.Constants
 import com.macisdev.mileageapp.utils.Utils
@@ -27,6 +28,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 	private lateinit var roomBackup: RoomBackup
 	private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 	private lateinit var preferences: SharedPreferences
+	private var fuelServiceActivated: Boolean = true
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -46,6 +48,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 	override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 		setPreferencesFromResource(R.xml.root_preferences, rootKey)
 		preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+		fuelServiceActivated = preferences.getBoolean("fuel_service_activate", false)
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -54,6 +57,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 		val currentPreferredStation =
 			preferences.getString(Constants.PREFERRED_GAS_STATION_NAME, getString(R.string.no_preferred_station))
+
+		changeFuelServicePrefVisibility(fuelServiceActivated)
 
 		preferenceManager.findPreference<Preference>("choose_fuel_station")?.summary =
 			getString(R.string.preferred_station, currentPreferredStation)
@@ -93,7 +98,24 @@ class SettingsFragment : PreferenceFragmentCompat() {
 			true
 		}
 
+		preferenceManager.findPreference<SwitchPreference>("fuel_service_activate")
+			?.setOnPreferenceChangeListener { _, newValue ->
+			changeFuelServicePrefVisibility(newValue as Boolean)
+			true
+		}
+
 		return super.onCreateView(inflater, container, savedInstanceState)
+	}
+
+	private fun changeFuelServicePrefVisibility(visible: Boolean) {
+		val fuelStationPreference: Preference? = findPreference("choose_fuel_station")
+		fuelStationPreference?.isVisible = visible
+
+		val fuelTypePreference: Preference? = findPreference("fuel_type_preference")
+		fuelTypePreference?.isVisible = visible
+
+		val fuelDiscountPreference: Preference? = findPreference("fuel_service_discount")
+		fuelDiscountPreference?.isVisible = visible
 	}
 
 	private fun createLocalBackup() {

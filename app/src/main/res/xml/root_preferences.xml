@@ -4,33 +4,41 @@
     <PreferenceCategory android:title="@string/gui">
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:title="@string/hide_add_vehicle"
-                android:key="hide_add_vehicle"
-                android:summary="@string/add_vehicle_when_empty" />
+            android:defaultValue="false"
+            android:icon="@drawable/ic_eye_hide_24"
+            android:key="hide_add_vehicle"
+            android:summary="@string/add_vehicle_when_empty"
+            android:title="@string/hide_add_vehicle" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/fuel_preferences">
 
         <SwitchPreference
             android:defaultValue="true"
+            android:icon="@drawable/ic_auto_fuel_service_24"
             android:key="fuel_service_activate"
+            android:summary="@string/only_available_spain"
             android:title="@string/fuel_price_service_activate" />
         <Preference
             android:id="@+id/preference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:icon="@drawable/ic_fuel_station_24"
             app:key="choose_fuel_station"
             app:title="@string/choose_preferred_fuel_station" />
         <ListPreference
             android:defaultValue="false"
+            android:dialogIcon="@drawable/ic_fuel_tipe_24"
             android:entries="@array/fuel_types"
             android:entryValues="@array/fuel_types"
+            android:icon="@drawable/ic_fuel_tipe_24"
             android:key="fuel_type_preference"
             android:title="@string/fuel_type"
             app:useSimpleSummaryProvider="true"/>
         <SwitchPreference
             android:defaultValue="true"
+            android:icon="@drawable/ic_discount_24"
             android:key="fuel_service_discount"
+            android:summary="@string/discount_info"
             android:title="@string/apply_government_discount" />
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/backup">
