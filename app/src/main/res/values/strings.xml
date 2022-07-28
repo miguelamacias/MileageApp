@@ -167,6 +167,8 @@
     <string name="apply_government_discount">Apply government discount</string>
     <string name="discount_info">Discount of 0.20€ by liter</string>
     <string name="only_available_spain">Only available for Spanish Fuel Stations</string>
+    <string name="wrong_zip">The zip introduced is not valid</string>
+    <string name="no_results_zip">No fuel stations have been found for ZIP %1$s</string>
 
     <string-array name="fuel_types">
         <item>@string/diesel</item>

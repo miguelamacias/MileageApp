@@ -23,4 +23,7 @@
     <color name="golden">#DAA520</color>
     <color name="yellow">#F9E219</color>
     <color name="purple">#673AB7</color>
+
+    <!--Other colors-->
+    <color name="light_green">#4CAF50</color>
 </resources>

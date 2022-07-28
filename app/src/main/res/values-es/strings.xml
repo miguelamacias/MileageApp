@@ -142,4 +142,6 @@
     <string name="apply_government_discount">Aplicar descuento del gobierno</string>
     <string name="only_available_spain">Sólo disponible para gasolineras de España</string>
     <string name="discount_info">Descuento de 20 céntimos por litro</string>
+    <string name="wrong_zip">El código postal introducido no es válido</string>
+    <string name="no_results_zip">No se han encontrado gasolineras en el código postal %1$s</string>
 </resources>

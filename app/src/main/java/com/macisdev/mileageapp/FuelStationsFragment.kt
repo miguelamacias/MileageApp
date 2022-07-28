@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,6 +22,7 @@ import com.macisdev.mileageapp.api.fuel.ListaEESSPrecio
 import com.macisdev.mileageapp.databinding.FragmentFuelStationsBinding
 import com.macisdev.mileageapp.utils.Constants
 import com.macisdev.mileageapp.utils.hideKeyboard
+import com.macisdev.mileageapp.utils.showToast
 import com.macisdev.mileageapp.viewModels.FuelStationsFragmentViewModel
 
 
@@ -56,12 +59,28 @@ class FuelStationsFragment : Fragment() {
     }
 
     private fun searchFuelStations(zip: String) {
-        hideKeyboard()
-        fuelStationsViewModel.getCityCodeByZipCode(zip).observe(viewLifecycleOwner) { cityCode ->
-            fuelStationsViewModel.getFuelStationsByCityCode(cityCode).observe(viewLifecycleOwner) { fuelStationsList ->
-                gui.cityNameEditText.setText(fuelStationsList?.first()?.municipio ?: "")
-                fuelStationAdapter.submitList(fuelStationsList)
+        if (zip.isDigitsOnly() && zip.length == 5) {
+            hideKeyboard()
+            gui.fuelStationProgessBar.visibility = View.VISIBLE
+
+            val zipNoLeadingZeros = zip.toInt().toString()
+
+            fuelStationsViewModel.getCityCodeByZipCode(zipNoLeadingZeros).observe(viewLifecycleOwner) { cityCode ->
+
+                if (cityCode != 0) {
+                    fuelStationsViewModel.getFuelStationsByCityCode(cityCode)
+                        .observe(viewLifecycleOwner) { fuelStationsList ->
+                            gui.cityNameEditText.setText(fuelStationsList?.first()?.municipio ?: "")
+                            fuelStationAdapter.submitList(fuelStationsList)
+                        }
+                } else {
+                    showToast(getString(R.string.no_results_zip, zip))
+                }
+
+                gui.fuelStationProgessBar.visibility = View.GONE
             }
+        } else {
+            showToast(R.string.wrong_zip)
         }
     }
 
@@ -98,8 +117,17 @@ class FuelStationsFragment : Fragment() {
                 fuelStationOpeningHoursTv.text = fuelStation.horario
                 fuelStationAddressTv.text = fuelStation.direccion
 
-                var dieselPrice = fuelStation.precioGasoleoA.replace(',', '.').toDouble()
-                var petrolPrice = fuelStation.precioGasolina95E5.replace(',', '.').toDouble()
+                var dieselPrice = if (fuelStation.precioGasoleoA.isNotBlank()) {
+                    fuelStation.precioGasoleoA.replace(',', '.').toDouble()
+                } else {
+                    0.0
+                }
+
+                var petrolPrice = if (fuelStation.precioGasolina95E5.isNotBlank()) {
+                    fuelStation.precioGasolina95E5.replace(',', '.').toDouble()
+                } else {
+                    0.0
+                }
 
                 val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
                 if (applyDiscount) {
@@ -107,16 +135,37 @@ class FuelStationsFragment : Fragment() {
                     petrolPrice -= 0.2
                 }
 
-                dieselPriceTv.text = dieselPrice.toString().substring(0, 5)
-                petrolPriceTv.text = petrolPrice.toString().substring(0, 5)
+                dieselPriceTv.text = if (dieselPrice > 0) {
+                    dieselPrice.toString().substring(0, 5)
+                } else {
+                    "-"
+                }
 
+                petrolPriceTv.text = if (petrolPrice > 0) {
+                    petrolPrice.toString().substring(0, 5)
+                } else {
+                    "-"
+                }
+
+                val resetColor = ContextCompat.getColor(requireContext(), R.color.quantum_black_secondary_text)
+                dieselPriceTv.setTextColor(resetColor)
+                petrolPriceTv.setTextColor(resetColor)
+
+                val greenColor = ContextCompat.getColor(requireContext(), R.color.light_green)
+                if (fuelStation.cheapestDiesel) {
+                    dieselPriceTv.setTextColor(greenColor)
+                }
+                if (fuelStation.cheapestPetrol) {
+                    petrolPriceTv.setTextColor(greenColor)
+                }
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FuelStationViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             return FuelStationViewHolder(
-                layoutInflater.inflate(R.layout.list_item_fuel_station, parent, false))
+                layoutInflater.inflate(R.layout.list_item_fuel_station, parent, false)
+            )
         }
 
         override fun onBindViewHolder(holder: FuelStationViewHolder, position: Int) {

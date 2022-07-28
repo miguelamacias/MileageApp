@@ -38,6 +38,10 @@ class FuelServiceImpl {
                         }
                     }
                 }
+
+                if (!codeFound) {
+                    cityCode.value = 0
+                }
             }
 
             override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
@@ -63,7 +67,24 @@ class FuelServiceImpl {
                 val responseBody = response.body()
 
                 if (responseBody?.resultadoConsulta == API_STATUS_OK) {
-                    fuelStationsList.value = responseBody.listaEESSPrecio
+                    val responseList = responseBody.listaEESSPrecio.filter { it.tipoVenta == "P" }
+
+                    val stationCheapestDiesel = responseList.filter { it.precioGasoleoA.isNotBlank() }
+                        .minBy { it.precioGasoleoA }
+
+                    val stationCheapestPetrol = responseList.filter { it.precioGasolina95E5.isNotBlank() }
+                        .minBy { it.precioGasolina95E5 }
+
+                    responseList.forEach { station ->
+                        if (station.iDEESS == stationCheapestDiesel.iDEESS) {
+                            station.cheapestDiesel = true
+                        }
+                        if (station.iDEESS == stationCheapestPetrol.iDEESS) {
+                            station.cheapestPetrol = true
+                        }
+                    }
+
+                    fuelStationsList.value = responseList
                 }
             }
 
