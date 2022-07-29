@@ -101,6 +101,7 @@ class FuelServiceImpl {
 
                     responseBody.listaEESSPrecio.takeWhile { !codeFound }.forEach { fuelStation ->
                         if (fuelStation.iDEESS == stationId) {
+                            fuelStation.creationDate = responseBody.fecha
                             station.value = fuelStation
                             codeFound = true
                         }

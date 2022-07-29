@@ -23,16 +23,14 @@ import com.macisdev.mileageapp.database.TRIP_DISTANCE_ZERO_RESULTS_ERROR
 import com.macisdev.mileageapp.databinding.FragmentTripCostBinding
 import com.macisdev.mileageapp.model.Vehicle
 import com.macisdev.mileageapp.utils.*
+import com.macisdev.mileageapp.utils.Constants.Companion.FUEL_PRICE_DATE
+import com.macisdev.mileageapp.utils.Constants.Companion.FUEL_PRICE_KEY
 import com.macisdev.mileageapp.viewModels.TripCostViewModel
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.util.*
 
 class TripCostFragment : Fragment() {
-	companion object {
-		private const val FUEL_PRICE_KEY = "fuelPriceKey"
-	}
-
 	private lateinit var gui: FragmentTripCostBinding
 	private val tripCostViewModel: TripCostViewModel by viewModels()
 	private lateinit var preferences: SharedPreferences
@@ -62,6 +60,8 @@ class TripCostFragment : Fragment() {
 		gui.fuelPriceEditText.setText(
 			String.format(Locale.getDefault(), "%.3f", preferences.getDouble(FUEL_PRICE_KEY, 0.0))
 		)
+		gui.fuelOriginInfoTv.text =
+			getString(R.string.fuel_last_stored_info, preferences.getString(FUEL_PRICE_DATE, ""))
 
 		val fuelPriceServiceActivated = preferences.getBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, false)
 		if (fuelPriceServiceActivated) {
@@ -143,12 +143,31 @@ class TripCostFragment : Fragment() {
 		var fuelPrice: Double
 
 		tripCostViewModel.getPreferredFuelStation(stationCityCode, stationId)
-			.observe(viewLifecycleOwner) { fuelStation ->
+			.observe(viewLifecycleOwner) { station ->
+				if (station.precioGasoleoA.isBlank()) {
+					station.precioGasoleoA = station.precioGasoleoPremium.ifBlank {
+						"0.0"
+					}
+				}
+
+				if (station.precioGasolina95E5.isBlank()) {
+					station.precioGasolina95E5 = if (station.precioGasolina95E5Premium.isNotBlank()) {
+						station.precioGasolina95E5Premium
+					} else if (station.precioGasolina95E10.isNotBlank()) {
+						station.precioGasolina95E10
+					} else if (station.precioGasolina98E5.isNotBlank()) {
+						station.precioGasolina98E5
+					} else  if (station.precioGasolina98E10.isNotBlank()) {
+						station.precioGasolina98E10
+					} else {
+						"0.0"
+					}
+				}
 
 				fuelPrice = if (fuelType == getString(R.string.diesel)) {
-					fuelStation.precioGasoleoA.replace(',', '.').toDouble()
+					station.precioGasoleoA.replace(',', '.').toDouble()
 				} else {
-					fuelStation.precioGasolina95E5.replace(',', '.').toDouble()
+					station.precioGasolina95E5.replace(',', '.').toDouble()
 				}
 
 				val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
@@ -157,6 +176,13 @@ class TripCostFragment : Fragment() {
 				}
 
 				if (fuelPrice > 0) {
+					val stationInfo = station.rotulo + " " + station.municipio
+					val date = station.creationDate
+					val formattedDate = date
+						.removeRange(date.lastIndexOf('/').plus(1), date.lastIndexOf('/').plus(3))
+						.dropLast(3)
+					gui.fuelOriginInfoTv.text = getString(R.string.fuel_origin_info,
+						stationInfo, formattedDate)
 					gui.fuelPriceEditText.setText(String.format(Locale.getDefault(), "%.3f", fuelPrice))
 				}
 		}
@@ -305,7 +331,10 @@ class TripCostFragment : Fragment() {
 	}
 
 	private fun showTripCost(mileage: Double, fuelPrice: Double, avoidTolls: Boolean) {
-		preferences.edit { putDouble(FUEL_PRICE_KEY, fuelPrice) }
+		preferences.edit {
+			putDouble(FUEL_PRICE_KEY, fuelPrice)
+			putString(FUEL_PRICE_DATE, Utils.formatDate(Date()))
+		}
 
 		tripCostViewModel.getTripDistance(avoidTolls).observe(viewLifecycleOwner) { oneWayDistance ->
 			when {

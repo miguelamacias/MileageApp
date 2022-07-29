@@ -15,5 +15,9 @@ class Constants {
         const val FUEL_SERVICE_ACTIVATION_PREFERENCE = "fuel_service_activate"
 
         const val FUEL_SERVICE_DISCOUNT_PREFERENCE = "fuel_service_discount"
+
+        const val FUEL_PRICE_DATE = "fuel_price_date"
+
+        const val FUEL_PRICE_KEY = "fuelPriceKey"
     }
 }

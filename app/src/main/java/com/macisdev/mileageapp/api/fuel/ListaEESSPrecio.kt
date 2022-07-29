@@ -37,6 +37,7 @@ data class ListaEESSPrecio (
 	@SerializedName("IDMunicipio") val iDMunicipio : Int,
 	@SerializedName("IDProvincia") val iDProvincia : Int,
 	@SerializedName("IDCCAA") val iDCCAA : Int,
+	var creationDate: String = "",
 	var cheapestDiesel: Boolean = false,
 	var cheapestPetrol: Boolean = false,
 	var mostExpensiveDiesel: Boolean = false,

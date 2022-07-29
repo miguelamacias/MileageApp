@@ -62,6 +62,8 @@ class FuelStationsFragment : Fragment() {
     private fun searchFuelStations(zip: String) {
         if (zip.isDigitsOnly() && zip.length == 5) {
             hideKeyboard()
+            fuelStationAdapter.submitList(emptyList())
+            gui.cityNameEditText.setText("")
             gui.fuelStationProgressBar.visibility = View.VISIBLE
 
             val zipNoLeadingZeros = zip.toInt().toString()

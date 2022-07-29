@@ -8,476 +8,497 @@
         android:id="@+id/root_scroll_view">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_view2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/destination"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/origin_full_address_text_view" />
+
+        <TextView
+            android:id="@+id/destination_full_address_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView_2"
+            tools:text="C/ Coriano 19, Coria del Río, Sevilla" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:id="@+id/frameLayout">
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/destination"
-                android:id="@+id/text_view2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintHorizontal_bias="0.0"
-                android:layout_marginTop="4dp"
-                app:layout_constraintTop_toBottomOf="@+id/origin_full_address_text_view"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/black" />
-
-        <TextView
-                tools:text="C/ Coriano 19, Coria del Río, Sevilla"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/destination_full_address_text_view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintHorizontal_bias="0.0"
-                android:layout_marginTop="4dp"
-                app:layout_constraintTop_toBottomOf="@+id/cardView_2" />
-
-        <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:cardCornerRadius="4dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"
-                android:id="@+id/cardView_2"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintTop_toBottomOf="@+id/text_view2"
-                android:background="@android:drawable/edit_text"
-                android:layout_marginTop="2dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:background="@android:drawable/edit_text"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view2">
 
             <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/autocomplete_fragment_destiny"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                    tools:layout="@layout/places_autocomplete_impl_search_bar" />
+                android:id="@+id/autocomplete_fragment_destiny"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                tools:layout="@layout/places_autocomplete_impl_search_bar" />
 
         </androidx.cardview.widget.CardView>
 
         <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/origin"
-                android:id="@+id/text_view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/black" />
+            android:id="@+id/text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/origin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
-                tools:text="C/ Coriano 19, Coria del Río, Sevilla"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/origin_full_address_text_view"
-                app:layout_constraintTop_toBottomOf="@+id/cardView"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
+            android:id="@+id/origin_full_address_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            tools:text="C/ Coriano 19, Coria del Río, Sevilla" />
 
         <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:cardCornerRadius="4dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/text_view"
-                android:id="@+id/cardView"
-                android:background="@android:drawable/edit_text"
-                android:layout_marginTop="2dp">
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:background="@android:drawable/edit_text"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view">
 
             <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/autocomplete_fragment_origin"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                    tools:layout="@layout/places_autocomplete_impl_search_bar" />
+                android:id="@+id/autocomplete_fragment_origin"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                tools:layout="@layout/places_autocomplete_impl_search_bar" />
 
         </androidx.cardview.widget.CardView>
 
         <CheckBox
-                android:text="@string/calculate_round_trip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/round_trip_check_box"
-                app:layout_constraintTop_toBottomOf="@+id/destination_full_address_text_view"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@android:color/secondary_text_light" />
+            android:id="@+id/round_trip_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/calculate_round_trip"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/secondary_text_light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/destination_full_address_text_view" />
 
         <CheckBox
-                android:text="@string/avoid_tolls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/avoid_tolls_check_box"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/round_trip_check_box"
-                app:layout_constraintBaseline_toBaselineOf="@+id/round_trip_check_box"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:id="@+id/avoid_tolls_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/avoid_tolls"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintBaseline_toBaselineOf="@+id/round_trip_check_box"
+            app:layout_constraintStart_toEndOf="@+id/round_trip_check_box" />
 
         <RadioGroup
-                android:layout_width="wrap_content"
+            android:id="@+id/mileage_type_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:checkedButton="@id/vehicle_mileage_radio_button"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/round_trip_check_box">
+
+            <RadioButton
+                android:id="@+id/vehicle_mileage_radio_button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/round_trip_check_box"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/mileage_type_radio_group"
-                android:layout_marginStart="16dp"
-                android:checkedButton="@id/vehicle_mileage_radio_button">
+                android:text="@string/average_from_vehicle" />
 
             <RadioButton
-                    android:text="@string/average_from_vehicle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/vehicle_mileage_radio_button" />
-
-            <RadioButton
-                    android:text="@string/custom_average"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/custom_mileage_radio_button"
-                    android:labelFor="@id/custom_mileage_edit_text" />
+                android:id="@+id/custom_mileage_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/custom_mileage_edit_text"
+                android:text="@string/custom_average"
+                tools:ignore="DuplicateSpeakableTextCheck" />
         </RadioGroup>
 
         <Spinner
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:id="@+id/vehicle_spinner"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/mileage_type_radio_group"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/avoid_tolls_check_box"
-                tools:entries="@array/tools_spinner" />
+            android:id="@+id/vehicle_spinner"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mileage_type_radio_group"
+            app:layout_constraintTop_toBottomOf="@+id/avoid_tolls_check_box"
+            tools:entries="@array/tools_spinner" />
 
         <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="3"
-                android:maxLines="1"
-                android:id="@+id/custom_mileage_edit_text"
-                android:minHeight="48dp"
-                android:enabled="false"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/mileage_type_radio_group"
-                app:layout_constraintTop_toBottomOf="@+id/vehicle_spinner"
-                android:importantForAutofill="no"
-                android:digits="0123456789,." />
+            android:id="@+id/custom_mileage_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:digits="0123456789,."
+            android:ems="3"
+            android:enabled="false"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:minHeight="48dp"
+            app:layout_constraintStart_toEndOf="@+id/mileage_type_radio_group"
+            app:layout_constraintTop_toBottomOf="@+id/vehicle_spinner" />
 
         <TextView
-                android:text="@string/mileage_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView4"
-                app:layout_constraintBaseline_toBaselineOf="@+id/custom_mileage_edit_text"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/custom_mileage_edit_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintHorizontal_bias="0" />
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/mileage_unit"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBaseline_toBaselineOf="@+id/custom_mileage_edit_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/custom_mileage_edit_text" />
 
         <TextView
-                android:text="@string/fuel_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView9"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/fuel_price_edit_text"
-                android:textColor="@color/black"
-                android:labelFor="@id/fuel_price_edit_text" />
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:labelFor="@id/fuel_price_edit_text"
+            android:text="@string/fuel_price"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBaselineOf="@+id/fuel_price_edit_text"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="3"
-                android:maxLines="1"
-                android:id="@+id/fuel_price_edit_text"
-                app:layout_constraintTop_toBottomOf="@+id/check_share_trip_cost"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/textView9"
-                android:importantForAutofill="no"
-                android:digits="0123456789,."
-                android:minHeight="48dp"
-                android:layout_marginTop="16dp" />
+            android:id="@+id/fuel_price_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:digits="0123456789,."
+            android:ems="3"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:minHeight="48dp"
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/check_share_trip_cost"
+            tools:ignore="DuplicateSpeakableTextCheck" />
 
         <Button
-                android:text="@string/calculate_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/calculate_cost_button"
-                android:layout_marginStart="16dp"
-                app:layout_constraintStart_toEndOf="@+id/fuel_price_edit_text"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBaseline_toBaselineOf="@+id/fuel_price_edit_text" />
+            android:id="@+id/calculate_cost_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="@string/calculate_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fuel_price_edit_text"
+            tools:ignore="TextContrastCheck" />
 
         <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/results_card_view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:cardCornerRadius="6dp"
-                app:cardElevation="6dp"
-                app:cardBackgroundColor="@color/primary_light"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/calculate_cost_button"
-                app:contentPaddingBottom="8dp">
+            android:id="@+id/results_card_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/primary_light"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="6dp"
+            app:contentPaddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calculate_cost_button"
+            tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <TextView
-                        android:text="@string/results"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView14"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:gravity="center_horizontal"
-                        android:background="@color/primary"
-                        android:textColor="@color/white"
-                        tools:ignore="TextContrastCheck" />
+                    android:id="@+id/textView14"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/primary"
+                    android:gravity="center_horizontal"
+                    android:text="@string/results"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TextContrastCheck" />
 
                 <TextView
-                        android:text="@string/distance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView15"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintTop_toBottomOf="@+id/textView14"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="8dp"
-                        android:textColor="@color/black"
-                        android:gravity="center_vertical"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        app:drawableStartCompat="@drawable/ic_distance_24"
-                        android:drawablePadding="4dp" />
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/distance"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    app:drawableStartCompat="@drawable/ic_distance_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
                 <TextView
-                        android:text="@string/fuel_litres"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView16"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintTop_toBottomOf="@+id/textView15"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="8dp"
-                        android:textColor="@color/black"
-                        android:gravity="center_vertical"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        app:drawableStartCompat="@drawable/ic_fuel_24"
-                        android:drawablePadding="4dp" />
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/fuel_litres"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    app:drawableStartCompat="@drawable/ic_fuel_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
                 <TextView
-                        android:text="@string/total_cost"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView17"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="8dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:gravity="center_vertical"
-                        app:drawableStartCompat="@drawable/ic_trip_cost"
-                        app:layout_constraintTop_toBottomOf="@+id/cost_by_passenger_text_view"
-                        android:layout_marginTop="8dp"
-                        android:drawablePadding="4dp" />
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/total_cost"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:drawableStartCompat="@drawable/ic_trip_cost"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cost_by_passenger_text_view" />
 
                 <TextView
-                        tools:text="295,46 KM"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/trip_distance_text_view"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
-                        android:layout_marginStart="8dp"
-                        app:layout_constraintStart_toEndOf="@+id/textView15"
-                        android:textColor="@color/black"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:id="@+id/trip_distance_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
+                    app:layout_constraintStart_toEndOf="@+id/textView15"
+                    tools:text="295,46 KM" />
 
                 <TextView
-                        tools:text="19,56 L"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/trip_fuel_text_view"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
-                        android:layout_marginStart="8dp"
-                        app:layout_constraintStart_toEndOf="@+id/textView16"
-                        android:textColor="@color/black"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:id="@+id/trip_fuel_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
+                    app:layout_constraintStart_toEndOf="@+id/textView16"
+                    tools:text="19,56 L" />
 
                 <TextView
-                        tools:text="23,54 €"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/trip_cost_text_view"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
-                        android:layout_marginStart="8dp"
-                        app:layout_constraintStart_toEndOf="@+id/textView17"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textStyle="bold" />
+                    android:id="@+id/trip_cost_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textStyle="bold"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
+                    app:layout_constraintStart_toEndOf="@+id/textView17"
+                    tools:text="23,54 €" />
 
                 <TextView
-                        tools:text="12,54 €"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/shared_trip_cost_text_view"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/cost_by_passenger_text_view"
-                        app:layout_constraintStart_toEndOf="@+id/cost_by_passenger_text_view"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textStyle="bold"
-                        android:layout_marginStart="8dp"
-                        android:visibility="gone"
-                        tools:visibility="visible"
-                        android:textColor="@color/black" />
+                    android:id="@+id/shared_trip_cost_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/cost_by_passenger_text_view"
+                    app:layout_constraintStart_toEndOf="@+id/cost_by_passenger_text_view"
+                    tools:text="12,54 €"
+                    tools:visibility="visible" />
 
                 <TextView
-                        android:text="@string/duration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView18"
-                        app:layout_constraintTop_toBottomOf="@+id/textView16"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="8dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"
-                        app:drawableStartCompat="@drawable/ic_clock_24"
-                        android:drawablePadding="4dp" />
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawablePadding="4dp"
+                    android:text="@string/duration"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    app:drawableStartCompat="@drawable/ic_clock_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/trip_duration_text_view"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
-                        app:layout_constraintStart_toEndOf="@+id/textView18"
-                        android:layout_marginStart="8dp"
-                        android:textColor="@color/black"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        tools:text="4h 25 min" />
+                    android:id="@+id/trip_duration_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
+                    app:layout_constraintStart_toEndOf="@+id/textView18"
+                    tools:text="4h 25 min" />
 
                 <TextView
-                        android:text="@string/cost_by_passenger"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/cost_by_passenger_text_view"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="8dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        tools:visibility="visible"
-                        android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@+id/textView18"
-                        android:layout_marginTop="8dp"
-                        android:textAlignment="textEnd"
-                        android:textColor="@color/black"
-                        android:drawablePadding="4dp"
-                        app:drawableStartCompat="@drawable/ic_money_share" />
+                    android:id="@+id/cost_by_passenger_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawablePadding="4dp"
+                    android:text="@string/cost_by_passenger"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    app:drawableStartCompat="@drawable/ic_money_share"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView18"
+                    tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <ProgressBar
-                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/loading_bar"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/calculate_cost_button" />
+            android:id="@+id/loading_bar"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calculate_cost_button"
+            tools:visibility="visible" />
 
         <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/google_text_view"
-                app:layout_constraintTop_toBottomOf="@+id/results_card_view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:drawableEndCompat="@drawable/places_powered_by_google_light"
-                android:layout_marginTop="8dp"
-                android:gravity="end"
-                android:drawablePadding="2dp"
-                android:visibility="invisible"
-                tools:visibility="visible" />
+            android:id="@+id/google_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="2dp"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:visibility="invisible"
+            app:drawableEndCompat="@drawable/places_powered_by_google_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/results_card_view"
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.SwitchCompat
-                android:text="@string/share_trip_cost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/check_share_trip_cost"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/mileage_type_radio_group"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp" />
+            android:id="@+id/check_share_trip_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/share_trip_cost"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mileage_type_radio_group" />
 
         <androidx.appcompat.widget.AppCompatSpinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner_share_cost"
-                style="@style/Widget.AppCompat.Spinner.DropDown"
-                tools:visibility="visible"
-                android:visibility="invisible"
-                android:entries="@array/num_of_people"
-                android:textAlignment="center"
-                android:minWidth="100dp"
-                android:dropDownWidth="match_parent"
-                android:gravity="center_horizontal|center_vertical"
-                app:layout_constraintStart_toEndOf="@+id/check_share_trip_cost"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/check_share_trip_cost" />
+            android:id="@+id/spinner_share_cost"
+            style="@style/Widget.AppCompat.Spinner.DropDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:dropDownWidth="match_parent"
+            android:entries="@array/num_of_people"
+            android:gravity="center_horizontal|center_vertical"
+            android:minWidth="100dp"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            app:layout_constraintBaseline_toBaselineOf="@+id/check_share_trip_cost"
+            app:layout_constraintStart_toEndOf="@+id/check_share_trip_cost"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:visibility="visible" />
 
         <TextView
-                android:text="@string/share_trip_passengers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/people_text_view"
-                android:textColor="@color/black"
-                tools:visibility="visible"
-                android:visibility="invisible"
-                app:layout_constraintBaseline_toBaselineOf="@+id/spinner_share_cost"
-                app:layout_constraintStart_toEndOf="@+id/spinner_share_cost"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintHorizontal_bias="0" />
+            android:id="@+id/people_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share_trip_passengers"
+            android:textColor="@color/black"
+            android:visibility="invisible"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBaseline_toBaselineOf="@+id/spinner_share_cost"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/spinner_share_cost"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/fuel_origin_info_tv"
+            style="@style/Widget.AppCompat.TextView"
+            android:layout_width="235dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center|start"
+            android:lines="3"
+            android:maxLines="3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textSize="11sp"
+            app:layout_constraintStart_toEndOf="@+id/fuel_price_edit_text"
+            app:layout_constraintTop_toTopOf="@+id/fuel_price_edit_text"
+            tools:text="Price from BALLENOIL Coria del Río (updated 28/07/2022 19:37)" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
