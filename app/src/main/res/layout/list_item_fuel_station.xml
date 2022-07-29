@@ -88,12 +88,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:gravity="end"
             android:minEms="10"
-            app:layout_constraintBottom_toBottomOf="@+id/fuel_station_name_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/fuel_station_name_tv"
+            app:layout_constraintTop_toTopOf="@+id/fuel_station_name_tv"
             tools:text="L-D: 24H" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

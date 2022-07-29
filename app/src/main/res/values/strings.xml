@@ -1,6 +1,6 @@
 <resources>
     <!-- v1.0 strings -->
-    <string name="app_version" translatable="false">v1.5-alpha03</string>
+    <string name="app_version" translatable="false">v1.5-alpha05</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -169,6 +169,7 @@
     <string name="only_available_spain">Only available for Spanish Fuel Stations</string>
     <string name="wrong_zip">The zip introduced is not valid</string>
     <string name="no_results_zip">No fuel stations have been found for ZIP %1$s</string>
+    <string name="search_button">Search</string>
 
     <string-array name="fuel_types">
         <item>@string/diesel</item>

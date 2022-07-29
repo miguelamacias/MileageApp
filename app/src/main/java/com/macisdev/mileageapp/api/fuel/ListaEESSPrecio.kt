@@ -18,11 +18,11 @@ data class ListaEESSPrecio (
 	@SerializedName("Precio Gas Natural Comprimido") val precioGasNaturalComprimido : String,
 	@SerializedName("Precio Gas Natural Licuado") val precioGasNaturalLicuado : String,
 	@SerializedName("Precio Gases licuados del petróleo") val precioGasesLicuadosDelPetroleo : String,
-	@SerializedName("Precio Gasoleo A") val precioGasoleoA : String,
+	@SerializedName("Precio Gasoleo A") var precioGasoleoA : String,
 	@SerializedName("Precio Gasoleo B") val precioGasoleoB : String,
 	@SerializedName("Precio Gasoleo Premium") val precioGasoleoPremium : String,
 	@SerializedName("Precio Gasolina 95 E10") val precioGasolina95E10 : String,
-	@SerializedName("Precio Gasolina 95 E5") val precioGasolina95E5 : String,
+	@SerializedName("Precio Gasolina 95 E5") var precioGasolina95E5 : String,
 	@SerializedName("Precio Gasolina 95 E5 Premium") val precioGasolina95E5Premium : String,
 	@SerializedName("Precio Gasolina 98 E10") val precioGasolina98E10 : String,
 	@SerializedName("Precio Gasolina 98 E5") val precioGasolina98E5 : String,
@@ -38,5 +38,7 @@ data class ListaEESSPrecio (
 	@SerializedName("IDProvincia") val iDProvincia : Int,
 	@SerializedName("IDCCAA") val iDCCAA : Int,
 	var cheapestDiesel: Boolean = false,
-	var cheapestPetrol: Boolean = false
+	var cheapestPetrol: Boolean = false,
+	var mostExpensiveDiesel: Boolean = false,
+	var mostExpensivePetrol: Boolean = false
 )

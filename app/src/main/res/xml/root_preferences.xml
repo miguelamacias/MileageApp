@@ -27,10 +27,10 @@
             app:title="@string/choose_preferred_fuel_station" />
         <ListPreference
             android:defaultValue="false"
-            android:dialogIcon="@drawable/ic_fuel_tipe_24"
+            android:dialogIcon="@drawable/ic_fuel_type_24"
             android:entries="@array/fuel_types"
             android:entryValues="@array/fuel_types"
-            android:icon="@drawable/ic_fuel_tipe_24"
+            android:icon="@drawable/ic_fuel_type_24"
             android:key="fuel_type_preference"
             android:title="@string/fuel_type"
             app:useSimpleSummaryProvider="true"/>

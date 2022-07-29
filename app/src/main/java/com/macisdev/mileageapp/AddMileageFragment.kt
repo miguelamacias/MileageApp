@@ -42,7 +42,7 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		if(fragmentArgs.editMode) {
+		if (fragmentArgs.editMode) {
 			addMileageVM.getMileage(fragmentArgs.mileageId).observe(viewLifecycleOwner) {loadMileageData(it)}
 			gui.addMileageTitle.setText(R.string.edit_mileage)
 		}

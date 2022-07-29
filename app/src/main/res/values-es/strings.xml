@@ -144,4 +144,5 @@
     <string name="discount_info">Descuento de 20 céntimos por litro</string>
     <string name="wrong_zip">El código postal introducido no es válido</string>
     <string name="no_results_zip">No se han encontrado gasolineras en el código postal %1$s</string>
+    <string name="search_button">Buscar</string>
 </resources>
