@@ -145,6 +145,7 @@
     <string name="wrong_zip">El código postal introducido no es válido</string>
     <string name="no_results_zip">No se han encontrado gasolineras en el código postal %1$s</string>
     <string name="search_button">Buscar</string>
-    <string name="fuel_origin_info">Precio de %1$s\n(Actualizado %2$s)</string>
+    <string name="fuel_origin_info">De %1$s\n(Actualizado %2$s)</string>
     <string name="fuel_last_stored_info">Último precio usado (%1$s)</string>
+    <string name="no_results_fuel_station">No se han encontrado gasolineras que cumplan los criterios</string>
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <!-- v1.0 strings -->
-    <string name="app_version" translatable="false">v1.5-beta01</string>
+    <string name="app_version" translatable="false">v1.5-beta02</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -170,8 +170,9 @@
     <string name="wrong_zip">The zip introduced is not valid</string>
     <string name="no_results_zip">No fuel stations have been found for ZIP %1$s</string>
     <string name="search_button">Search</string>
-    <string name="fuel_origin_info">Price from %1$s\n(Updated %2$s)</string>
+    <string name="fuel_origin_info">From %1$s\n(Updated %2$s)</string>
     <string name="fuel_last_stored_info">Last priced stored locally (%1$s)</string>
+    <string name="no_results_fuel_station">No gas stations found with that criteria</string>
 
     <string-array name="fuel_types">
         <item>@string/diesel</item>

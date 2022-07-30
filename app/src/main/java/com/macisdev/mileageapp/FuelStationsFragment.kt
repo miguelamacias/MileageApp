@@ -1,5 +1,6 @@
 package com.macisdev.mileageapp
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,10 +33,13 @@ class FuelStationsFragment : Fragment() {
     private lateinit var gui: FragmentFuelStationsBinding
     private lateinit var fuelStationAdapter: FuelStationAdapter
     private lateinit var preferences: SharedPreferences
+    private lateinit var stationsCache: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         gui = FragmentFuelStationsBinding.inflate(inflater, container, false)
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        stationsCache = requireContext()
+            .getSharedPreferences(Constants.FUEL_STATION_SEARCHER_CACHE, Context.MODE_PRIVATE)
         return gui.root
     }
 
@@ -68,28 +72,40 @@ class FuelStationsFragment : Fragment() {
 
             val zipNoLeadingZeros = zip.toInt().toString()
 
-            fuelStationsViewModel.getCityCodeByZipCode(zipNoLeadingZeros).observe(viewLifecycleOwner) { cityCode ->
+            val cachedCityCode = stationsCache.getInt(zip, 0)
 
-                if (cityCode != 0) {
-                    fuelStationsViewModel.getFuelStationsByCityCode(cityCode)
-                        .observe(viewLifecycleOwner) { fuelStationsList ->
-                            if (fuelStationsList.isNotEmpty()) {
-                                gui.cityNameEditText.setText(fuelStationsList?.first()?.municipio ?: "")
-
-                                processFuelPrices(fuelStationsList)
-                                fuelStationAdapter.submitList(fuelStationsList)
-                            } else {
-                                showToast(R.string.no_results_zip)
-                            }
+            if (cachedCityCode != 0) {
+                getFuelStations(cachedCityCode)
+            } else {
+                fuelStationsViewModel.getCityCodeByZipCode(zipNoLeadingZeros).observe(viewLifecycleOwner) { cityCode ->
+                    if (cityCode != 0) {
+                        stationsCache.edit {
+                            putInt(zip, cityCode)
                         }
-                } else {
-                    showToast(getString(R.string.no_results_zip, zip))
-                }
 
-                gui.fuelStationProgressBar.visibility = View.GONE
+                        getFuelStations(cityCode)
+                    } else {
+                        gui.fuelStationProgressBar.visibility = View.GONE
+                        showToast(getString(R.string.no_results_zip, zip))
+                    }
+                }
             }
         } else {
             showToast(R.string.wrong_zip)
+        }
+    }
+
+    private fun getFuelStations(cityCode: Int) {
+        fuelStationsViewModel.getFuelStationsByCityCode(cityCode).observe(viewLifecycleOwner) { fuelStationsList ->
+            if (fuelStationsList.isNotEmpty()) {
+                gui.cityNameEditText.setText(fuelStationsList?.first()?.municipio ?: "")
+
+                processFuelPrices(fuelStationsList)
+                fuelStationAdapter.submitList(fuelStationsList)
+            } else {
+                showToast(R.string.no_results_fuel_station)
+            }
+            gui.fuelStationProgressBar.visibility = View.GONE
         }
     }
 
@@ -108,7 +124,7 @@ class FuelStationsFragment : Fragment() {
                     station.precioGasolina95E10
                 } else if (station.precioGasolina98E5.isNotBlank()) {
                     station.precioGasolina98E5
-                } else  if (station.precioGasolina98E10.isNotBlank()) {
+                } else if (station.precioGasolina98E10.isNotBlank()) {
                     station.precioGasolina98E10
                 } else {
                     "0.0"
@@ -123,7 +139,7 @@ class FuelStationsFragment : Fragment() {
 
         val stationMostExpensiveDiesel = stationsList.filter { it.precioGasoleoA != "0.0" }
             .maxByOrNull { it.precioGasoleoA }
-        val stationMostExpensivePetrol = stationsList.filter { it.precioGasolina95E5 != "0.0"}
+        val stationMostExpensivePetrol = stationsList.filter { it.precioGasolina95E5 != "0.0" }
             .maxByOrNull { it.precioGasolina95E5 }
 
         stationsList.takeWhile { stationsList.size >= 2 }.forEach { station ->

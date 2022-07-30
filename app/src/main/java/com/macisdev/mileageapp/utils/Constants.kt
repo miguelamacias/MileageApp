@@ -19,5 +19,7 @@ class Constants {
         const val FUEL_PRICE_DATE = "fuel_price_date"
 
         const val FUEL_PRICE_KEY = "fuelPriceKey"
+
+        const val FUEL_STATION_SEARCHER_CACHE = "fuel_station_searcher_cache"
     }
 }
