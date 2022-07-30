@@ -148,4 +148,9 @@
     <string name="fuel_origin_info">De %1$s\n(Actualizado %2$s)</string>
     <string name="fuel_last_stored_info">Último precio usado (%1$s)</string>
     <string name="no_results_fuel_station">No se han encontrado gasolineras que cumplan los criterios</string>
+    <string name="welcome_to_trip_calculator">Bienvenido a la calculadora de viajes</string>
+    <string name="info_auto_fuel_price">Ahora puedes establecer tu gasolinera favorita en los ajustes de la app para  sus precios se usen automáticamente al calcular el coste de los viajes (sólo disponible para gasolineras españolas).</string>
+    <string name="try_it_out">¡Pruébalo!</string>
+    <string name="maybe_later">Quizás luego…</string>
+    <string name="change_mind">Si cambias de opinión puedes activar este servicio luego accediendo a los ajustes de la app desde el menú principal.</string>
 </resources>

@@ -99,7 +99,6 @@ class FuelStationsFragment : Fragment() {
         fuelStationsViewModel.getFuelStationsByCityCode(cityCode).observe(viewLifecycleOwner) { fuelStationsList ->
             if (fuelStationsList.isNotEmpty()) {
                 gui.cityNameEditText.setText(fuelStationsList?.first()?.municipio ?: "")
-
                 processFuelPrices(fuelStationsList)
                 fuelStationAdapter.submitList(fuelStationsList)
             } else {

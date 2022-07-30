@@ -173,6 +173,13 @@
     <string name="fuel_origin_info">From %1$s\n(Updated %2$s)</string>
     <string name="fuel_last_stored_info">Last priced stored locally (%1$s)</string>
     <string name="no_results_fuel_station">No gas stations found with that criteria</string>
+    <string name="welcome_to_trip_calculator">Welcome to the Trip Calculator</string>
+    <string name="info_auto_fuel_price">Now you can set your preferred fuel stations in the app Settings for the price
+         to be obtained from them automatically. (Only available for Spanish stations).</string>
+    <string name="try_it_out">Try it out!</string>
+    <string name="maybe_later">Maybe later…</string>
+    <string name="change_mind">If you change your mind you can turn on that functionality later going to the Settings
+         option of the app\'s main menu.</string>
 
     <string-array name="fuel_types">
         <item>@string/diesel</item>

@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
@@ -43,34 +45,9 @@ class TripCostFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		loadPreviousViewState()
 		configureAddressAutocomplete()
-
-		gui.originFullAddressTextView.text = tripCostViewModel.originAddress
-		gui.destinationFullAddressTextView.text = tripCostViewModel.destinationAddress
-		gui.resultsCardView.visibility = tripCostViewModel.resultsCardViewVisibility
-		gui.tripDistanceTextView.text = tripCostViewModel.currentTripDistance
-		gui.tripFuelTextView.text = tripCostViewModel.currentTripFuel
-		gui.tripDurationTextView.text = tripCostViewModel.currentTripDuration
-		gui.tripCostTextView.text = tripCostViewModel.currentTripCost
-		gui.sharedTripCostTextView.text = tripCostViewModel.sharedTripCost
-		gui.sharedTripCostTextView.visibility = tripCostViewModel.sharedTripCostVisibility
-		gui.costByPassengerTextView.visibility = tripCostViewModel.sharedTripCostVisibility
-		gui.googleTextView.visibility = tripCostViewModel.resultsCardViewVisibility
-
-		gui.fuelPriceEditText.setText(
-			String.format(Locale.getDefault(), "%.3f", preferences.getDouble(FUEL_PRICE_KEY, 0.0))
-		)
-		gui.fuelOriginInfoTv.text =
-			getString(R.string.fuel_last_stored_info, preferences.getString(FUEL_PRICE_DATE, ""))
-
-		val fuelPriceServiceActivated = preferences.getBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, false)
-		if (fuelPriceServiceActivated) {
-			loadAutomaticFuelPrice()
-		}
-
-		if (gui.fuelPriceEditText.text.toString() == "0.000") {
-			gui.fuelPriceEditText.setText("")
-		}
+		loadFuelPrice()
 
 		var currentVehicleMileage = ""
 
@@ -134,6 +111,49 @@ class TripCostFragment : Fragment() {
 		gui.calculateCostButton.setOnClickListener {
 			calculateTripCost()
 		}
+	}
+
+	private fun loadFuelPrice() {
+		gui.fuelPriceEditText.setText(
+			String.format(Locale.getDefault(), "%.3f", preferences.getDouble(FUEL_PRICE_KEY, 0.0))
+		)
+		val lastFuelPriceDate = preferences.getString(FUEL_PRICE_DATE, "") ?: ""
+		if (lastFuelPriceDate.isNotBlank()) {
+			gui.fuelOriginInfoTv.text =
+				getString(R.string.fuel_last_stored_info, lastFuelPriceDate)
+		}
+
+		val firstTimeUsingCalculator = preferences.getBoolean(Constants.TRIP_CALCULATOR_FIRST_TIME, true)
+		if (firstTimeUsingCalculator) {
+			preferences.edit {
+				putBoolean(Constants.TRIP_CALCULATOR_FIRST_TIME, false)
+			}
+			showFirstTimeDialog()
+		}
+
+		val fuelPriceServiceActivated = preferences.getBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, false)
+		if (fuelPriceServiceActivated) {
+			loadAutomaticFuelPrice()
+		}
+
+		val currentFuelPrice = gui.fuelPriceEditText.text.toString()
+		if (currentFuelPrice == "0.000" || currentFuelPrice == "0,000") {
+			gui.fuelPriceEditText.setText("")
+		}
+	}
+
+	private fun loadPreviousViewState() {
+		gui.originFullAddressTextView.text = tripCostViewModel.originAddress
+		gui.destinationFullAddressTextView.text = tripCostViewModel.destinationAddress
+		gui.resultsCardView.visibility = tripCostViewModel.resultsCardViewVisibility
+		gui.tripDistanceTextView.text = tripCostViewModel.currentTripDistance
+		gui.tripFuelTextView.text = tripCostViewModel.currentTripFuel
+		gui.tripDurationTextView.text = tripCostViewModel.currentTripDuration
+		gui.tripCostTextView.text = tripCostViewModel.currentTripCost
+		gui.sharedTripCostTextView.text = tripCostViewModel.sharedTripCost
+		gui.sharedTripCostTextView.visibility = tripCostViewModel.sharedTripCostVisibility
+		gui.costByPassengerTextView.visibility = tripCostViewModel.sharedTripCostVisibility
+		gui.googleTextView.visibility = tripCostViewModel.resultsCardViewVisibility
 	}
 
 	private fun loadAutomaticFuelPrice() {
@@ -403,6 +423,30 @@ class TripCostFragment : Fragment() {
 				}
 			}
 		}
+	}
+
+	private fun showFirstTimeDialog() {
+		AlertDialog.Builder(requireContext())
+			.setTitle(R.string.welcome_to_trip_calculator)
+			.setMessage(R.string.info_auto_fuel_price)
+			.setPositiveButton(R.string.try_it_out) { _, _ ->
+				val directions = TripCostFragmentDirections.actionTripCostFragmentToSettingsFragment()
+				findNavController().navigate(directions)
+			}
+			.setNegativeButton(R.string.maybe_later) { _, _ ->
+				preferences.edit {
+					putBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, false)
+				}
+				showExtraDialog()
+			}
+			.show()
+	}
+
+	private fun showExtraDialog() {
+		AlertDialog.Builder(requireContext())
+			.setMessage(R.string.change_mind)
+			.setPositiveButton(android.R.string.ok, null)
+			.show()
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {
