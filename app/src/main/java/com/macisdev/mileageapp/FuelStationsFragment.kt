@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.macisdev.mileageapp.api.fuel.ListaEESSPrecio
+import com.macisdev.mileageapp.api.fuel.FuelStation
 import com.macisdev.mileageapp.databinding.FragmentFuelStationsBinding
 import com.macisdev.mileageapp.utils.Constants
 import com.macisdev.mileageapp.utils.hideKeyboard
@@ -108,7 +108,7 @@ class FuelStationsFragment : Fragment() {
         }
     }
 
-    private fun processFuelPrices(stationsList: List<ListaEESSPrecio>) {
+    private fun processFuelPrices(stationsList: List<FuelStation>) {
         stationsList.forEach { station ->
             if (station.precioGasoleoA.isBlank()) {
                 station.precioGasoleoA = station.precioGasoleoPremium.ifBlank {
@@ -159,10 +159,10 @@ class FuelStationsFragment : Fragment() {
     }
 
     private inner class FuelStationAdapter :
-        ListAdapter<ListaEESSPrecio, FuelStationAdapter.FuelStationViewHolder>(FuelStationDiffCallBack) {
+        ListAdapter<FuelStation, FuelStationAdapter.FuelStationViewHolder>(FuelStationDiffCallBack) {
 
         private inner class FuelStationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            private var currentFuelStation: ListaEESSPrecio? = null
+            private var currentFuelStation: FuelStation? = null
             private val fuelStationNameTv: TextView = view.findViewById(R.id.fuel_station_name_tv)
             private val fuelStationOpeningHoursTv: TextView = view.findViewById(R.id.opening_hours_tv)
             private val fuelStationAddressTv: TextView = view.findViewById(R.id.fuel_station_address_tv)
@@ -184,7 +184,7 @@ class FuelStationsFragment : Fragment() {
                 }
             }
 
-            fun bindData(fuelStation: ListaEESSPrecio) {
+            fun bindData(fuelStation: FuelStation) {
                 currentFuelStation = fuelStation
 
                 fuelStationNameTv.text = fuelStation.rotulo
@@ -246,12 +246,12 @@ class FuelStationsFragment : Fragment() {
         }
     }
 
-    private object FuelStationDiffCallBack : DiffUtil.ItemCallback<ListaEESSPrecio>() {
-        override fun areItemsTheSame(oldItem: ListaEESSPrecio, newItem: ListaEESSPrecio): Boolean {
+    private object FuelStationDiffCallBack : DiffUtil.ItemCallback<FuelStation>() {
+        override fun areItemsTheSame(oldItem: FuelStation, newItem: FuelStation): Boolean {
             return oldItem.iDEESS == newItem.iDEESS
         }
 
-        override fun areContentsTheSame(oldItem: ListaEESSPrecio, newItem: ListaEESSPrecio): Boolean {
+        override fun areContentsTheSame(oldItem: FuelStation, newItem: FuelStation): Boolean {
             return oldItem.iDEESS == newItem.iDEESS
         }
 

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class FuelResponse (
 
     @SerializedName("Fecha") val fecha : String,
-    @SerializedName("ListaEESSPrecio") val listaEESSPrecio : List<ListaEESSPrecio>,
+    @SerializedName("ListaEESSPrecio") val listaEESSPrecio : List<FuelStation>,
     @SerializedName("Nota") val nota : String,
     @SerializedName("ResultadoConsulta") val resultadoConsulta : String
 )

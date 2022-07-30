@@ -45,7 +45,7 @@ class TripCostFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		loadPreviousViewState()
+		loadViewsPreviousState()
 		configureAddressAutocomplete()
 		loadFuelPrice()
 
@@ -142,7 +142,7 @@ class TripCostFragment : Fragment() {
 		}
 	}
 
-	private fun loadPreviousViewState() {
+	private fun loadViewsPreviousState() {
 		gui.originFullAddressTextView.text = tripCostViewModel.originAddress
 		gui.destinationFullAddressTextView.text = tripCostViewModel.destinationAddress
 		gui.resultsCardView.visibility = tripCostViewModel.resultsCardViewVisibility

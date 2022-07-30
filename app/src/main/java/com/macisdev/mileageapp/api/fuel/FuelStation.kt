@@ -3,7 +3,7 @@ package com.macisdev.mileageapp.api.fuel
 
 import com.google.gson.annotations.SerializedName
 
-data class ListaEESSPrecio (
+data class FuelStation (
 
 	@SerializedName("C.P.") val CP : Int,
 	@SerializedName("Dirección") val direccion : String,

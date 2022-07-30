@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.macisdev.mileageapp.api.FuelServiceImpl
 import com.macisdev.mileageapp.api.MapsServiceImpl
-import com.macisdev.mileageapp.api.fuel.ListaEESSPrecio
+import com.macisdev.mileageapp.api.fuel.FuelStation
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
 import java.util.*
@@ -73,10 +73,10 @@ class MileageRepository private constructor(val context: Context) {
 
 	fun getCityCodeByZipCode(zip: String): LiveData<Int> = fuelService.getCityCodeByZipCode(zip)
 
-	fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<ListaEESSPrecio>> =
+	fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<FuelStation>> =
 		fuelService.getFuelStationsByCityCode(cityCode)
 
-	fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<ListaEESSPrecio> =
+	fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<FuelStation> =
 		fuelService.getPreferredFuelStation(cityCode, stationId)
 
 	fun getTripDistance(origin: String, destination: String, avoidTolls: Boolean): LiveData<Double> =

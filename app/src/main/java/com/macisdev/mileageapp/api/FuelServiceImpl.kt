@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.macisdev.mileageapp.MainActivity
 import com.macisdev.mileageapp.api.fuel.FuelResponse
 import com.macisdev.mileageapp.api.fuel.FuelServiceCalls
-import com.macisdev.mileageapp.api.fuel.ListaEESSPrecio
+import com.macisdev.mileageapp.api.fuel.FuelStation
 import com.macisdev.mileageapp.database.API_STATUS_OK
 import com.macisdev.mileageapp.utils.Utils
 import retrofit2.Call
@@ -54,8 +54,8 @@ class FuelServiceImpl {
         return cityCode
     }
 
-    fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<ListaEESSPrecio>> {
-        val fuelStationsList: MutableLiveData<List<ListaEESSPrecio>> = MutableLiveData()
+    fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<FuelStation>> {
+        val fuelStationsList: MutableLiveData<List<FuelStation>> = MutableLiveData()
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -82,8 +82,8 @@ class FuelServiceImpl {
         return fuelStationsList
     }
 
-    fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<ListaEESSPrecio> {
-        val station: MutableLiveData<ListaEESSPrecio> = MutableLiveData()
+    fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<FuelStation> {
+        val station: MutableLiveData<FuelStation> = MutableLiveData()
 
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
