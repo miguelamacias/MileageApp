@@ -20,10 +20,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.macisdev.mileageapp.api.fuel.FuelStation
 import com.macisdev.mileageapp.databinding.FragmentHomeBinding
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Statistics
 import com.macisdev.mileageapp.model.Vehicle
+import com.macisdev.mileageapp.utils.Constants
 import com.macisdev.mileageapp.utils.Constants.Companion.HIDE_ADD_VEHICLE_PREFERENCE
 import com.macisdev.mileageapp.utils.Utils
 import com.macisdev.mileageapp.viewModels.HomeFragmentViewModel
@@ -48,9 +50,78 @@ class HomeFragment : Fragment() {
 			adapter = VehicleAdapter(gui.root)
 		}
 
+		val fuelServiceActivated = preferences.getBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, false)
+		if (fuelServiceActivated) {
+			val preferredStationId = preferences.getInt(Constants.PREFERRED_GAS_STATION_ID, 0)
+			val preferredStationCity = preferences.getInt(Constants.PREFERRED_GAS_STATION_CITY_ID, 0)
+			homeFragmentVM.getPreferredFuelStation(preferredStationCity, preferredStationId).observe(viewLifecycleOwner) {
+				updateFuelStationInfo(it)
+			}
+		} else {
+			gui.favouriteFuelStationCardView.visibility = View.GONE
+		}
+
 		homeFragmentVM.vehiclesList.observe(viewLifecycleOwner) { updateVehicles(it) }
 		homeFragmentVM.getStatistics().observe(viewLifecycleOwner) { updateStatistics(it) }
 		homeFragmentVM.getLastMileage().observe(viewLifecycleOwner) { updateLastMileage(it) }
+	}
+
+	private fun updateFuelStationInfo(station: FuelStation) {
+		if (station.iDEESS != 0) {
+			if (station.precioGasoleoA.isBlank()) {
+				station.precioGasoleoA = station.precioGasoleoPremium.ifBlank {
+					"0.0"
+				}
+			}
+
+			if (station.precioGasolina95E5.isBlank()) {
+				station.precioGasolina95E5 = if (station.precioGasolina95E5Premium.isNotBlank()) {
+					station.precioGasolina95E5Premium
+				} else if (station.precioGasolina95E10.isNotBlank()) {
+					station.precioGasolina95E10
+				} else if (station.precioGasolina98E5.isNotBlank()) {
+					station.precioGasolina98E5
+				} else  if (station.precioGasolina98E10.isNotBlank()) {
+					station.precioGasolina98E10
+				} else {
+					"0.0"
+				}
+			}
+
+			gui.fuelStationNameTextView.text = station.rotulo.plus(" (").plus(station.municipio).plus(")")
+			gui.timesFuelStationTextView.text = station.horario
+
+			val currencySign = Currency.getInstance(Locale.getDefault()).symbol
+			var dieselPrice = station.precioGasoleoA.replace(',', '.').toDouble()
+			var petrolPrice = station.precioGasolina95E5.replace(',', '.').toDouble()
+
+			val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
+			if (applyDiscount) {
+				dieselPrice -= 0.2
+				petrolPrice -= 0.2
+			}
+
+			gui.dieselPriceTextView.text = if (dieselPrice > 0) {
+				String.format(Locale.getDefault(), "%.3f%s", dieselPrice, currencySign)
+			} else {
+				"-"
+			}
+
+			gui.petrolPriceTextView.text = if (petrolPrice > 0) {
+				String.format(Locale.getDefault(), "%.3f%s", petrolPrice, currencySign)
+			} else {
+				"-"
+			}
+
+			gui.lastStationUpdateTextView.text = getString(R.string.update_station_info, Utils.formatDate(Date()))
+
+			gui.favouriteFuelStationCardView.setOnClickListener {
+				val directions = HomeFragmentDirections.actionHomeFragmentToFuelStationsFragment(station.CP)
+				findNavController().navigate(directions)
+			}
+		} else {
+			gui.favouriteFuelStationCardView.visibility = View.GONE
+		}
 	}
 
 	private fun updateStatistics(stats: Statistics) {

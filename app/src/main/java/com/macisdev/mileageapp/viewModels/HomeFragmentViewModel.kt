@@ -3,6 +3,7 @@ package com.macisdev.mileageapp.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.macisdev.mileageapp.api.fuel.FuelStation
 import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
@@ -38,4 +39,7 @@ class HomeFragmentViewModel : ViewModel() {
 		deletedVehicle?.let { viewModelScope.launch { mileageRepository.addVehicle(it) } }
 		restoreClearedMileages()
 	}
+
+	fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<FuelStation> =
+		mileageRepository.getPreferredFuelStation(cityCode, stationId)
 }

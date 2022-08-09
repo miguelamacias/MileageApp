@@ -430,13 +430,13 @@ class TripCostFragment : Fragment() {
 			.setTitle(R.string.welcome_to_trip_calculator)
 			.setMessage(R.string.info_auto_fuel_price)
 			.setPositiveButton(R.string.try_it_out) { _, _ ->
+				preferences.edit {
+					putBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, true)
+				}
 				val directions = TripCostFragmentDirections.actionTripCostFragmentToSettingsFragment()
 				findNavController().navigate(directions)
 			}
 			.setNegativeButton(R.string.maybe_later) { _, _ ->
-				preferences.edit {
-					putBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, false)
-				}
 				showExtraDialog()
 			}
 			.show()

@@ -1,6 +1,6 @@
 <resources>
     <!-- v1.0 strings -->
-    <string name="app_version" translatable="false">v1.5</string>
+    <string name="app_version" translatable="false">v1.5.1</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>
@@ -185,6 +185,13 @@
         <item>@string/diesel</item>
         <item>@string/petrol</item>
     </string-array>
+
+    <!--v1.5.1 strings -->
+    <string name="favourite_fuel_station">Favourite Fuel Station</string>
+    <string name="update_station_info">Updated on %1$s</string>
+    <string name="opening_hours">Hours:</string>
+
+
 
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

@@ -153,4 +153,7 @@
     <string name="try_it_out">¡Pruébalo!</string>
     <string name="maybe_later">Quizás luego…</string>
     <string name="change_mind">Si cambias de opinión puedes activar este servicio luego accediendo a los ajustes de la app desde el menú principal.</string>
+    <string name="favourite_fuel_station">Gasolinera Favorita</string>
+    <string name="update_station_info">Actualizado el %1$s</string>
+    <string name="opening_hours">Horario:</string>
 </resources>

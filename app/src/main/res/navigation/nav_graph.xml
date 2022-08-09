@@ -24,6 +24,9 @@
         <action
                 android:id="@+id/action_homeFragment_to_settingsFragment"
                 app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_fuelStationsFragment"
+            app:destination="@id/fuelStationsFragment" />
     </fragment>
 
     <fragment
@@ -107,5 +110,10 @@
         android:id="@+id/fuelStationsFragment"
         android:name="com.macisdev.mileageapp.FuelStationsFragment"
         android:label="@string/fuel_stations"
-        tools:layout="@layout/fragment_fuel_stations" />
+        tools:layout="@layout/fragment_fuel_stations" >
+        <argument
+            android:name="zipCode"
+            app:argType="integer"
+            android:defaultValue='0' />
+    </fragment>
 </navigation>

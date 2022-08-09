@@ -14,6 +14,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +31,7 @@ import java.util.*
 
 class FuelStationsFragment : Fragment() {
     private val fuelStationsViewModel: FuelStationsFragmentViewModel by viewModels()
+    private val fragmentArgs: FuelStationsFragmentArgs by navArgs()
     private lateinit var gui: FragmentFuelStationsBinding
     private lateinit var fuelStationAdapter: FuelStationAdapter
     private lateinit var preferences: SharedPreferences
@@ -61,6 +63,12 @@ class FuelStationsFragment : Fragment() {
         gui.fuelStationsList.layoutManager = LinearLayoutManager(view.context)
         fuelStationAdapter = FuelStationAdapter()
         gui.fuelStationsList.adapter = fuelStationAdapter
+
+        val zipCode = fragmentArgs.zipCode
+        if (zipCode != 0) {
+            gui.zipEditText.setText(zipCode.toString())
+            searchFuelStations(fragmentArgs.zipCode.toString())
+        }
     }
 
     private fun searchFuelStations(zip: String) {
