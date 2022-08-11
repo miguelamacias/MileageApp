@@ -40,6 +40,6 @@ class HomeFragmentViewModel : ViewModel() {
 		restoreClearedMileages()
 	}
 
-	fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<FuelStation> =
-		mileageRepository.getPreferredFuelStation(cityCode, stationId)
+	fun getFuelStationById(cityCode: Int, stationId: Int): LiveData<FuelStation> =
+		mileageRepository.getFuelStationById(cityCode, stationId)
 }

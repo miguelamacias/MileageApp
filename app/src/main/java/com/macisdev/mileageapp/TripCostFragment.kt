@@ -162,27 +162,9 @@ class TripCostFragment : Fragment() {
 		val fuelType = preferences.getString(Constants.FUEL_TYPE_PREFERENCE, "")
 		var fuelPrice: Double
 
-		tripCostViewModel.getPreferredFuelStation(stationCityCode, stationId)
+		tripCostViewModel.getFuelStationById(stationCityCode, stationId)
 			.observe(viewLifecycleOwner) { station ->
-				if (station.precioGasoleoA.isBlank()) {
-					station.precioGasoleoA = station.precioGasoleoPremium.ifBlank {
-						"0.0"
-					}
-				}
-
-				if (station.precioGasolina95E5.isBlank()) {
-					station.precioGasolina95E5 = if (station.precioGasolina95E5Premium.isNotBlank()) {
-						station.precioGasolina95E5Premium
-					} else if (station.precioGasolina95E10.isNotBlank()) {
-						station.precioGasolina95E10
-					} else if (station.precioGasolina98E5.isNotBlank()) {
-						station.precioGasolina98E5
-					} else  if (station.precioGasolina98E10.isNotBlank()) {
-						station.precioGasolina98E10
-					} else {
-						"0.0"
-					}
-				}
+				station.replaceEmptyPrices()
 
 				fuelPrice = if (fuelType == getString(R.string.diesel)) {
 					station.precioGasoleoA.replace(',', '.').toDouble()

@@ -1,6 +1,5 @@
 <resources>
     <!-- v1.0 strings -->
-    <string name="app_version" translatable="false">v1.5.1</string>
     <string name="kilometres_label">Kilometres:</string>
     <string name="kms_label">KMs:</string>
     <string name="kilometres_km">KM</string>

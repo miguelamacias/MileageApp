@@ -30,6 +30,6 @@ class TripCostViewModel : ViewModel() {
 
 	fun getTripDuration(): LiveData<Int> = mileageRepository.tripDuration
 
-	fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<FuelStation> =
-		mileageRepository.getPreferredFuelStation(cityCode, stationId)
+	fun getFuelStationById(cityCode: Int, stationId: Int): LiveData<FuelStation> =
+		mileageRepository.getFuelStationById(cityCode, stationId)
 }

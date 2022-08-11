@@ -76,8 +76,8 @@ class MileageRepository private constructor(val context: Context) {
 	fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<FuelStation>> =
 		fuelService.getFuelStationsByCityCode(cityCode)
 
-	fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<FuelStation> =
-		fuelService.getPreferredFuelStation(cityCode, stationId)
+	fun getFuelStationById(cityCode: Int, stationId: Int): LiveData<FuelStation> =
+		fuelService.getFuelStationById(cityCode, stationId)
 
 	fun getTripDistance(origin: String, destination: String, avoidTolls: Boolean): LiveData<Double> =
 		mapsService.getTripDistance(origin, destination, avoidTolls)

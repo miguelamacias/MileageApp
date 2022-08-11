@@ -17,7 +17,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.macisdev.mileageapp.MainActivity
-import com.macisdev.mileageapp.api.fuel.FuelStation
 import java.io.File
 import java.net.URLConnection
 import java.util.*
@@ -124,16 +123,6 @@ class Utils {
 				return Intent.createChooser(intentShareFile, context.getString(dialogText))
 			}
 			return null
-		}
-
-		fun getEmptyFuelStation(): FuelStation {
-			return FuelStation(0, "", "", "", "",
-				"", "", "", "0", "0",
-				"0", "0","0", "0",
-				"0", "0", "0", "0",
-				"0", "0", "0", "0",
-				"", "", "", "", "", "",
-				0, 0, 0, 0)
 		}
 	}
 }

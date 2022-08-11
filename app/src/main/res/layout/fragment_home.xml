@@ -463,6 +463,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView31"
                     app:layout_constraintStart_toEndOf="@+id/textView31"
+                    tools:ignore="TextContrastCheck"
                     tools:text="L-V: 6:00 - 23:00, S-D: 8:00 - 23:00" />
 
                 <TextView

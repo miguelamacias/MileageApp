@@ -4,7 +4,6 @@ package com.macisdev.mileageapp.api.fuel
 import com.google.gson.annotations.SerializedName
 
 data class FuelStation (
-
 	@SerializedName("C.P.") val CP : Int,
 	@SerializedName("Dirección") val direccion : String,
 	@SerializedName("Horario") val horario : String,
@@ -42,4 +41,38 @@ data class FuelStation (
 	var cheapestPetrol: Boolean = false,
 	var mostExpensiveDiesel: Boolean = false,
 	var mostExpensivePetrol: Boolean = false
-)
+) {
+	fun replaceEmptyPrices() {
+		if (precioGasoleoA.isBlank()) {
+			precioGasoleoA = precioGasoleoPremium.ifBlank {
+				"0.0"
+			}
+		}
+
+		if (precioGasolina95E5.isBlank()) {
+			precioGasolina95E5 = if (precioGasolina95E5Premium.isNotBlank()) {
+				precioGasolina95E5Premium
+			} else if (precioGasolina95E10.isNotBlank()) {
+				precioGasolina95E10
+			} else if (precioGasolina98E5.isNotBlank()) {
+				precioGasolina98E5
+			} else  if (precioGasolina98E10.isNotBlank()) {
+				precioGasolina98E10
+			} else {
+				"0.0"
+			}
+		}
+	}
+
+	companion object {
+		fun getEmptyFuelStation(): FuelStation {
+			return FuelStation(0, "", "", "", "",
+				"", "", "", "0", "0",
+				"0", "0","0", "0",
+				"0", "0", "0", "0",
+				"0", "0", "0", "0",
+				"", "", "", "", "", "",
+				0, 0, 0, 0)
+		}
+	}
+}

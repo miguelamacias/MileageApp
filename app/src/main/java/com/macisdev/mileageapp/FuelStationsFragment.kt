@@ -118,25 +118,7 @@ class FuelStationsFragment : Fragment() {
 
     private fun processFuelPrices(stationsList: List<FuelStation>) {
         stationsList.forEach { station ->
-            if (station.precioGasoleoA.isBlank()) {
-                station.precioGasoleoA = station.precioGasoleoPremium.ifBlank {
-                    "0.0"
-                }
-            }
-
-            if (station.precioGasolina95E5.isBlank()) {
-                station.precioGasolina95E5 = if (station.precioGasolina95E5Premium.isNotBlank()) {
-                    station.precioGasolina95E5Premium
-                } else if (station.precioGasolina95E10.isNotBlank()) {
-                    station.precioGasolina95E10
-                } else if (station.precioGasolina98E5.isNotBlank()) {
-                    station.precioGasolina98E5
-                } else if (station.precioGasolina98E10.isNotBlank()) {
-                    station.precioGasolina98E10
-                } else {
-                    "0.0"
-                }
-            }
+            station.replaceEmptyPrices()
         }
 
         val stationCheapestDiesel = stationsList.filter { it.precioGasoleoA != "0.0" }

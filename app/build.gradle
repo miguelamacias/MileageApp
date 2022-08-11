@@ -7,6 +7,11 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
+def versionMajor = 1
+def versionMinor = 5
+def versionPatch = 2
+def devVersion = "(Debug)"
+
 android {
     compileSdk 31
 
@@ -14,10 +19,14 @@ android {
         applicationId "com.macisdev.mileageapp"
         minSdk 25
         targetSdk 31
-        versionCode 151
-        versionName "1.5.1"
 
-        resConfigs "en", "es"
+        versionCode versionMajor * 10000
+        + versionMinor * 100
+        + versionPatch
+
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        resConfigs 'en', 'es'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -28,9 +37,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            versionNameSuffix devVersion
+            resValue "string", "app_version",
+                    "${defaultConfig.versionName} ${versionNameSuffix}"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            resValue "string", "app_version",
+            "${defaultConfig.versionName}"
         }
     }
 

@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
 		if (fuelServiceActivated) {
 			val preferredStationId = preferences.getInt(Constants.PREFERRED_GAS_STATION_ID, 0)
 			val preferredStationCity = preferences.getInt(Constants.PREFERRED_GAS_STATION_CITY_ID, 0)
-			homeFragmentVM.getPreferredFuelStation(preferredStationCity, preferredStationId).observe(viewLifecycleOwner) {
+			homeFragmentVM.getFuelStationById(preferredStationCity, preferredStationId).observe(viewLifecycleOwner) {
 				updateFuelStationInfo(it)
 			}
 		} else {
@@ -68,25 +68,7 @@ class HomeFragment : Fragment() {
 
 	private fun updateFuelStationInfo(station: FuelStation) {
 		if (station.iDEESS != 0) {
-			if (station.precioGasoleoA.isBlank()) {
-				station.precioGasoleoA = station.precioGasoleoPremium.ifBlank {
-					"0.0"
-				}
-			}
-
-			if (station.precioGasolina95E5.isBlank()) {
-				station.precioGasolina95E5 = if (station.precioGasolina95E5Premium.isNotBlank()) {
-					station.precioGasolina95E5Premium
-				} else if (station.precioGasolina95E10.isNotBlank()) {
-					station.precioGasolina95E10
-				} else if (station.precioGasolina98E5.isNotBlank()) {
-					station.precioGasolina98E5
-				} else  if (station.precioGasolina98E10.isNotBlank()) {
-					station.precioGasolina98E10
-				} else {
-					"0.0"
-				}
-			}
+			station.replaceEmptyPrices()
 
 			gui.fuelStationNameTextView.text = station.rotulo.plus(" (").plus(station.municipio).plus(")")
 			gui.timesFuelStationTextView.text = station.horario

@@ -8,7 +8,6 @@ import com.macisdev.mileageapp.api.fuel.FuelResponse
 import com.macisdev.mileageapp.api.fuel.FuelServiceCalls
 import com.macisdev.mileageapp.api.fuel.FuelStation
 import com.macisdev.mileageapp.database.API_STATUS_OK
-import com.macisdev.mileageapp.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -82,7 +81,7 @@ class FuelServiceImpl {
         return fuelStationsList
     }
 
-    fun getPreferredFuelStation(cityCode: Int, stationId: Int): LiveData<FuelStation> {
+    fun getFuelStationById(cityCode: Int, stationId: Int): LiveData<FuelStation> {
         val station: MutableLiveData<FuelStation> = MutableLiveData()
 
         val retrofit: Retrofit = Retrofit.Builder()
@@ -107,16 +106,16 @@ class FuelServiceImpl {
                         }
                     }
                     if (!codeFound) {
-                        station.value = Utils.getEmptyFuelStation()
+                        station.value = FuelStation.getEmptyFuelStation()
                     }
                 } else {
-                    station.value = Utils.getEmptyFuelStation()
+                    station.value = FuelStation.getEmptyFuelStation()
                 }
             }
 
             override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
-                station.value = Utils.getEmptyFuelStation()
-                Log.e(MainActivity.TAG, "Error calling fuel service in getPreferredFuelStation()")
+                station.value = FuelStation.getEmptyFuelStation()
+                Log.e(MainActivity.TAG, "Error calling fuel service in getFuelStationById()")
             }
         })
 
