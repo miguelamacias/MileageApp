@@ -23,5 +23,7 @@ class Constants {
         const val FUEL_STATION_SEARCHER_CACHE = "fuel_station_searcher_cache"
 
         const val TRIP_CALCULATOR_FIRST_TIME = "trip_calculator_first_time"
+
+        const val COMPARISON_PERIOD_FUEL_PRICES = "comparison_period_fuel_price"
     }
 }

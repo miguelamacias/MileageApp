@@ -66,8 +66,8 @@ class FuelStationsFragment : Fragment() {
 
         val zipCode = fragmentArgs.zipCode
         if (zipCode != 0) {
-            gui.zipEditText.setText(zipCode.toString())
-            searchFuelStations(fragmentArgs.zipCode.toString())
+            gui.zipEditText.setText(zipCode.toString().padStart(5, '0'))
+            searchFuelStations(zipCode.toString().padStart(5, '0'))
         }
     }
 

@@ -19,7 +19,6 @@
             android:summary="@string/only_available_spain"
             android:title="@string/fuel_price_service_activate" />
         <Preference
-            android:id="@+id/preference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_fuel_station_24"
@@ -40,6 +39,14 @@
             android:key="fuel_service_discount"
             android:summary="@string/discount_info"
             android:title="@string/apply_government_discount" />
+        <ListPreference
+            android:defaultValue="7"
+            android:entries="@array/comparison_period"
+            android:entryValues="@array/comparison_period_days"
+            android:icon="@drawable/ic_price_down_no_color_24"
+            android:key="comparison_period_fuel_price"
+            android:title="@string/compare_prices"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/backup">
 

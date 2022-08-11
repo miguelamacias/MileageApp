@@ -29,255 +29,292 @@ import com.macisdev.mileageapp.utils.Constants
 import com.macisdev.mileageapp.utils.Constants.Companion.HIDE_ADD_VEHICLE_PREFERENCE
 import com.macisdev.mileageapp.utils.Utils
 import com.macisdev.mileageapp.viewModels.HomeFragmentViewModel
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 
 class HomeFragment : Fragment() {
-	private lateinit var gui: FragmentHomeBinding
-	private val homeFragmentVM: HomeFragmentViewModel by viewModels()
-	private lateinit var preferences: SharedPreferences
+    private lateinit var gui: FragmentHomeBinding
+    private val homeFragmentVM: HomeFragmentViewModel by viewModels()
+    private lateinit var preferences: SharedPreferences
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		gui = FragmentHomeBinding.inflate(inflater, container, false)
-		preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-		return gui.root
-	}
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        gui = FragmentHomeBinding.inflate(inflater, container, false)
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        return gui.root
+    }
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-		gui.vehiclesRecyclerView.apply {
-			layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
-			adapter = VehicleAdapter(gui.root)
-		}
+        gui.vehiclesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = VehicleAdapter(gui.root)
+        }
 
-		val fuelServiceActivated = preferences.getBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, false)
-		if (fuelServiceActivated) {
-			val preferredStationId = preferences.getInt(Constants.PREFERRED_GAS_STATION_ID, 0)
-			val preferredStationCity = preferences.getInt(Constants.PREFERRED_GAS_STATION_CITY_ID, 0)
-			homeFragmentVM.getFuelStationById(preferredStationCity, preferredStationId).observe(viewLifecycleOwner) {
-				updateFuelStationInfo(it)
-			}
-		} else {
-			gui.favouriteFuelStationCardView.visibility = View.GONE
-		}
+        val fuelServiceActivated = preferences.getBoolean(Constants.FUEL_SERVICE_ACTIVATION_PREFERENCE, false)
+        if (fuelServiceActivated) {
+            val preferredStationId = preferences.getInt(Constants.PREFERRED_GAS_STATION_ID, 0)
+            val preferredStationCity = preferences.getInt(Constants.PREFERRED_GAS_STATION_CITY_ID, 0)
+            homeFragmentVM.getFuelStationById(preferredStationCity, preferredStationId).observe(viewLifecycleOwner) {
+                updateFuelStationInfo(it)
+            }
+        } else {
+            gui.favouriteFuelStationCardView.visibility = View.GONE
+        }
 
-		homeFragmentVM.vehiclesList.observe(viewLifecycleOwner) { updateVehicles(it) }
-		homeFragmentVM.getStatistics().observe(viewLifecycleOwner) { updateStatistics(it) }
-		homeFragmentVM.getLastMileage().observe(viewLifecycleOwner) { updateLastMileage(it) }
-	}
+        homeFragmentVM.vehiclesList.observe(viewLifecycleOwner) { updateVehicles(it) }
+        homeFragmentVM.getStatistics().observe(viewLifecycleOwner) { updateStatistics(it) }
+        homeFragmentVM.getLastMileage().observe(viewLifecycleOwner) { updateLastMileage(it) }
+    }
 
-	private fun updateFuelStationInfo(station: FuelStation) {
-		if (station.iDEESS != 0) {
-			station.replaceEmptyPrices()
+    private fun updateFuelStationInfo(station: FuelStation) {
+        if (station.iDEESS != 0) {
+            station.replaceEmptyPrices()
 
-			gui.fuelStationNameTextView.text = station.rotulo.plus(" (").plus(station.municipio).plus(")")
-			gui.timesFuelStationTextView.text = station.horario
+            showPricesChangedIcons(station)
 
-			val currencySign = Currency.getInstance(Locale.getDefault()).symbol
-			var dieselPrice = station.precioGasoleoA.replace(',', '.').toDouble()
-			var petrolPrice = station.precioGasolina95E5.replace(',', '.').toDouble()
+            gui.fuelStationNameTextView.text = station.rotulo.plus(" (").plus(station.municipio).plus(")")
+            gui.timesFuelStationTextView.text = station.horario
 
-			val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
-			if (applyDiscount) {
-				dieselPrice -= 0.2
-				petrolPrice -= 0.2
-			}
+            val currencySign = Currency.getInstance(Locale.getDefault()).symbol
+            var dieselPrice = station.precioGasoleoA.replace(',', '.').toDouble()
+            var petrolPrice = station.precioGasolina95E5.replace(',', '.').toDouble()
 
-			gui.dieselPriceTextView.text = if (dieselPrice > 0) {
-				String.format(Locale.getDefault(), "%.3f%s", dieselPrice, currencySign)
-			} else {
-				"-"
-			}
+            val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
+            if (applyDiscount) {
+                dieselPrice -= 0.2
+                petrolPrice -= 0.2
+            }
 
-			gui.petrolPriceTextView.text = if (petrolPrice > 0) {
-				String.format(Locale.getDefault(), "%.3f%s", petrolPrice, currencySign)
-			} else {
-				"-"
-			}
+            gui.dieselPriceTextView.text = if (dieselPrice > 0) {
+                String.format(Locale.getDefault(), "%.3f%s", dieselPrice, currencySign)
+            } else {
+                "-"
+            }
 
-			gui.lastStationUpdateTextView.text = getString(R.string.update_station_info, Utils.formatDate(Date()))
+            gui.petrolPriceTextView.text = if (petrolPrice > 0) {
+                String.format(Locale.getDefault(), "%.3f%s", petrolPrice, currencySign)
+            } else {
+                "-"
+            }
 
-			gui.favouriteFuelStationCardView.setOnClickListener {
-				val directions = HomeFragmentDirections.actionHomeFragmentToFuelStationsFragment(station.CP)
-				findNavController().navigate(directions)
-			}
-		} else {
-			gui.favouriteFuelStationCardView.visibility = View.GONE
-		}
-	}
+            gui.lastStationUpdateTextView.text = getString(R.string.update_station_info, Utils.formatDate(Date()))
 
-	private fun updateStatistics(stats: Statistics) {
-		gui.recordsTv.text = stats.totalRecords.toString()
-		gui.avgTv.text = String.format(
-			Locale.getDefault(),
-			"%.2f %s", stats.averageMileage, getString(R.string.mileage_unit)
-		)
-		gui.litresTv.text = String.format(
-			Locale.getDefault(),
-			"%,.0f %s", stats.totalLitres, getString(R.string.litres_l)
-		)
-		gui.kilometresTv.text = String.format(
-			Locale.getDefault(),
-			"%,.0f %s", stats.totalKilometres, getString(R.string.kilometres_km)
-		)
-	}
+            gui.favouriteFuelStationCardView.setOnClickListener {
+                val directions = HomeFragmentDirections.actionHomeFragmentToFuelStationsFragment(station.CP)
+                findNavController().navigate(directions)
+            }
+        } else {
+            gui.favouriteFuelStationCardView.visibility = View.GONE
+        }
+    }
 
-	private fun updateLastMileage(mileage: Mileage?) {
-		if (mileage != null) {
-			gui.lastMileageCardView.visibility = View.VISIBLE
+    private fun showPricesChangedIcons(currentStation: FuelStation) {
+        val daysToSubtract = preferences.getString(Constants.COMPARISON_PERIOD_FUEL_PRICES, "0")?.toLong() ?: 0
+        val localDate = LocalDate.now().minusDays(daysToSubtract)
+        val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
-			homeFragmentVM.getVehicle(mileage.vehiclePlateNumber).observe(viewLifecycleOwner) { vehicle ->
-				if (vehicle != null) {
-					gui.vehicleInfoTextView.text = String.format(
-						Locale.getDefault(), "%s %s - %s",
-						vehicle.maker, vehicle.model, vehicle.plateNumber
-					)
+        homeFragmentVM.getHistoricalData(date, currentStation.iDMunicipio, currentStation.iDEESS)
+            .observe(viewLifecycleOwner) { historicalStation ->
+                historicalStation.replaceEmptyPrices()
 
-					gui.lastMileageCardView.setOnClickListener {
-						val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment(
-							vehicle.plateNumber, vehicle.maker, vehicle.model
-						)
-						findNavController().navigate(directions)
-					}
-				}
-			}
+                if (historicalStation.precioGasoleoA > currentStation.precioGasoleoA) {
+                    gui.dieselPriceTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0, 0, R.drawable.ic_price_down_24, 0)
+                } else if (historicalStation.precioGasoleoA < currentStation.precioGasoleoA) {
+                    gui.dieselPriceTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0, 0, R.drawable.ic_price_up_24, 0)
+                } else {
+                    gui.dieselPriceTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0,0, R.drawable.ic_price_stay_24,0)
+                }
 
-			gui.dateTextView.text = Utils.formatDate(mileage.date)
-			gui.litresTextView.text = String.format(Locale.getDefault(), "%.2f L", mileage.litres)
-			gui.kilometresTextView.text = String.format(Locale.getDefault(), "%.1f KM", mileage.kilometres)
-			gui.notesTextView.text = mileage.notes
-			gui.mileageDataTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.mileage)
-		} else {
-			gui.lastMileageCardView.visibility = View.INVISIBLE
-		}
-	}
+                if (historicalStation.precioGasolina95E5 > currentStation.precioGasolina95E5) {
+                    gui.petrolPriceTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0, 0, R.drawable.ic_price_down_24, 0)
+                } else if (historicalStation.precioGasolina95E5 < currentStation.precioGasolina95E5) {
+                    gui.petrolPriceTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0, 0, R.drawable.ic_price_up_24, 0)
+                } else {
+                    gui.petrolPriceTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0, 0, R.drawable.ic_price_stay_24, 0)
+                }
+            }
+    }
 
-	private fun updateVehicles(vehicles: List<Vehicle>) {
-		val adapter = gui.vehiclesRecyclerView.adapter as VehicleAdapter
+    private fun updateStatistics(stats: Statistics) {
+        gui.recordsTv.text = stats.totalRecords.toString()
+        gui.avgTv.text = String.format(
+            Locale.getDefault(),
+            "%.2f %s", stats.averageMileage, getString(R.string.mileage_unit)
+        )
+        gui.litresTv.text = String.format(
+            Locale.getDefault(),
+            "%,.0f %s", stats.totalLitres, getString(R.string.litres_l)
+        )
+        gui.kilometresTv.text = String.format(
+            Locale.getDefault(),
+            "%,.0f %s", stats.totalKilometres, getString(R.string.kilometres_km)
+        )
+    }
 
-		val addIconEntryName = resources.getResourceEntryName(R.drawable.ic_add_circle)
-		val addIconColor = resources.getResourceEntryName(R.color.add_icon_color)
+    private fun updateLastMileage(mileage: Mileage?) {
+        if (mileage != null) {
+            gui.lastMileageCardView.visibility = View.VISIBLE
 
-		val mutableVehicles = vehicles.toMutableList()
+            homeFragmentVM.getVehicle(mileage.vehiclePlateNumber).observe(viewLifecycleOwner) { vehicle ->
+                if (vehicle != null) {
+                    gui.vehicleInfoTextView.text = String.format(
+                        Locale.getDefault(), "%s %s - %s",
+                        vehicle.maker, vehicle.model, vehicle.plateNumber
+                    )
 
-		if (!preferences.getBoolean(HIDE_ADD_VEHICLE_PREFERENCE, false)
-			|| vehicles.isEmpty()
-		) {
-			val addVehicle = Vehicle(getString(R.string.add_vehicle), "", "", addIconEntryName, addIconColor)
-			mutableVehicles.add(addVehicle)
-		}
+                    gui.lastMileageCardView.setOnClickListener {
+                        val directions = HomeFragmentDirections.actionHomeFragmentToMileageListFragment(
+                            vehicle.plateNumber, vehicle.maker, vehicle.model
+                        )
+                        findNavController().navigate(directions)
+                    }
+                }
+            }
 
-		adapter.submitList(mutableVehicles)
+            gui.dateTextView.text = Utils.formatDate(mileage.date)
+            gui.litresTextView.text = String.format(Locale.getDefault(), "%.2f L", mileage.litres)
+            gui.kilometresTextView.text = String.format(Locale.getDefault(), "%.1f KM", mileage.kilometres)
+            gui.notesTextView.text = mileage.notes
+            gui.mileageDataTextView.text = String.format(Locale.getDefault(), "%.2f", mileage.mileage)
+        } else {
+            gui.lastMileageCardView.visibility = View.INVISIBLE
+        }
+    }
 
-		gui.numOfVehiclesTextView.text = vehicles.size.toString()
-	}
+    private fun updateVehicles(vehicles: List<Vehicle>) {
+        val adapter = gui.vehiclesRecyclerView.adapter as VehicleAdapter
 
-	private inner class VehicleAdapter(val rootView: View) :
-		ListAdapter<Vehicle, VehicleAdapter.VehicleViewHolder>(VehicleDiffCallback) {
+        val addIconEntryName = resources.getResourceEntryName(R.drawable.ic_add_circle)
+        val addIconColor = resources.getResourceEntryName(R.color.add_icon_color)
 
-		private inner class VehicleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-			private lateinit var currentVehicle: Vehicle
-			private val vehicleIconImgView: ImageView = view.findViewById(R.id.vehicle_icon_img_view)
-			private val vehicleTitleTv: TextView = view.findViewById(R.id.vehicle_title_tv)
-			private val vehicleSubTitleTv: TextView = view.findViewById(R.id.vehicle_sub_tittle_tv)
+        val mutableVehicles = vehicles.toMutableList()
 
-			init {
-				itemView.setOnLongClickListener {
-					if (currentVehicle.plateNumber != getString(R.string.add_vehicle)) {
-						var vehicleMileages: List<Mileage> = emptyList()
+        if (!preferences.getBoolean(HIDE_ADD_VEHICLE_PREFERENCE, false)
+            || vehicles.isEmpty()
+        ) {
+            val addVehicle = Vehicle(getString(R.string.add_vehicle), "", "", addIconEntryName, addIconColor)
+            mutableVehicles.add(addVehicle)
+        }
 
-						homeFragmentVM.getMileages(currentVehicle.plateNumber).observe(viewLifecycleOwner) {
-							vehicleMileages = it
-						}
+        adapter.submitList(mutableVehicles)
 
-						val popup = PopupMenu(view.context, vehicleTitleTv)
-						popup.inflate(R.menu.menu_popup_vehicle)
-						popup.setOnMenuItemClickListener {
-							when (it.itemId) {
-								R.id.edit_vehicle -> {
-									val directions = HomeFragmentDirections.actionHomeFragmentToAddVehicleFragment(
-										true, currentVehicle.plateNumber
-									)
-									findNavController().navigate(directions)
-									true
-								}
+        gui.numOfVehiclesTextView.text = vehicles.size.toString()
+    }
 
-								R.id.delete_vehicle -> {
-									AlertDialog.Builder(requireContext())
-										.setTitle(R.string.delete_vehicle)
-										.setMessage(R.string.action_cannot_be_undone)
-										.setPositiveButton(R.string.accept) { _, _ ->
-											homeFragmentVM.deleteVehicle(currentVehicle, vehicleMileages)
-											Snackbar
-												.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
-												.setAction(R.string.undo) { homeFragmentVM.restoreDeletedVehicle() }
-												.show()
-										}
-										.setNegativeButton(R.string.cancel, null)
-										.show()
+    private inner class VehicleAdapter(val rootView: View) :
+        ListAdapter<Vehicle, VehicleAdapter.VehicleViewHolder>(VehicleDiffCallback) {
 
-									true
-								}
-								else -> false
-							}
-						}
-						popup.show()
-						true
-					} else {
-						false
-					}
-				}
+        private inner class VehicleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            private lateinit var currentVehicle: Vehicle
+            private val vehicleIconImgView: ImageView = view.findViewById(R.id.vehicle_icon_img_view)
+            private val vehicleTitleTv: TextView = view.findViewById(R.id.vehicle_title_tv)
+            private val vehicleSubTitleTv: TextView = view.findViewById(R.id.vehicle_sub_tittle_tv)
 
-				itemView.setOnClickListener {
-					if (currentVehicle.plateNumber == getString(R.string.add_vehicle)) {
-						val directions = HomeFragmentDirections
-							.actionHomeFragmentToAddVehicleFragment(false, "")
-						findNavController().navigate(directions)
-					} else {
-						val directions = HomeFragmentDirections
-							.actionHomeFragmentToMileageListFragment(
-								currentVehicle.plateNumber,
-								currentVehicle.maker,
-								currentVehicle.model
-							)
-						findNavController().navigate(directions)
-					}
-				}
-			}
+            init {
+                itemView.setOnLongClickListener {
+                    if (currentVehicle.plateNumber != getString(R.string.add_vehicle)) {
+                        var vehicleMileages: List<Mileage> = emptyList()
 
-			@SuppressLint("SetTextI18n")
-			fun bindData(vehicle: Vehicle) {
-				currentVehicle = vehicle
+                        homeFragmentVM.getMileages(currentVehicle.plateNumber).observe(viewLifecycleOwner) {
+                            vehicleMileages = it
+                        }
 
-				val iconId = resources.getIdentifier(vehicle.icon, "drawable", requireActivity().packageName)
-				val colorId = resources.getIdentifier(vehicle.color, "color", requireActivity().packageName)
-				val color = ContextCompat.getColor(rootView.context, colorId)
+                        val popup = PopupMenu(view.context, vehicleTitleTv)
+                        popup.inflate(R.menu.menu_popup_vehicle)
+                        popup.setOnMenuItemClickListener {
+                            when (it.itemId) {
+                                R.id.edit_vehicle -> {
+                                    val directions = HomeFragmentDirections.actionHomeFragmentToAddVehicleFragment(
+                                        true, currentVehicle.plateNumber
+                                    )
+                                    findNavController().navigate(directions)
+                                    true
+                                }
 
-				vehicleIconImgView.setImageResource(iconId)
-				vehicleIconImgView.setColorFilter(color)
+                                R.id.delete_vehicle -> {
+                                    AlertDialog.Builder(requireContext())
+                                        .setTitle(R.string.delete_vehicle)
+                                        .setMessage(R.string.action_cannot_be_undone)
+                                        .setPositiveButton(R.string.accept) { _, _ ->
+                                            homeFragmentVM.deleteVehicle(currentVehicle, vehicleMileages)
+                                            Snackbar
+                                                .make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
+                                                .setAction(R.string.undo) { homeFragmentVM.restoreDeletedVehicle() }
+                                                .show()
+                                        }
+                                        .setNegativeButton(R.string.cancel, null)
+                                        .show()
 
-				vehicleTitleTv.text = currentVehicle.plateNumber
-				vehicleSubTitleTv.text = "${vehicle.maker} ${vehicle.model}"
-			}
-		}
+                                    true
+                                }
+                                else -> false
+                            }
+                        }
+                        popup.show()
+                        true
+                    } else {
+                        false
+                    }
+                }
 
-		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleViewHolder {
-			val layoutInflater = LayoutInflater.from(parent.context)
-			return VehicleViewHolder(layoutInflater.inflate(R.layout.list_item_vehicle, parent, false))
-		}
+                itemView.setOnClickListener {
+                    if (currentVehicle.plateNumber == getString(R.string.add_vehicle)) {
+                        val directions = HomeFragmentDirections
+                            .actionHomeFragmentToAddVehicleFragment(false, "")
+                        findNavController().navigate(directions)
+                    } else {
+                        val directions = HomeFragmentDirections
+                            .actionHomeFragmentToMileageListFragment(
+                                currentVehicle.plateNumber,
+                                currentVehicle.maker,
+                                currentVehicle.model
+                            )
+                        findNavController().navigate(directions)
+                    }
+                }
+            }
 
-		override fun onBindViewHolder(holder: VehicleViewHolder, position: Int) {
-			holder.bindData(currentList[position])
-		}
-	}
+            @SuppressLint("SetTextI18n")
+            fun bindData(vehicle: Vehicle) {
+                currentVehicle = vehicle
 
-	private object VehicleDiffCallback : DiffUtil.ItemCallback<Vehicle>() {
-		override fun areItemsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
-			return oldItem.plateNumber == newItem.plateNumber
-		}
+                val iconId = resources.getIdentifier(vehicle.icon, "drawable", requireActivity().packageName)
+                val colorId = resources.getIdentifier(vehicle.color, "color", requireActivity().packageName)
+                val color = ContextCompat.getColor(rootView.context, colorId)
 
-		override fun areContentsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
-			return oldItem == newItem
-		}
-	}
+                vehicleIconImgView.setImageResource(iconId)
+                vehicleIconImgView.setColorFilter(color)
+
+                vehicleTitleTv.text = currentVehicle.plateNumber
+                vehicleSubTitleTv.text = "${vehicle.maker} ${vehicle.model}"
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleViewHolder {
+            val layoutInflater = LayoutInflater.from(parent.context)
+            return VehicleViewHolder(layoutInflater.inflate(R.layout.list_item_vehicle, parent, false))
+        }
+
+        override fun onBindViewHolder(holder: VehicleViewHolder, position: Int) {
+            holder.bindData(currentList[position])
+        }
+    }
+
+    private object VehicleDiffCallback : DiffUtil.ItemCallback<Vehicle>() {
+        override fun areItemsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
+            return oldItem.plateNumber == newItem.plateNumber
+        }
+
+        override fun areContentsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
+            return oldItem == newItem
+        }
+    }
 }

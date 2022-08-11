@@ -1,5 +1,6 @@
 package com.macisdev.mileageapp.api
 
+import android.text.format.DateFormat
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,16 +14,22 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 class FuelServiceImpl {
-    fun getCityCodeByZipCode(zip: String): LiveData<Int> {
-        val cityCode: MutableLiveData<Int> = MutableLiveData()
+    private val fuelAPI: FuelServiceCalls
+
+    init {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
+            .baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val fuelAPI = retrofit.create(FuelServiceCalls::class.java)
+        fuelAPI = retrofit.create(FuelServiceCalls::class.java)
+    }
+
+    fun getCityCodeByZipCode(zip: String): LiveData<Int> {
+        val cityCode: MutableLiveData<Int> = MutableLiveData()
 
         fuelAPI.getAllFuelStations().enqueue(object : Callback<FuelResponse> {
             override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
@@ -55,12 +62,6 @@ class FuelServiceImpl {
 
     fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<FuelStation>> {
         val fuelStationsList: MutableLiveData<List<FuelStation>> = MutableLiveData()
-        val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val fuelAPI = retrofit.create(FuelServiceCalls::class.java)
 
         fuelAPI.getByCity(cityCode).enqueue(object : Callback<FuelResponse> {
             override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
@@ -83,13 +84,6 @@ class FuelServiceImpl {
 
     fun getFuelStationById(cityCode: Int, stationId: Int): LiveData<FuelStation> {
         val station: MutableLiveData<FuelStation> = MutableLiveData()
-
-        val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val fuelAPI = retrofit.create(FuelServiceCalls::class.java)
 
         fuelAPI.getByCity(cityCode).enqueue(object : Callback<FuelResponse> {
             override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
@@ -116,6 +110,40 @@ class FuelServiceImpl {
             override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
                 station.value = FuelStation.getEmptyFuelStation()
                 Log.e(MainActivity.TAG, "Error calling fuel service in getFuelStationById()")
+            }
+        })
+
+        return station
+    }
+
+    fun getHistoricalData(date: Date, cityCode: Int, stationId: Int): LiveData<FuelStation> {
+        val station: MutableLiveData<FuelStation> = MutableLiveData()
+        val formattedDate = DateFormat.format("dd-MM-yyyy", date).toString()
+
+        fuelAPI.getHistoricalData(formattedDate, cityCode).enqueue(object : Callback<FuelResponse> {
+            override fun onResponse(call: Call<FuelResponse>, response: Response<FuelResponse>) {
+                val responseBody = response.body()
+
+                if (responseBody?.resultadoConsulta == API_STATUS_OK) {
+                    var codeFound = false
+
+                    responseBody.listaEESSPrecio.takeWhile { !codeFound }.forEach { fuelStation ->
+                        if (fuelStation.iDEESS == stationId) {
+                            station.value = fuelStation
+                            codeFound = true
+                        }
+                    }
+                    if (!codeFound) {
+                        station.value = FuelStation.getEmptyFuelStation()
+                    }
+                } else {
+                    station.value = FuelStation.getEmptyFuelStation()
+                }
+            }
+
+            override fun onFailure(call: Call<FuelResponse>, t: Throwable) {
+                station.value = FuelStation.getEmptyFuelStation()
+                Log.e(MainActivity.TAG, "Error calling fuel service in getHistoricalData()")
             }
         })
 

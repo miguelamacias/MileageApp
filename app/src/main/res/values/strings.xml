@@ -190,8 +190,29 @@
     <string name="update_station_info">Updated on %1$s</string>
     <string name="opening_hours">Hours:</string>
 
+    <!--v1.5.3 strings -->
+    <string name="compare_prices">Prices\' comparison period</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="one_week">One week</string>
+    <string name="two_weeks">Two weeks</string>
+    <string name="one_month">One month</string>
+
+    <string-array name="comparison_period">
+        <item>@string/yesterday</item>
+        <item>@string/one_week</item>
+        <item>@string/two_weeks</item>
+        <item>@string/one_month</item>
+    </string-array>
+
+    <array name="comparison_period_days">
+        <item>"1"</item>
+        <item>"7"</item>
+        <item>"14"</item>
+        <item>"30"</item>
+    </array>
 
 
+    <!--Internal use only -->
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>
     </array>

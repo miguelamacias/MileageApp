@@ -156,4 +156,9 @@
     <string name="favourite_fuel_station">Gasolinera Favorita</string>
     <string name="update_station_info">Actualizado el %1$s</string>
     <string name="opening_hours">Horario:</string>
+    <string name="compare_prices">Perido de comparación de precios</string>
+    <string name="yesterday">Ayer</string>
+    <string name="one_week">Una semana</string>
+    <string name="two_weeks">Dos semanas</string>
+    <string name="one_month">Un mes</string>
 </resources>

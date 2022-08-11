@@ -8,6 +8,7 @@ import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
 import kotlinx.coroutines.launch
+import java.util.*
 
 class HomeFragmentViewModel : ViewModel() {
 	private val mileageRepository = MileageRepository.get()
@@ -42,4 +43,8 @@ class HomeFragmentViewModel : ViewModel() {
 
 	fun getFuelStationById(cityCode: Int, stationId: Int): LiveData<FuelStation> =
 		mileageRepository.getFuelStationById(cityCode, stationId)
+
+	fun getHistoricalData(date: Date, cityCode: Int, stationId: Int) =
+		mileageRepository.getHistoricalData(date, cityCode, stationId)
+
 }

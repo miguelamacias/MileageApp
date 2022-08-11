@@ -482,17 +482,18 @@
                     android:id="@+id/diesel_price_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="2dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView26"
                     app:layout_constraintStart_toEndOf="@+id/textView26"
-                    tools:text="1,581" />
+                    tools:drawableEnd="@drawable/ic_price_up_24"
+                    tools:text="1,581€" />
 
                 <TextView
                     android:id="@+id/textView28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
+                    android:layout_marginStart="8dp"
                     android:text="@string/petrol_price_label"
                     android:textStyle="bold"
                     app:layout_constraintBaseline_toBaselineOf="@+id/diesel_price_text_view"
@@ -502,11 +503,12 @@
                     android:id="@+id/petrol_price_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="2dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView28"
                     app:layout_constraintStart_toEndOf="@+id/textView28"
-                    tools:text="1,624" />
+                    tools:drawableEnd="@drawable/ic_price_down_24"
+                    tools:text="1,624€" />
 
                 <TextView
                     android:id="@+id/last_station_update_text_view"

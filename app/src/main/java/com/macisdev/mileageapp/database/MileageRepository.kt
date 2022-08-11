@@ -82,7 +82,11 @@ class MileageRepository private constructor(val context: Context) {
 	fun getTripDistance(origin: String, destination: String, avoidTolls: Boolean): LiveData<Double> =
 		mapsService.getTripDistance(origin, destination, avoidTolls)
 
-	var tripDuration = mapsService.tripDuration
+    fun getHistoricalData(date: Date, cityCode: Int, stationId: Int) =
+		fuelService.getHistoricalData(date, cityCode, stationId)
+
+
+    var tripDuration = mapsService.tripDuration
 
 	companion object {
 		@SuppressLint("StaticFieldLeak")
