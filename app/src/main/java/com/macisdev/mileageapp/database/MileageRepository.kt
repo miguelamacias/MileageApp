@@ -61,6 +61,12 @@ class MileageRepository private constructor(val context: Context) {
 		executor.execute { mileageDao.deleteMileage(mileageId.toString()) }
 	}
 
+	fun deleteMileages(mileageList: List<Mileage>) {
+		executor.execute {
+			mileageList.forEach { mileageDao.deleteMileage(it.id.toString()) }
+		}
+	}
+
 	fun updateMileage(mileage: Mileage) {
 		executor.execute { mileageDao.updateMileage(mileage) }
 	}

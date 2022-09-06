@@ -1,10 +1,7 @@
 package com.macisdev.mileageapp.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(
@@ -23,5 +20,8 @@ data class Mileage(
 	var litres: Double,
 	var notes: String = "",
 	@PrimaryKey
-	val id: UUID = UUID.randomUUID()
-)
+	val id: UUID = UUID.randomUUID(),
+) {
+	@Ignore
+	var selectedInRecyclerView: Boolean = false
+}

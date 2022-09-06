@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:id="@+id/edit_mileage"
-            android:title="@string/edit_mileage"
-            />
+        android:id="@+id/edit_mileage"
+        android:icon="@drawable/ic_edit_24"
+        android:title="@string/edit_mileage" />
     <item
-            android:id="@+id/delete_mileage"
-            android:title="@string/delete_mileage"
-            />
+        android:id="@+id/delete_mileage"
+        android:icon="@drawable/ic_delete_forever_24"
+        android:title="@string/delete_mileage" />
 
 </menu>

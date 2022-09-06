@@ -211,6 +211,8 @@
         <item>"30"</item>
     </array>
 
+    <!--v1.5.4 strings -->
+    <string name="selected_mileages_deleted">Selected mileages deleted!</string>
 
     <!--Internal use only -->
     <array name="tools_spinner">

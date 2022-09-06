@@ -10,7 +10,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.appcompat.widget.PopupMenu
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -41,6 +42,7 @@ class MileageListFragment : Fragment() {
 		MileageListViewModel.Factory(fragmentArgs.vehiclePlateNumber)
 	}
 	private lateinit var importCsvLauncher: ActivityResultLauncher<Intent>
+	private var actionMode: ActionMode? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -260,33 +262,77 @@ class MileageListFragment : Fragment() {
 			private val litresContentTextView: TextView = view.findViewById(R.id.litres_content_text_view)
 			private val notesTextView: TextView = view.findViewById(R.id.notes_text_view)
 
+			private val actionModeCallback = object : ActionMode.Callback {
+				override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+					requireActivity().menuInflater.inflate(R.menu.menu_popup_mileage, menu)
+					return true
+				}
+
+				override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+					return false
+				}
+
+				override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+					return when (item.itemId) {
+						R.id.edit_mileage -> {
+							val directions = MileageListFragmentDirections
+								.actionMileageListFragmentToAddMileageFragment(
+									mileageListVM.plateNumber,
+									true,
+									currentMileage?.id.toString())
+							findNavController().navigate(directions)
+							actionMode?.finish()
+							true
+						}
+
+						R.id.delete_mileage -> {
+							val selectedMileages = currentList.filter { it.selectedInRecyclerView }
+							mileageListVM.deleteMileages(selectedMileages)
+							Snackbar
+								.make(gui.coordinatorLayout, R.string.selected_mileages_deleted, Snackbar.LENGTH_LONG)
+								.setAction(R.string.undo) { mileageListVM.restoreClearedMileages() }
+								.show()
+							actionMode?.finish()
+							true
+						}
+
+						else -> false
+					}
+				}
+
+				@SuppressLint("NotifyDataSetChanged")
+				override fun onDestroyActionMode(mode: ActionMode) {
+					currentList.forEach { mileage ->  mileage.selectedInRecyclerView = false }
+					notifyDataSetChanged()
+					actionMode = null
+				}
+			}
+
 			init {
 				itemView.setOnLongClickListener {
-					val popup = PopupMenu(view.context, litresContentTextView)
-					popup.inflate(R.menu.menu_popup_mileage)
-					popup.setOnMenuItemClickListener { item ->
-						when (item.itemId) {
-							R.id.edit_mileage -> {
-								val directions = MileageListFragmentDirections
-									.actionMileageListFragmentToAddMileageFragment(
-										mileageListVM.plateNumber,
-										true,
-										currentMileage?.id.toString())
-								findNavController().navigate(directions)
-							}
+					currentMileage?.selectedInRecyclerView = true
+					val itemPosition = gui.mileagesRecyclerView.getChildLayoutPosition(view);
+					notifyItemChanged(itemPosition)
 
-							R.id.delete_mileage -> {
-								mileageListVM.deleteMileage(currentMileage)
-								Snackbar
-									.make(gui.coordinatorLayout, R.string.deleted_mileage, Snackbar.LENGTH_LONG)
-									.setAction(R.string.undo) { mileageListVM.restoreDeletedMileages() }
-									.show()
-							}
+					when (actionMode) {
+						null -> {
+							actionMode = requireActivity().startActionMode(actionModeCallback)
+							true
 						}
-						true
+						else -> false
 					}
-					popup.show()
-					true
+				}
+
+				itemView.setOnClickListener {
+					if (actionMode != null) {
+						currentMileage?.apply{ selectedInRecyclerView = !selectedInRecyclerView}
+						val itemPosition = gui.mileagesRecyclerView.getChildLayoutPosition(view)
+						notifyItemChanged(itemPosition)
+
+						if (currentList.none { it.selectedInRecyclerView }) {
+							actionMode?.finish()
+						}
+					}
 				}
 
 				notesTextView.setOnClickListener {
@@ -316,6 +362,12 @@ class MileageListFragment : Fragment() {
 
 		override fun onBindViewHolder(holder: MileageAdapter.MileageViewHolder, position: Int) {
 			holder.bindData(currentList[position])
+			val cardView = holder.itemView as CardView
+			if (currentList[position].selectedInRecyclerView) {
+				cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primary_light))
+			} else {
+				cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+			}
 		}
 
 		override fun onCurrentListChanged(previousList: MutableList<Mileage>, currentList: MutableList<Mileage>) {
