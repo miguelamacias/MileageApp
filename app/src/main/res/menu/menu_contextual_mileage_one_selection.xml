@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/select_all"
+        android:icon="@drawable/ic_select_all_24"
+        android:title="@string/select_all" />
+    <item
+        android:id="@+id/edit_mileage"
+        android:icon="@drawable/ic_edit_24"
+        android:title="@string/edit_mileage" />
+    <item
+        android:id="@+id/delete_mileage"
+        android:icon="@drawable/ic_delete_forever_24"
+        android:title="@string/delete_mileage" />
+
+</menu>

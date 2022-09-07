@@ -162,4 +162,5 @@
     <string name="two_weeks">Dos semanas</string>
     <string name="one_month">Un mes</string>
     <string name="selected_mileages_deleted">Borrados registros seleccionados</string>
+    <string name="select_all">Seleccionar todos</string>
 </resources>

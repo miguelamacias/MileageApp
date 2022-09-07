@@ -264,14 +264,20 @@ class MileageListFragment : Fragment() {
 
 			private val actionModeCallback = object : ActionMode.Callback {
 				override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-					requireActivity().menuInflater.inflate(R.menu.menu_popup_mileage, menu)
 					return true
 				}
 
 				override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-					return false
+					menu.clear()
+					if (currentList.count { it.selectedInRecyclerView } > 1) {
+						mode.menuInflater.inflate(R.menu.menu_contextual_mileage_multi_selection, menu)
+					} else {
+						mode.menuInflater.inflate(R.menu.menu_contextual_mileage_one_selection, menu)
+					}
+					return true
 				}
 
+				@SuppressLint("NotifyDataSetChanged")
 				override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
 					return when (item.itemId) {
 						R.id.edit_mileage -> {
@@ -296,6 +302,13 @@ class MileageListFragment : Fragment() {
 							true
 						}
 
+						R.id.select_all -> {
+							currentList.forEach { it.selectedInRecyclerView = true}
+							notifyDataSetChanged()
+							actionMode?.invalidate()
+							actionMode?.title = currentList.count { it.selectedInRecyclerView }.toString()
+							true
+						}
 						else -> false
 					}
 				}
@@ -329,8 +342,8 @@ class MileageListFragment : Fragment() {
 						currentMileage?.apply{ selectedInRecyclerView = !selectedInRecyclerView}
 						val itemPosition = gui.mileagesRecyclerView.getChildLayoutPosition(view)
 						notifyItemChanged(itemPosition)
+						actionMode?.invalidate()
 						actionMode?.title = currentList.count { it.selectedInRecyclerView }.toString()
-
 						if (currentList.none { it.selectedInRecyclerView }) {
 							actionMode?.finish()
 						}
