@@ -15,7 +15,7 @@
         <item name="actionBarPopupTheme">@style/PopupOverlay</item>
         <item name="actionOverflowMenuStyle">@style/CMOptionsMenu</item>
         <item name="windowActionModeOverlay">true</item>
-
+        <item name="actionModeStyle">@style/Widget.App.ActionMode</item>
     </style>
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -30,6 +30,12 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="Widget.App.ActionMode" parent="Widget.AppCompat.ActionMode">
+        <item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
+        <item name="subtitleTextStyle">?attr/textAppearanceSubtitle1</item>
+        <item name="background">@color/primary_dark</item>
     </style>
 
 </resources>

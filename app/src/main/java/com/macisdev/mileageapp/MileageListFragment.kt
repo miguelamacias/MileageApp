@@ -311,12 +311,13 @@ class MileageListFragment : Fragment() {
 			init {
 				itemView.setOnLongClickListener {
 					currentMileage?.selectedInRecyclerView = true
-					val itemPosition = gui.mileagesRecyclerView.getChildLayoutPosition(view);
+					val itemPosition = gui.mileagesRecyclerView.getChildLayoutPosition(view)
 					notifyItemChanged(itemPosition)
 
 					when (actionMode) {
 						null -> {
 							actionMode = requireActivity().startActionMode(actionModeCallback)
+							actionMode?.title = currentList.count { it.selectedInRecyclerView }.toString()
 							true
 						}
 						else -> false
@@ -328,6 +329,7 @@ class MileageListFragment : Fragment() {
 						currentMileage?.apply{ selectedInRecyclerView = !selectedInRecyclerView}
 						val itemPosition = gui.mileagesRecyclerView.getChildLayoutPosition(view)
 						notifyItemChanged(itemPosition)
+						actionMode?.title = currentList.count { it.selectedInRecyclerView }.toString()
 
 						if (currentList.none { it.selectedInRecyclerView }) {
 							actionMode?.finish()
