@@ -81,7 +81,8 @@ class MileageListFragment : Fragment() {
 						true
 					}
 					R.id.clear_mileages -> {
-						clearMileagesItemSelected()
+						val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
+						deleteMileages(adapter.currentList, R.string.clear_mileages, R.string.cleared_mileages)
 						true
 					}
 					R.id.delete_vehicle -> {
@@ -196,17 +197,15 @@ class MileageListFragment : Fragment() {
 		showToast(R.string.csv_exported_successfully)
 	}
 
-	private fun clearMileagesItemSelected() {
-		val adapter = gui.mileagesRecyclerView.adapter as MileageAdapter
-
+	private fun deleteMileages(mileages: List<Mileage>, warningText: Int,successText: Int) {
 		AlertDialog.Builder(requireContext())
-			.setTitle(R.string.clear_mileages)
+			.setTitle(warningText)
 			.setMessage(R.string.action_cannot_be_undone)
 			.setPositiveButton(R.string.accept) { _, _ ->
-				mileageListVM.clearMileages(adapter.currentList)
+				mileageListVM.deleteMileages(mileages)
 				Snackbar
-					.make(gui.coordinatorLayout, R.string.cleared_mileages, Snackbar.LENGTH_LONG)
-					.setAction(R.string.undo) { mileageListVM.restoreClearedMileages() }
+					.make(gui.coordinatorLayout, successText, Snackbar.LENGTH_LONG)
+					.setAction(R.string.undo) { mileageListVM.restoreDeletedMileages() }
 					.show()
 			}
 			.setNegativeButton(R.string.cancel, null)
@@ -222,7 +221,6 @@ class MileageListFragment : Fragment() {
 				mileageListVM.getVehicle().observe(viewLifecycleOwner) {
 					mileageListVM.deleteVehicle(it, adapter.currentList)
 				}
-
 				Snackbar
 					.make(gui.root, R.string.deleted_vehicle, Snackbar.LENGTH_LONG)
 					.setAction(R.string.undo) { mileageListVM.restoreDeletedVehicle() }
@@ -249,7 +247,6 @@ class MileageListFragment : Fragment() {
 
 	private fun calculateAverageMileage(mileages: List<Mileage>) = String.format(Locale.getDefault(), "%.2f",
 		mileages.sumOf { it.mileage } / mileages.size)
-
 
 
 	private inner class MileageAdapter : ListAdapter<Mileage, MileageAdapter.MileageViewHolder>(MileageDiffCallback) {
@@ -293,11 +290,8 @@ class MileageListFragment : Fragment() {
 
 						R.id.delete_mileage -> {
 							val selectedMileages = currentList.filter { it.selectedInRecyclerView }
-							mileageListVM.deleteMileages(selectedMileages)
-							Snackbar
-								.make(gui.coordinatorLayout, R.string.selected_mileages_deleted, Snackbar.LENGTH_LONG)
-								.setAction(R.string.undo) { mileageListVM.restoreClearedMileages() }
-								.show()
+							deleteMileages(selectedMileages, R.string.delete_selected_mileages,
+								R.string.selected_mileages_deleted)
 							actionMode?.finish()
 							true
 						}
@@ -315,7 +309,7 @@ class MileageListFragment : Fragment() {
 
 				@SuppressLint("NotifyDataSetChanged")
 				override fun onDestroyActionMode(mode: ActionMode) {
-					currentList.forEach { mileage ->  mileage.selectedInRecyclerView = false }
+					currentList.forEach { it.selectedInRecyclerView = false }
 					notifyDataSetChanged()
 					actionMode = null
 				}
@@ -327,14 +321,12 @@ class MileageListFragment : Fragment() {
 					val itemPosition = gui.mileagesRecyclerView.getChildLayoutPosition(view)
 					notifyItemChanged(itemPosition)
 
-					when (actionMode) {
-						null -> {
-							actionMode = requireActivity().startActionMode(actionModeCallback)
-							actionMode?.title = currentList.count { it.selectedInRecyclerView }.toString()
-							true
-						}
-						else -> false
+					if (actionMode == null) {
+						actionMode = requireActivity().startActionMode(actionModeCallback)
+						actionMode?.title = currentList.count { it.selectedInRecyclerView }.toString()
+						true
 					}
+					else false
 				}
 
 				itemView.setOnClickListener {

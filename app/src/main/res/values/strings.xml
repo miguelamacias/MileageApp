@@ -214,6 +214,7 @@
     <!--v1.5.4 strings -->
     <string name="selected_mileages_deleted">Selected mileages deleted!</string>
     <string name="select_all">Select all</string>
+    <string name="delete_selected_mileages">Delete selected mileages</string>
 
     <!--Internal use only -->
     <array name="tools_spinner">

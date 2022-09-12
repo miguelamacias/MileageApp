@@ -17,18 +17,12 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 	private val mileageRepository = MileageRepository.get()
 	val mileageListLiveData: LiveData<List<Mileage>> = mileageRepository.getMileages(plateNumber)
 
-	private var deletedMileage: Mileage? = null
 	private var deletedVehicle: Vehicle? = null
-	private var deletedMileages: List<Mileage>? = null
+	private var deletedMileages: List<Mileage> = emptyList()
 	private var unimportedLines = emptyList<String>()
 
 	fun getVehicle(): LiveData<Vehicle> {
 		return mileageRepository.getVehicle(plateNumber)
-	}
-
-	fun clearMileages(mileages: List<Mileage>) {
-		deletedMileages = mileages
-		mileageRepository.clearMileages(plateNumber)
 	}
 
 	fun deleteVehicle(vehicle: Vehicle, mileages: List<Mileage>) {
@@ -37,13 +31,8 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 		mileageRepository.deleteVehicle(plateNumber)
 	}
 
-	fun deleteMileage(mileage: Mileage?) {
-		deletedMileage = mileage
-		mileageRepository.deleteMileage(mileage?.id)
-	}
-
 	fun restoreDeletedMileages() {
-		deletedMileage?.let { mileageRepository.storeMileage(it) }
+		mileageRepository.storeMileages(deletedMileages)
 	}
 
 	fun deleteMileages(mileages: List<Mileage>) {
@@ -51,13 +40,9 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 		mileageRepository.deleteMileages(mileages)
 	}
 
-	fun restoreClearedMileages() {
-		deletedMileages?.forEach { mileageRepository.storeMileage(it) }
-	}
-
 	fun restoreDeletedVehicle() {
 		deletedVehicle?.let { viewModelScope.launch { mileageRepository.addVehicle(it) } }
-		restoreClearedMileages()
+		restoreDeletedMileages()
 	}
 
 	private fun storeMileage(mileage: Mileage) {

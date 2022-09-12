@@ -53,14 +53,6 @@ class MileageRepository private constructor(val context: Context) {
 		executor.execute { mileageDao.deleteVehicle(plateNumber) }
 	}
 
-	fun clearMileages(vehiclePlateNumber: String) {
-		executor.execute { mileageDao.clearMileages(vehiclePlateNumber) }
-	}
-
-	fun deleteMileage(mileageId: UUID?) {
-		executor.execute { mileageDao.deleteMileage(mileageId.toString()) }
-	}
-
 	fun deleteMileages(mileageList: List<Mileage>) {
 		executor.execute {
 			mileageList.forEach { mileageDao.deleteMileage(it.id.toString()) }
@@ -90,6 +82,10 @@ class MileageRepository private constructor(val context: Context) {
 
     fun getHistoricalData(date: Date, cityCode: Int, stationId: Int) =
 		fuelService.getHistoricalData(date, cityCode, stationId)
+
+	fun storeMileages(mileages: List<Mileage>) {
+		mileages.forEach { storeMileage(it) }
+	}
 
 
     var tripDuration = mapsService.tripDuration

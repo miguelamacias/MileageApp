@@ -163,4 +163,5 @@
     <string name="one_month">Un mes</string>
     <string name="selected_mileages_deleted">Borrados registros seleccionados</string>
     <string name="select_all">Seleccionar todos</string>
+    <string name="delete_selected_mileages">Borrar registros seleccionados</string>
 </resources>

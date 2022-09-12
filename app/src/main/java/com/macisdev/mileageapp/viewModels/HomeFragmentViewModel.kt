@@ -14,7 +14,7 @@ class HomeFragmentViewModel : ViewModel() {
 	private val mileageRepository = MileageRepository.get()
 
 	private var deletedVehicle: Vehicle? = null
-	private var clearedMileages: List<Mileage>? = null
+	private var clearedMileages: List<Mileage> = emptyList()
 
 	val vehiclesList: LiveData<List<Vehicle>> = mileageRepository.getVehicles()
 
@@ -33,7 +33,7 @@ class HomeFragmentViewModel : ViewModel() {
 	}
 
 	private fun restoreClearedMileages() {
-		clearedMileages?.forEach { mileageRepository.storeMileage(it) }
+		mileageRepository.storeMileages(clearedMileages)
 	}
 
 	fun restoreDeletedVehicle() {

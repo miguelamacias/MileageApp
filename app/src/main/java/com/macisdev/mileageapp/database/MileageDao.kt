@@ -40,16 +40,13 @@ interface MileageDao {
 	@Query("DELETE FROM vehicle WHERE plateNumber=(:plateNumber)")
 	fun deleteVehicle(plateNumber: String)
 
-	@Query("DELETE FROM mileage WHERE vehiclePlateNumber=(:vehiclePlateNumber)")
-	fun clearMileages(vehiclePlateNumber: String)
-
 	@Query("DELETE FROM mileage WHERE id=(:mileageId)")
 	fun deleteMileage(mileageId: String)
 
 	@Query("SELECT * FROM mileage WHERE date = (SELECT max(date) FROM mileage)")
 	fun getLastMileage() : LiveData<Mileage>
 
-	@Query("SELECT count(*) AS totalRecords, avg(mileage) AS  averageMileage," +
+	@Query("SELECT count(*) AS totalRecords, avg(mileage) AS averageMileage," +
 			"sum(litres) AS totalLitres, sum(kilometres) AS totalKilometres FROM Mileage")
 	fun getStatistics(): LiveData<Statistics>
 
