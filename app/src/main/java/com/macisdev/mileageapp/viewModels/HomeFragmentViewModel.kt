@@ -2,19 +2,17 @@ package com.macisdev.mileageapp.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.macisdev.mileageapp.api.fuel.FuelStation
 import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
-import kotlinx.coroutines.launch
 import java.util.*
 
 class HomeFragmentViewModel : ViewModel() {
 	private val mileageRepository = MileageRepository.get()
 
 	private var deletedVehicle: Vehicle? = null
-	private var clearedMileages: List<Mileage> = emptyList()
+	private var deletedMileages: List<Mileage> = emptyList()
 
 	val vehiclesList: LiveData<List<Vehicle>> = mileageRepository.getVehicles()
 
@@ -27,18 +25,15 @@ class HomeFragmentViewModel : ViewModel() {
 	fun getVehicle(plateNumber: String) = mileageRepository.getVehicle(plateNumber)
 
 	fun deleteVehicle(vehicle: Vehicle?, mileages: List<Mileage>) {
-		clearedMileages = mileages
+		deletedMileages = mileages
 		deletedVehicle = vehicle
 		mileageRepository.deleteVehicle(vehicle?.plateNumber ?: "")
 	}
 
-	private fun restoreClearedMileages() {
-		mileageRepository.storeMileages(clearedMileages)
-	}
-
 	fun restoreDeletedVehicle() {
-		deletedVehicle?.let { viewModelScope.launch { mileageRepository.addVehicle(it) } }
-		restoreClearedMileages()
+		deletedVehicle?.let { vehicle ->
+			mileageRepository.restoreVehicle(vehicle, deletedMileages)
+		}
 	}
 
 	fun getFuelStationById(cityCode: Int, stationId: Int): LiveData<FuelStation> =

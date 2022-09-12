@@ -41,6 +41,13 @@ class MileageRepository private constructor(val context: Context) {
 		executor.execute { mileageDao.addMileage(mileage) }
 	}
 
+	fun restoreVehicle(vehicle: Vehicle, mileages: List<Mileage>) {
+		executor.execute {
+			mileageDao.restoreVehicle(vehicle)
+			mileages.forEach { mileageDao.addMileage(it) }
+		}
+	}
+
 	suspend fun addVehicle(vehicle: Vehicle) = mileageDao.addVehicle(vehicle)
 
 	fun getVehicle(plateNumber: String) = mileageDao.getVehicle(plateNumber)

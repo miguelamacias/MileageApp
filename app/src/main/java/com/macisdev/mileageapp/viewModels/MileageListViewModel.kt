@@ -4,11 +4,9 @@ import android.text.format.DateFormat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.macisdev.mileageapp.database.MileageRepository
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
-import kotlinx.coroutines.launch
 import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,8 +39,8 @@ class MileageListViewModel(val plateNumber: String) : ViewModel() {
 	}
 
 	fun restoreDeletedVehicle() {
-		deletedVehicle?.let { viewModelScope.launch { mileageRepository.addVehicle(it) } }
-		restoreDeletedMileages()
+		deletedVehicle?.let { vehicle ->
+			mileageRepository.restoreVehicle(vehicle, deletedMileages) }
 	}
 
 	private fun storeMileage(mileage: Mileage) {

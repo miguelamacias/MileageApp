@@ -37,6 +37,9 @@ interface MileageDao {
 	@Insert
 	suspend fun addVehicle(vehicle: Vehicle)
 
+	@Insert
+	fun restoreVehicle(vehicle: Vehicle)
+
 	@Query("DELETE FROM vehicle WHERE plateNumber=(:plateNumber)")
 	fun deleteVehicle(plateNumber: String)
 

@@ -1,5 +1,6 @@
 package com.macisdev.mileageapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
@@ -63,10 +64,11 @@ class MainActivity : AppCompatActivity() {
 		loadVehiclesToNavDrawer()
 	}
 
+	@SuppressLint("DiscouragedApi")
 	private fun loadVehiclesToNavDrawer() {
 		mainActivityVM.vehiclesList.observe(this) { vehiclesList ->
 			val vehiclesMenu = gui.navView.menu.getItem(0).subMenu
-			vehiclesMenu.clear()
+			vehiclesMenu?.clear()
 			vehiclesList.forEach { vehicle ->
 				val iconId = resources.getIdentifier(vehicle.icon, "drawable", packageName)
 				val colorId = resources.getIdentifier(vehicle.color, "color", packageName)
@@ -76,10 +78,10 @@ class MainActivity : AppCompatActivity() {
 					.createBlendModeColorFilterCompat(getColor(colorId), BlendModeCompat.SRC_ATOP)
 
 				vehiclesMenu
-					.add(R.id.vehicles_group, Menu.NONE, 0,
+					?.add(R.id.vehicles_group, Menu.NONE, 0,
 						"${vehicle.plateNumber} - ${vehicle.maker} ${vehicle.model}")
-					.setIcon(icon)
-					.setOnMenuItemClickListener {
+					?.setIcon(icon)
+					?.setOnMenuItemClickListener {
 						val directions = HomeFragmentDirections.
 						actionHomeFragmentToMileageListFragment(vehicle.plateNumber, vehicle.maker, vehicle.model)
 						navController.navigate(directions)
@@ -88,9 +90,9 @@ class MainActivity : AppCompatActivity() {
 					}
 			}
 			vehiclesMenu
-				.add(R.id.vehicles_group, Menu.NONE, 0, getString(R.string.add_vehicle))
-				.setIcon(R.drawable.ic_add_circle)
-				.setOnMenuItemClickListener {
+				?.add(R.id.vehicles_group, Menu.NONE, 0, getString(R.string.add_vehicle))
+				?.setIcon(R.drawable.ic_add_circle)
+				?.setOnMenuItemClickListener {
 					val directions = HomeFragmentDirections
 						.actionHomeFragmentToAddVehicleFragment(false, "")
 					navController.navigate(directions)
