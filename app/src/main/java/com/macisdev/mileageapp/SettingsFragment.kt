@@ -15,7 +15,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreference
-import com.macisdev.mileageapp.database.MileageRepository
+import com.macisdev.mileageapp.database.AppDataRepository
 import com.macisdev.mileageapp.utils.Constants
 import com.macisdev.mileageapp.utils.Utils
 import com.macisdev.mileageapp.utils.log
@@ -120,7 +120,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 	private fun createLocalBackup() {
 		roomBackup
-			.database(MileageRepository.get().database)
+			.database(AppDataRepository.get().database)
 			.enableLogDebug(true)
 			.customLogTag(MainActivity.TAG)
 			.backupIsEncrypted(false)
@@ -147,7 +147,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 	private fun restoreBackup() {
 		roomBackup
-			.database(MileageRepository.get().database)
+			.database(AppDataRepository.get().database)
 			.enableLogDebug(true)
 			.customLogTag(MainActivity.TAG)
 			.backupIsEncrypted(false)
@@ -180,7 +180,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 		val backupFile = File(requireContext().cacheDir, backupFileName)
 
 		roomBackup
-			.database(MileageRepository.get().database)
+			.database(AppDataRepository.get().database)
 			.enableLogDebug(true)
 			.customLogTag(MainActivity.TAG)
 			.backupIsEncrypted(false)

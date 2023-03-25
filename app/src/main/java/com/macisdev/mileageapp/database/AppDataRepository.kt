@@ -8,16 +8,14 @@ import com.macisdev.mileageapp.api.FuelServiceImpl
 import com.macisdev.mileageapp.api.MapsServiceImpl
 import com.macisdev.mileageapp.api.fuel.FuelStation
 import com.macisdev.mileageapp.model.Mileage
+import com.macisdev.mileageapp.model.Note
 import com.macisdev.mileageapp.model.Vehicle
 import java.util.*
 import java.util.concurrent.Executors
 
 private const val DATABASE_NAME = "mileage-database"
-const val API_STATUS_OK = "OK"
-const val API_STATUS_ZERO_RESULTS = "ZERO_RESULTS"
-const val TRIP_DISTANCE_ZERO_RESULTS_ERROR = -1.0
 
-class MileageRepository private constructor(val context: Context) {
+class AppDataRepository private constructor(val context: Context) {
 
 	val database: MileagesDataBase = Room.databaseBuilder(
 		context.applicationContext,
@@ -27,11 +25,13 @@ class MileageRepository private constructor(val context: Context) {
 		.build()
 
 	private val mileageDao = database.mileageDao()
+	private val vehicleDao = database.vehicleDao()
+	private val noteDao = database.noteDao()
 	private val executor = Executors.newSingleThreadExecutor()
 	private val fuelService = FuelServiceImpl()
 	private val mapsService = MapsServiceImpl()
 
-	fun getVehicles() = mileageDao.getVehicles()
+	fun getVehicles() = vehicleDao.getVehicles()
 
 	fun getMileage(id: UUID) = mileageDao.getMileage(id)
 
@@ -43,21 +43,21 @@ class MileageRepository private constructor(val context: Context) {
 
 	fun restoreVehicle(vehicle: Vehicle, mileages: List<Mileage>) {
 		executor.execute {
-			mileageDao.restoreVehicle(vehicle)
+			vehicleDao.restoreVehicle(vehicle)
 			mileages.forEach { mileageDao.addMileage(it) }
 		}
 	}
 
-	suspend fun addVehicle(vehicle: Vehicle) = mileageDao.addVehicle(vehicle)
+	suspend fun addVehicle(vehicle: Vehicle) = vehicleDao.addVehicle(vehicle)
 
-	fun getVehicle(plateNumber: String) = mileageDao.getVehicle(plateNumber)
+	fun getVehicle(plateNumber: String) = vehicleDao.getVehicle(plateNumber)
 
 	fun updateVehicle(vehicle: Vehicle) {
-		executor.execute { mileageDao.updateVehicle(vehicle) }
+		executor.execute { vehicleDao.updateVehicle(vehicle) }
 	}
 
 	fun deleteVehicle(plateNumber: String) {
-		executor.execute { mileageDao.deleteVehicle(plateNumber) }
+		executor.execute { vehicleDao.deleteVehicle(plateNumber) }
 	}
 
 	fun deleteMileages(mileageList: List<Mileage>) {
@@ -74,7 +74,7 @@ class MileageRepository private constructor(val context: Context) {
 
 	fun getLastMileage() = mileageDao.getLastMileage()
 
-	fun getVehicleAverageMileage(vehiclePlateNumber: String) = mileageDao.getVehicleAverageMileage(vehiclePlateNumber)
+	fun getVehicleAverageMileage(vehiclePlateNumber: String) = vehicleDao.getVehicleAverageMileage(vehiclePlateNumber)
 
 	fun getCityCodeByZipCode(zip: String): LiveData<Int> = fuelService.getCityCodeByZipCode(zip)
 
@@ -94,20 +94,32 @@ class MileageRepository private constructor(val context: Context) {
 		mileages.forEach { storeMileage(it) }
 	}
 
+	fun addNote(note: Note) {
+		executor.execute { noteDao.addNote(note) }
+	}
+
+	fun updateNote(note: Note) {
+		executor.execute { noteDao.updateNote(note) }
+	}
+
+	fun getNotesByVehicle(vehiclePlateNumber: String) = noteDao.getNotesByVehicle(vehiclePlateNumber)
+
+	fun getNotesByVehicleAndType(vehiclePlateNumber: String, type: String) =
+		noteDao.getNotesByVehicleAndType(vehiclePlateNumber, type)
 
     var tripDuration = mapsService.tripDuration
 
 	companion object {
 		@SuppressLint("StaticFieldLeak")
-		private var INSTANCE: MileageRepository? = null
+		private var INSTANCE: AppDataRepository? = null
 
 		fun initialize(context: Context) {
 			if (INSTANCE == null) {
-				INSTANCE = MileageRepository(context)
+				INSTANCE = AppDataRepository(context)
 			}
 		}
 
-		fun get(): MileageRepository {
+		fun get(): AppDataRepository {
 			return INSTANCE ?: throw IllegalStateException("MileageRepository must be initialized")
 		}
 	}

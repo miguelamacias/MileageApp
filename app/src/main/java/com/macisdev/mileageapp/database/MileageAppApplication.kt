@@ -6,6 +6,6 @@ import android.app.Application
 class MileageAppApplication : Application() {
 	override fun onCreate() {
 		super.onCreate()
-		MileageRepository.initialize(this)
+		AppDataRepository.initialize(this)
 	}
 }

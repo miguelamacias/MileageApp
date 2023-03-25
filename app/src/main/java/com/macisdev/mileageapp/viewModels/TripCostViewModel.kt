@@ -4,7 +4,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.macisdev.mileageapp.api.fuel.FuelStation
-import com.macisdev.mileageapp.database.MileageRepository
+import com.macisdev.mileageapp.database.AppDataRepository
 
 class TripCostViewModel : ViewModel() {
 	var origin = ""
@@ -20,16 +20,16 @@ class TripCostViewModel : ViewModel() {
 	var currentTripCost = ""
 	var sharedTripCost = ""
 
-	private val mileageRepository = MileageRepository.get()
+	private val appDataRepository = AppDataRepository.get()
 
-	fun getVehicles() = mileageRepository.getVehicles()
+	fun getVehicles() = appDataRepository.getVehicles()
 
-	fun getVehicleAverageMileage(plateNumber: String) = mileageRepository.getVehicleAverageMileage(plateNumber)
+	fun getVehicleAverageMileage(plateNumber: String) = appDataRepository.getVehicleAverageMileage(plateNumber)
 
-	fun getTripDistance(avoidTolls: Boolean) = mileageRepository.getTripDistance(origin, destination, avoidTolls)
+	fun getTripDistance(avoidTolls: Boolean) = appDataRepository.getTripDistance(origin, destination, avoidTolls)
 
-	fun getTripDuration(): LiveData<Int> = mileageRepository.tripDuration
+	fun getTripDuration(): LiveData<Int> = appDataRepository.tripDuration
 
 	fun getFuelStationById(cityCode: Int, stationId: Int): LiveData<FuelStation> =
-		mileageRepository.getFuelStationById(cityCode, stationId)
+		appDataRepository.getFuelStationById(cityCode, stationId)
 }

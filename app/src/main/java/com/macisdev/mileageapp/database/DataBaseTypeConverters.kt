@@ -3,7 +3,7 @@ package com.macisdev.mileageapp.database
 import androidx.room.TypeConverter
 import java.util.*
 
-class MileageTypeConverters {
+class DataBaseTypeConverters {
 
 	@TypeConverter
 	fun fromDate(date: Date?): Long? {

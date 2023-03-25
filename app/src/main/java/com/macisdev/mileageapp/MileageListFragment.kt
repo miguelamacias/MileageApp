@@ -74,6 +74,13 @@ class MileageListFragment : Fragment() {
 
 			override fun onMenuItemSelected(item: MenuItem): Boolean {
 				return when (item.itemId) {
+					R.id.view_notes -> {
+						val directions = MileageListFragmentDirections
+							.actionMileageListFragmentToNotesListFragment(mileageListVM.plateNumber)
+						findNavController().navigate(directions)
+						true
+					}
+
 					R.id.edit_vehicle -> {
 						val directions = MileageListFragmentDirections
 							.actionMileageListFragmentToAddVehicleFragment(true, mileageListVM.plateNumber)

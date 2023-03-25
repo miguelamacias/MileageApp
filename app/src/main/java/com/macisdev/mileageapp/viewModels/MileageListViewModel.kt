@@ -4,7 +4,7 @@ import android.text.format.DateFormat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.macisdev.mileageapp.database.MileageRepository
+import com.macisdev.mileageapp.database.AppDataRepository
 import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.model.Vehicle
 import java.io.InputStream
@@ -12,39 +12,39 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MileageListViewModel(val plateNumber: String) : ViewModel() {
-	private val mileageRepository = MileageRepository.get()
-	val mileageListLiveData: LiveData<List<Mileage>> = mileageRepository.getMileages(plateNumber)
+	private val appDataRepository = AppDataRepository.get()
+	val mileageListLiveData: LiveData<List<Mileage>> = appDataRepository.getMileages(plateNumber)
 
 	private var deletedVehicle: Vehicle? = null
 	private var deletedMileages: List<Mileage> = emptyList()
 	private var unimportedLines = emptyList<String>()
 
 	fun getVehicle(): LiveData<Vehicle> {
-		return mileageRepository.getVehicle(plateNumber)
+		return appDataRepository.getVehicle(plateNumber)
 	}
 
 	fun deleteVehicle(vehicle: Vehicle, mileages: List<Mileage>) {
 		deletedMileages = mileages
 		deletedVehicle = vehicle
-		mileageRepository.deleteVehicle(plateNumber)
+		appDataRepository.deleteVehicle(plateNumber)
 	}
 
 	fun restoreDeletedMileages() {
-		mileageRepository.storeMileages(deletedMileages)
+		appDataRepository.storeMileages(deletedMileages)
 	}
 
 	fun deleteMileages(mileages: List<Mileage>) {
 		deletedMileages = mileages
-		mileageRepository.deleteMileages(mileages)
+		appDataRepository.deleteMileages(mileages)
 	}
 
 	fun restoreDeletedVehicle() {
 		deletedVehicle?.let { vehicle ->
-			mileageRepository.restoreVehicle(vehicle, deletedMileages) }
+			appDataRepository.restoreVehicle(vehicle, deletedMileages) }
 	}
 
 	private fun storeMileage(mileage: Mileage) {
-		mileageRepository.storeMileage(mileage)
+		appDataRepository.storeMileage(mileage)
 	}
 
 	fun importCsvContent(csvFile: InputStream?): Int {

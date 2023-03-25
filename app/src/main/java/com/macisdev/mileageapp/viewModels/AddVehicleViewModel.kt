@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.macisdev.mileageapp.R
-import com.macisdev.mileageapp.database.MileageRepository
+import com.macisdev.mileageapp.database.AppDataRepository
 import com.macisdev.mileageapp.model.Vehicle
 import kotlinx.coroutines.launch
 
 @Suppress("DeferredResultUnused")
 class AddVehicleViewModel : ViewModel() {
-	private val mileageRepository = MileageRepository.get()
+	private val appDataRepository = AppDataRepository.get()
 	val lastPlateNumberInserted = MutableLiveData<String>()
 
 	val icons = listOf(
@@ -57,7 +57,7 @@ class AddVehicleViewModel : ViewModel() {
 	fun storeVehicle(vehicle: Vehicle) {
 		viewModelScope.launch {
 			try {
-				mileageRepository.addVehicle(vehicle)
+				appDataRepository.addVehicle(vehicle)
 				lastPlateNumberInserted.value = vehicle.plateNumber
 			} catch (e: SQLiteConstraintException) {
 				lastPlateNumberInserted.value = ""
@@ -65,8 +65,8 @@ class AddVehicleViewModel : ViewModel() {
 		}
 	}
 
-	fun updateVehicle(vehicle: Vehicle) = mileageRepository.updateVehicle(vehicle)
+	fun updateVehicle(vehicle: Vehicle) = appDataRepository.updateVehicle(vehicle)
 
-	fun getVehicle(plateNumber: String) = mileageRepository.getVehicle(plateNumber)
+	fun getVehicle(plateNumber: String) = appDataRepository.getVehicle(plateNumber)
 
 }

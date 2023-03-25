@@ -3,14 +3,14 @@ package com.macisdev.mileageapp.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.macisdev.mileageapp.api.fuel.FuelStation
-import com.macisdev.mileageapp.database.MileageRepository
+import com.macisdev.mileageapp.database.AppDataRepository
 
 class FuelStationsFragmentViewModel : ViewModel() {
-    private val mileageRepository = MileageRepository.get()
+    private val appDataRepository = AppDataRepository.get()
 
     fun getCityCodeByZipCode(zip: String): LiveData<Int>
-        = mileageRepository.getCityCodeByZipCode(zip)
+        = appDataRepository.getCityCodeByZipCode(zip)
 
     fun getFuelStationsByCityCode(cityCode: Int): LiveData<List<FuelStation>>
-        = mileageRepository.getFuelStationsByCityCode(cityCode)
+        = appDataRepository.getFuelStationsByCityCode(cityCode)
 }

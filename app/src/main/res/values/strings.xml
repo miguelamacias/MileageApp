@@ -216,6 +216,19 @@
     <string name="select_all">Select all</string>
     <string name="delete_selected_mileages">Delete selected mileages</string>
 
+    <!--v1.6 strings -->
+    <string name="next_inspection">Next inspection</string>
+    <string name="next_maintance">Next maintenance</string>
+    <string name="add_note">Add note</string>
+    <string name="notes">Notes</string>
+    <string name="edit_maitenance">Edit maintenance</string>
+    <string name="edit_inspection">Edit inspection</string>
+    <string name="edit_note">Edit note</string>
+    <string name="delete_note">Delete note</string>
+    <string name="delete_selected_notes">Delete selected notes</string>
+    <string name="selected_notes_deleted">Selected notes deleted!</string>
+    <string name="notes_bar_title">Notes of %1$s</string>
+
     <!--Internal use only -->
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

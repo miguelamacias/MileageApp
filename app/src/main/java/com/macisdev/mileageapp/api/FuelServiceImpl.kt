@@ -8,7 +8,6 @@ import com.macisdev.mileageapp.MainActivity
 import com.macisdev.mileageapp.api.fuel.FuelResponse
 import com.macisdev.mileageapp.api.fuel.FuelServiceCalls
 import com.macisdev.mileageapp.api.fuel.FuelStation
-import com.macisdev.mileageapp.database.API_STATUS_OK
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

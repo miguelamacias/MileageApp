@@ -6,13 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import com.macisdev.mileageapp.MainActivity
 import com.macisdev.mileageapp.api.maps.MapsServiceCalls
 import com.macisdev.mileageapp.api.maps.MatrixResponse
-import com.macisdev.mileageapp.database.API_STATUS_OK
-import com.macisdev.mileageapp.database.API_STATUS_ZERO_RESULTS
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
+const val API_STATUS_OK = "OK"
+const val API_STATUS_ZERO_RESULTS = "ZERO_RESULTS"
+const val TRIP_DISTANCE_ZERO_RESULTS_ERROR = -1.0
 
 class MapsServiceImpl {
     var tripDuration = MutableLiveData<Int>()

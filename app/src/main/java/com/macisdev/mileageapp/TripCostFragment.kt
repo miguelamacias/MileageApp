@@ -21,7 +21,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import com.macisdev.mileageapp.database.TRIP_DISTANCE_ZERO_RESULTS_ERROR
+import com.macisdev.mileageapp.api.TRIP_DISTANCE_ZERO_RESULTS_ERROR
 import com.macisdev.mileageapp.databinding.FragmentTripCostBinding
 import com.macisdev.mileageapp.model.Vehicle
 import com.macisdev.mileageapp.utils.*
