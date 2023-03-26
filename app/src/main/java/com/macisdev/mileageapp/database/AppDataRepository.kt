@@ -107,6 +107,8 @@ class AppDataRepository private constructor(val context: Context) {
 	fun getNotesByVehicleAndType(vehiclePlateNumber: String, type: String) =
 		noteDao.getNotesByVehicleAndType(vehiclePlateNumber, type)
 
+    fun getNote(id: String) = noteDao.getNote(id)
+
     var tripDuration = mapsService.tripDuration
 
 	companion object {

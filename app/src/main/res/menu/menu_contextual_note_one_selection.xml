@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="AlwaysShowAction">
     <item
         android:id="@+id/select_all"
         android:icon="@drawable/ic_select_all_24"
-        android:title="@string/select_all" />
+        android:title="@string/select_all"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/edit_note"
         android:icon="@drawable/ic_edit_24"
-        android:title="@string/edit_note" />
+        android:title="@string/edit_note"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/delete_note"
         android:icon="@drawable/ic_delete_forever_24"
-        android:title="@string/delete_note" />
+        android:title="@string/delete_note"
+        app:showAsAction="always"/>
 </menu>

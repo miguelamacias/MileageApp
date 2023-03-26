@@ -68,38 +68,7 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 		})
 
 		gui.saveMileageButton.setOnClickListener {
-			val decimalFormatter = DecimalFormat.getInstance(Locale.getDefault())
-
-			val mileageData = decimalFormatter.parse(gui.mileageResultEditText.text.toString())?.toDouble() ?: -1.0
-
-			if (mileageData > 0) {
-				val date = addMileageVM.date
-				val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: -1.0
-				val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: -1.0
-				val notes = gui.notesContent.text.toString()
-				val id = if (fragmentArgs.editMode) {
-					UUID.fromString(fragmentArgs.mileageId)
-				} else {
-					UUID.randomUUID()
-				}
-
-				val mileage = Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres, notes, id)
-
-				val successfulMessage: Int = if (fragmentArgs.editMode) {
-					addMileageVM.updateMileage(mileage)
-					R.string.mileage_updated
-				} else {
-					addMileageVM.storeMileage(mileage)
-					R.string.mileage_added
-				}
-
-				parentFragment?.view?.let { parentView ->
-					val coordinatorLayout = parentView.findViewById<CoordinatorLayout>(R.id.coordinator_layout)
-					Snackbar.make(coordinatorLayout, successfulMessage, Snackbar.LENGTH_LONG).show()
-				}
-
-				findNavController().navigateUp()
-			}
+			saveMileage()
 		}
 
 		gui.dateEditText.apply {
@@ -107,6 +76,41 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 			setOnClickListener {
 				selectDate()
 			}
+		}
+	}
+
+	private fun saveMileage() {
+		val decimalFormatter = DecimalFormat.getInstance(Locale.getDefault())
+
+		val mileageData = decimalFormatter.parse(gui.mileageResultEditText.text.toString())?.toDouble() ?: -1.0
+
+		if (mileageData > 0) {
+			val date = addMileageVM.date
+			val kilometres = decimalFormatter.parse(gui.kilometresEditText.text.toString())?.toDouble() ?: -1.0
+			val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: -1.0
+			val notes = gui.notesContent.text.toString()
+			val id = if (fragmentArgs.editMode) {
+				UUID.fromString(fragmentArgs.mileageId)
+			} else {
+				UUID.randomUUID()
+			}
+
+			val mileage = Mileage(fragmentArgs.plateNumber, date, mileageData, kilometres, litres, notes, id)
+
+			val successfulMessage: Int = if (fragmentArgs.editMode) {
+				addMileageVM.updateMileage(mileage)
+				R.string.mileage_updated
+			} else {
+				addMileageVM.storeMileage(mileage)
+				R.string.mileage_added
+			}
+
+			parentFragment?.view?.let { parentView ->
+				val coordinatorLayout = parentView.findViewById<CoordinatorLayout>(R.id.coordinator_layout)
+				Snackbar.make(coordinatorLayout, successfulMessage, Snackbar.LENGTH_LONG).show()
+			}
+
+			findNavController().navigateUp()
 		}
 	}
 

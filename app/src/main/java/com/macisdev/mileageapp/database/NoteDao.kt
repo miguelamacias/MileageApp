@@ -10,6 +10,9 @@ import com.macisdev.mileageapp.model.Note
 @Dao
 interface NoteDao {
 
+    @Query("SELECT * FROM Note WHERE id = (:id)")
+    fun getNote(id: String): LiveData<Note>
+
     @Query("SELECT * FROM Note WHERE vehiclePlateNumber = (:vehiclePlateNumber) ORDER BY date DESC")
     fun getNotesByVehicle(vehiclePlateNumber: String) : LiveData<List<Note>>
 

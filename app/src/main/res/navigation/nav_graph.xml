@@ -126,5 +126,29 @@
         <argument
             android:name="vehiclePlateNumber"
             app:argType="string" />
+        <action
+            android:id="@+id/action_notesListFragment_to_addNoteFragment"
+            app:destination="@id/addNoteFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/addNoteFragment"
+        android:name="com.macisdev.mileageapp.AddNoteFragment"
+        android:label="fragment_add_note"
+        tools:layout="@layout/fragment_add_note" >
+        <argument
+            android:name="plateNumber"
+            app:argType="string" />
+        <argument
+            android:name="editMode"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="noteId"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="noteType"
+            app:argType="string"
+            android:defaultValue="user" />
+    </dialog>
 </navigation>

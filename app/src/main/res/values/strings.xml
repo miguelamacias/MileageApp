@@ -218,16 +218,23 @@
 
     <!--v1.6 strings -->
     <string name="next_inspection">Next inspection</string>
-    <string name="next_maintance">Next maintenance</string>
+    <string name="next_maintenance">Next maintenance</string>
     <string name="add_note">Add note</string>
     <string name="notes">Notes</string>
-    <string name="edit_maitenance">Edit maintenance</string>
+    <string name="edit_maintenance">Edit maintenance</string>
     <string name="edit_inspection">Edit inspection</string>
     <string name="edit_note">Edit note</string>
     <string name="delete_note">Delete note</string>
     <string name="delete_selected_notes">Delete selected notes</string>
     <string name="selected_notes_deleted">Selected notes deleted!</string>
     <string name="notes_bar_title">Notes of %1$s</string>
+    <string name="title_hint">Title</string>
+    <string name="content_hint">Start typing…</string>
+    <string name="date_inspection">Date of next inspection…</string>
+    <string name="next_maintenance_at">Next maintenance at…</string>
+    <string name="add_inspection">Add inspection</string>
+    <string name="add_maintenance">Add maintenance</string>
+    <string name="no_notes_yet">No notes added for this vehicle yet!</string>
 
     <!--Internal use only -->
     <array name="tools_spinner">

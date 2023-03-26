@@ -2,6 +2,7 @@ package com.macisdev.mileageapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputType
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,16 +26,17 @@ class NotesListFragment : Fragment() {
     private lateinit var gui: FragmentNotesListBinding
 
     private val fragmentArgs: NotesListFragmentArgs by navArgs()
-    private val viewModel: NotesListViewModel by viewModels {
+    private val notesListVM: NotesListViewModel by viewModels {
         NotesListViewModel.Factory(fragmentArgs.vehiclePlateNumber)
     }
     private var actionMode: ActionMode? = null
+    private val vehiclePlateNumber by lazy { fragmentArgs.vehiclePlateNumber }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         gui = FragmentNotesListBinding.inflate(inflater, container, false)
 
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
-            getString(R.string.notes_bar_title, fragmentArgs.vehiclePlateNumber)
+            getString(R.string.notes_bar_title, vehiclePlateNumber)
 
         return gui.root
     }
@@ -41,19 +44,34 @@ class NotesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.inspectionNotesLiveData.observe(viewLifecycleOwner) { inspectionNotes ->
-            gui.nextInspectionText.setText(inspectionNotes.maxBy { note -> note.date }.content)
+        notesListVM.inspectionNotesLiveData.observe(viewLifecycleOwner) { inspectionNotes ->
+            gui.nextInspectionText.setText(inspectionNotes.maxByOrNull { note -> note.date }?.content)
         }
 
-        viewModel.maintenanceNotesLiveData.observe(viewLifecycleOwner) { maintenanceNotes ->
-            gui.nextMaintenanceText.setText(maintenanceNotes.maxBy { note -> note.date }.content)
+        notesListVM.maintenanceNotesLiveData.observe(viewLifecycleOwner) { maintenanceNotes ->
+            gui.nextMaintenanceText.setText(maintenanceNotes.maxByOrNull { note -> note.date }?.content)
         }
 
-        viewModel.userNotesListLiveData.observe(viewLifecycleOwner) { updateNotes(it) }
+        gui.nextMaintenanceText.inputType = InputType.TYPE_NULL
+        gui.nextInspectionText.inputType = InputType.TYPE_NULL
+
+        notesListVM.userNotesListLiveData.observe(viewLifecycleOwner) { updateNotes(it) }
 
         gui.notesRecyclerView.layoutManager = LinearLayoutManager(view.context)
         val adapter = NotesAdapter()
         gui.notesRecyclerView.adapter = adapter
+
+        gui.addNoteFab.setOnClickListener {
+            findNavController().navigate(notesListVM.addUserNoteDirections)
+        }
+
+        gui.addInspectionBtn.setOnClickListener {
+            findNavController().navigate(notesListVM.addInspectionNoteDirections)
+        }
+
+        gui.addMaintenanceBtn.setOnClickListener {
+            findNavController().navigate(notesListVM.addMaintenanceNoteDirections)
+        }
     }
 
     private fun updateNotes(notes: List<Note>) {
