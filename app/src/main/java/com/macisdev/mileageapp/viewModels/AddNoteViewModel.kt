@@ -10,4 +10,6 @@ class AddNoteViewModel : ViewModel() {
     fun addNote(note: Note) = appDataRepository.addNote(note)
 
     fun getNote(id: String) = appDataRepository.getNote(id)
+
+    fun updateNote(note: Note) = appDataRepository.updateNote(note)
 }

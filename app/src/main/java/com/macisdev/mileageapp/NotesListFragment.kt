@@ -2,9 +2,9 @@ package com.macisdev.mileageapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.InputType
 import android.view.*
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.macisdev.mileageapp.databinding.FragmentNotesListBinding
 import com.macisdev.mileageapp.model.Note
 import com.macisdev.mileageapp.utils.Utils
@@ -44,33 +45,43 @@ class NotesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        notesListVM.inspectionNotesLiveData.observe(viewLifecycleOwner) { inspectionNotes ->
-            gui.nextInspectionText.setText(inspectionNotes.maxByOrNull { note -> note.date }?.content)
+        var inspectionNote: Note? = null
+        var maintenanceNote: Note? = null
+
+        notesListVM.getInspectionNotesLiveData().observe(viewLifecycleOwner) { inspectionNotes ->
+            inspectionNote = inspectionNotes.maxByOrNull { note -> note.date }
+            gui.nextInspectionText.setText(inspectionNote?.content)
         }
 
-        notesListVM.maintenanceNotesLiveData.observe(viewLifecycleOwner) { maintenanceNotes ->
-            gui.nextMaintenanceText.setText(maintenanceNotes.maxByOrNull { note -> note.date }?.content)
+        notesListVM.getMaintenanceNotesLiveData().observe(viewLifecycleOwner) { maintenanceNotes ->
+            maintenanceNote = maintenanceNotes.maxByOrNull { note -> note.date }
+            gui.nextMaintenanceText.setText(maintenanceNote?.content)
         }
 
-        gui.nextMaintenanceText.inputType = InputType.TYPE_NULL
-        gui.nextInspectionText.inputType = InputType.TYPE_NULL
-
-        notesListVM.userNotesListLiveData.observe(viewLifecycleOwner) { updateNotes(it) }
+        notesListVM.getUserNotesListLiveData().observe(viewLifecycleOwner) { updateNotes(it) }
 
         gui.notesRecyclerView.layoutManager = LinearLayoutManager(view.context)
         val adapter = NotesAdapter()
         gui.notesRecyclerView.adapter = adapter
 
         gui.addNoteFab.setOnClickListener {
-            findNavController().navigate(notesListVM.addUserNoteDirections)
+            findNavController().navigate(notesListVM.getAddUserNoteDirections())
         }
 
         gui.addInspectionBtn.setOnClickListener {
-            findNavController().navigate(notesListVM.addInspectionNoteDirections)
+            findNavController().navigate(notesListVM.getAddInspectionNoteDirections())
         }
 
         gui.addMaintenanceBtn.setOnClickListener {
-            findNavController().navigate(notesListVM.addMaintenanceNoteDirections)
+            findNavController().navigate(notesListVM.getAddMaintenanceNoteDirections())
+        }
+
+        gui.nextInspectionText.setOnClickListener {
+            findNavController().navigate(notesListVM.getEditNoteDirections(inspectionNote?.id.toString()))
+        }
+
+        gui.nextMaintenanceText.setOnClickListener {
+            findNavController().navigate(notesListVM.getEditNoteDirections(maintenanceNote?.id.toString()))
         }
     }
 
@@ -83,6 +94,21 @@ class NotesListFragment : Fragment() {
         } else {
             gui.noNotesTextView.visibility = View.INVISIBLE
         }
+    }
+
+    private fun deleteNotes(mileages: List<Note>, warningText: Int, successText: Int) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(warningText)
+            .setMessage(R.string.action_cannot_be_undone)
+            .setPositiveButton(R.string.accept) { _, _ ->
+                notesListVM.deleteNotes(mileages)
+                Snackbar
+                    .make(gui.coordinatorLayout, successText, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.undo) { notesListVM.restoreDeletedNotes() }
+                    .show()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private inner class NotesAdapter : ListAdapter<Note, NotesAdapter.NotesViewHolder>(NotesDiffCallback) {
@@ -113,15 +139,14 @@ class NotesListFragment : Fragment() {
                 override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
                     return when (item.itemId) {
                         R.id.edit_note -> {
-                            //TODO: Use navigation component to open the right fragment
+                            findNavController().navigate(notesListVM.getEditNoteDirections(currentNote?.id.toString()))
                             actionMode?.finish()
                             true
                         }
 
                         R.id.delete_note -> {
                             val selectedNotes = currentList.filter { it.selectedInRecyclerView }
-                            //TODO: implement deletion of notes
-                            //deleteNotes(selectedNotes, R.string.delete_selected_notes, R.string.selected_notes_deleted)
+                            deleteNotes(selectedNotes, R.string.delete_selected_notes, R.string.selected_notes_deleted)
                             actionMode?.finish()
                             true
                         }

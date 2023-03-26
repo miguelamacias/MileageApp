@@ -18,6 +18,7 @@ class AddNoteFragment : BottomSheetDialogFragment() {
     private val addNoteVM: AddNoteViewModel by viewModels()
     private val fragmentArgs: AddNoteFragmentArgs by navArgs()
     private lateinit var gui: FragmentAddNoteBinding
+    private lateinit var editNoteDate: Date
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,38 +39,41 @@ class AddNoteFragment : BottomSheetDialogFragment() {
             addNoteVM.getNote(fragmentArgs.noteId).observe(viewLifecycleOwner) { note ->
                 gui.noteTitleEditText.setText(note.title)
                 gui.noteContentEditText.setText(note.content)
+                editNoteDate = note.date
 
-                gui.addNotesFragmentTitle.text = when (note.type) {
-                    Note.TYPE_INSPECTION -> {
-                        getString(R.string.edit_inspection)
-                    }
-                    Note.TYPE_MAINTENANCE -> {
-                        getString(R.string.edit_maintenance)
-                    }
-                    else -> {
-                        getString(R.string.edit_note)
-                    }
-                }
+                updateGUI(note.type, true)
+
             }
         } else {
-            if(fragmentArgs.noteType == Note.TYPE_INSPECTION) {
-                gui.addNotesFragmentTitle.text = getString(R.string.add_inspection)
-                gui.noteTitleEditText.hint = getString(R.string.date_inspection)
-                gui.noteContentEditText.hint = getString(R.string.notes_hint)
-
-            } else if (fragmentArgs.noteType == Note.TYPE_MAINTENANCE) {
-                gui.addNotesFragmentTitle.text = getString(R.string.add_maintenance)
-                gui.noteTitleEditText.hint = getString(R.string.next_maintenance_at)
-                gui.noteContentEditText.hint = getString(R.string.notes_hint)
-            }
+            updateGUI(fragmentArgs.noteType, false)
         }
 
         gui.saveNoteButton.setOnClickListener {
-            addNote()
+            saveNote()
         }
     }
 
-    private fun addNote() {
+    private fun updateGUI(noteType: String, edit: Boolean) {
+        when (noteType) {
+            Note.TYPE_INSPECTION -> {
+                val title = if(!edit) R.string.add_inspection else R.string.edit_inspection
+                gui.addNotesFragmentTitle.text = getString(title)
+                gui.noteTitleEditText.hint = getString(R.string.date_inspection)
+                gui.noteContentEditText.hint = getString(R.string.notes_hint)
+            }
+
+            Note.TYPE_MAINTENANCE -> {
+                val title = if(!edit) R.string.add_maintenance else R.string.edit_maintenance
+                gui.addNotesFragmentTitle.text = getString(title)
+                gui.noteTitleEditText.hint = getString(R.string.next_maintenance_at)
+                gui.noteContentEditText.hint = getString(R.string.notes_hint)
+            }
+
+            Note.TYPE_USER -> if (edit) gui.addNotesFragmentTitle.text = getString(R.string.edit_note)
+        }
+    }
+
+    private fun saveNote() {
         val title = gui.noteTitleEditText.text.toString()
         val content = gui.noteContentEditText.text.toString()
         val id = if (!fragmentArgs.editMode) {
@@ -78,7 +82,13 @@ class AddNoteFragment : BottomSheetDialogFragment() {
             UUID.fromString(fragmentArgs.noteId)
         }
 
-        addNoteVM.addNote(Note(id, fragmentArgs.plateNumber, fragmentArgs.noteType, title, content))
+        if (!fragmentArgs.editMode) {
+            addNoteVM.addNote(Note(id, fragmentArgs.plateNumber, fragmentArgs.noteType, title, content))
+        } else {
+            addNoteVM.updateNote(
+                Note(id, fragmentArgs.plateNumber, fragmentArgs.noteType, title, content, editNoteDate))
+        }
+
         findNavController().navigateUp()
     }
 }

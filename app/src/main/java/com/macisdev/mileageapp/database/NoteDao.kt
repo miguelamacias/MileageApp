@@ -1,10 +1,7 @@
 package com.macisdev.mileageapp.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.macisdev.mileageapp.model.Note
 
 @Dao
@@ -24,4 +21,7 @@ interface NoteDao {
 
     @Update
     fun updateNote(note: Note)
+
+    @Delete
+    fun deleteNote(note: Note)
 }

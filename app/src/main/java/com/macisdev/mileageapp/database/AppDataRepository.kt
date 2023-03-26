@@ -109,6 +109,10 @@ class AppDataRepository private constructor(val context: Context) {
 
     fun getNote(id: String) = noteDao.getNote(id)
 
+	fun deleteNotes(notes: List<Note>) {
+		executor.execute { notes.forEach { noteDao.deleteNote(it) } }
+	}
+
     var tripDuration = mapsService.tripDuration
 
 	companion object {

@@ -9,23 +9,35 @@ import java.util.*
 
 class NotesListViewModel(val plateNumber: String) : ViewModel() {
     private val appDataRepository = AppDataRepository.get()
+    private var deletedNotes: List<Note> = emptyList()
 
-    val userNotesListLiveData =
+    fun getUserNotesListLiveData() =
         appDataRepository.getNotesByVehicleAndType(plateNumber, Note.TYPE_USER)
 
-    val inspectionNotesLiveData =
+    fun getInspectionNotesLiveData() =
         appDataRepository.getNotesByVehicleAndType(plateNumber, Note.TYPE_INSPECTION)
 
-    val maintenanceNotesLiveData =
+    fun getMaintenanceNotesLiveData() =
         appDataRepository.getNotesByVehicleAndType(plateNumber, Note.TYPE_MAINTENANCE)
 
 
-    val addUserNoteDirections = NotesListFragmentDirections
+    fun getAddUserNoteDirections() = NotesListFragmentDirections
         .actionNotesListFragmentToAddNoteFragment(plateNumber)
-    val addInspectionNoteDirections = NotesListFragmentDirections
-        .actionNotesListFragmentToAddNoteFragment(plateNumber, noteType = Note.TYPE_INSPECTION)
-    val addMaintenanceNoteDirections = NotesListFragmentDirections
+    fun getAddInspectionNoteDirections() = NotesListFragmentDirections
+    .actionNotesListFragmentToAddNoteFragment(plateNumber, noteType = Note.TYPE_INSPECTION)
+    fun getAddMaintenanceNoteDirections() = NotesListFragmentDirections
         .actionNotesListFragmentToAddNoteFragment(plateNumber, noteType = Note.TYPE_MAINTENANCE)
+    fun getEditNoteDirections(noteId: String) = NotesListFragmentDirections
+        .actionNotesListFragmentToAddNoteFragment(plateNumber, editMode = true, noteId = noteId)
+
+    fun deleteNotes(notes: List<Note>) {
+        deletedNotes = notes
+        appDataRepository.deleteNotes(notes)
+    }
+
+    fun restoreDeletedNotes() {
+        deletedNotes.forEach { appDataRepository.addNote(it) }
+    }
 
     @Suppress("UNCHECKED_CAST")
     class Factory(private val plateNumber : String) : ViewModelProvider.Factory {
