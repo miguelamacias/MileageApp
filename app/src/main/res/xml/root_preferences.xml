@@ -33,12 +33,6 @@
             android:key="fuel_type_preference"
             android:title="@string/fuel_type"
             app:useSimpleSummaryProvider="true"/>
-        <SwitchPreference
-            android:defaultValue="true"
-            android:icon="@drawable/ic_discount_24"
-            android:key="fuel_service_discount"
-            android:summary="@string/discount_info"
-            android:title="@string/apply_government_discount" />
         <ListPreference
             android:defaultValue="7"
             android:entries="@array/comparison_period"

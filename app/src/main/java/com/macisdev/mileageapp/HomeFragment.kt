@@ -78,14 +78,8 @@ class HomeFragment : Fragment() {
             gui.timesFuelStationTextView.text = station.horario
 
             val currencySign = Currency.getInstance(Locale.getDefault()).symbol
-            var dieselPrice = station.precioGasoleoA.replace(',', '.').toDouble()
-            var petrolPrice = station.precioGasolina95E5.replace(',', '.').toDouble()
-
-            val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
-            if (applyDiscount) {
-                dieselPrice -= 0.2
-                petrolPrice -= 0.2
-            }
+            val dieselPrice = station.precioGasoleoA.replace(',', '.').toDouble()
+            val petrolPrice = station.precioGasolina95E5.replace(',', '.').toDouble()
 
             gui.dieselPriceTextView.text = if (dieselPrice > 0) {
                 String.format(Locale.getDefault(), "%.3f%s", dieselPrice, currencySign)
@@ -282,7 +276,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            @SuppressLint("SetTextI18n")
+            @SuppressLint("SetTextI18n", "DiscouragedApi")
             fun bindData(vehicle: Vehicle) {
                 currentVehicle = vehicle
 

@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.macisdev.mileageapp.databinding.FragmentNotesListBinding
 import com.macisdev.mileageapp.model.Note
 import com.macisdev.mileageapp.utils.Utils
+import com.macisdev.mileageapp.utils.showToast
 import com.macisdev.mileageapp.viewModels.NotesListViewModel
 import java.util.*
 
@@ -50,12 +51,12 @@ class NotesListFragment : Fragment() {
 
         notesListVM.getInspectionNotesLiveData().observe(viewLifecycleOwner) { inspectionNotes ->
             inspectionNote = inspectionNotes.maxByOrNull { note -> note.date }
-            gui.nextInspectionText.setText(inspectionNote?.content)
+            gui.nextInspectionText.setText(inspectionNote?.title)
         }
 
         notesListVM.getMaintenanceNotesLiveData().observe(viewLifecycleOwner) { maintenanceNotes ->
             maintenanceNote = maintenanceNotes.maxByOrNull { note -> note.date }
-            gui.nextMaintenanceText.setText(maintenanceNote?.content)
+            gui.nextMaintenanceText.setText(maintenanceNote?.title)
         }
 
         notesListVM.getUserNotesListLiveData().observe(viewLifecycleOwner) { updateNotes(it) }
@@ -77,11 +78,21 @@ class NotesListFragment : Fragment() {
         }
 
         gui.nextInspectionText.setOnClickListener {
-            findNavController().navigate(notesListVM.getEditNoteDirections(inspectionNote?.id.toString()))
+            if (inspectionNote != null) {
+                findNavController()
+                    .navigate(notesListVM.getEditNoteDirections(inspectionNote?.id.toString(), Note.TYPE_INSPECTION))
+            } else {
+                showToast(R.string.no_inspection)
+            }
         }
 
         gui.nextMaintenanceText.setOnClickListener {
-            findNavController().navigate(notesListVM.getEditNoteDirections(maintenanceNote?.id.toString()))
+            if (maintenanceNote != null) {
+                findNavController()
+                    .navigate(notesListVM.getEditNoteDirections(maintenanceNote?.id.toString(), Note.TYPE_MAINTENANCE))
+            } else {
+                showToast(R.string.no_maintenance)
+            }
         }
     }
 
@@ -139,7 +150,9 @@ class NotesListFragment : Fragment() {
                 override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
                     return when (item.itemId) {
                         R.id.edit_note -> {
-                            findNavController().navigate(notesListVM.getEditNoteDirections(currentNote?.id.toString()))
+                            findNavController().navigate(notesListVM.getEditNoteDirections(
+                                currentNote?.id.toString(),
+                                currentNote?.type ?: Note.TYPE_USER ))
                             actionMode?.finish()
                             true
                         }

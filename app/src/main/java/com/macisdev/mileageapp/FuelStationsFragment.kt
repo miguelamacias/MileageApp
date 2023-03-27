@@ -181,14 +181,8 @@ class FuelStationsFragment : Fragment() {
                 fuelStationOpeningHoursTv.text = fuelStation.horario
                 fuelStationAddressTv.text = fuelStation.direccion
 
-                var dieselPrice = fuelStation.precioGasoleoA.replace(',', '.').toDouble()
-                var petrolPrice = fuelStation.precioGasolina95E5.replace(',', '.').toDouble()
-
-                val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
-                if (applyDiscount) {
-                    dieselPrice -= 0.2
-                    petrolPrice -= 0.2
-                }
+                val dieselPrice = fuelStation.precioGasoleoA.replace(',', '.').toDouble()
+                val petrolPrice = fuelStation.precioGasolina95E5.replace(',', '.').toDouble()
 
                 dieselPriceTv.text = if (dieselPrice > 0) {
                     String.format(Locale.getDefault(), "%.3f", dieselPrice)

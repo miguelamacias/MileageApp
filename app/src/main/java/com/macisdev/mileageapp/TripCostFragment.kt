@@ -172,11 +172,6 @@ class TripCostFragment : Fragment() {
 					station.precioGasolina95E5.replace(',', '.').toDouble()
 				}
 
-				val applyDiscount = preferences.getBoolean(Constants.FUEL_SERVICE_DISCOUNT_PREFERENCE, false)
-				if (applyDiscount) {
-					fuelPrice -= 0.2
-				}
-
 				if (fuelPrice > 0) {
 					val stationInfo = station.rotulo + " " + station.municipio
 					val date = station.creationDate

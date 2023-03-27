@@ -113,9 +113,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 		val fuelTypePreference: Preference? = findPreference("fuel_type_preference")
 		fuelTypePreference?.isVisible = visible
-
-		val fuelDiscountPreference: Preference? = findPreference("fuel_service_discount")
-		fuelDiscountPreference?.isVisible = visible
 	}
 
 	private fun createLocalBackup() {

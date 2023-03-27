@@ -27,8 +27,8 @@ class NotesListViewModel(val plateNumber: String) : ViewModel() {
     .actionNotesListFragmentToAddNoteFragment(plateNumber, noteType = Note.TYPE_INSPECTION)
     fun getAddMaintenanceNoteDirections() = NotesListFragmentDirections
         .actionNotesListFragmentToAddNoteFragment(plateNumber, noteType = Note.TYPE_MAINTENANCE)
-    fun getEditNoteDirections(noteId: String) = NotesListFragmentDirections
-        .actionNotesListFragmentToAddNoteFragment(plateNumber, editMode = true, noteId = noteId)
+    fun getEditNoteDirections(noteId: String, noteType: String) = NotesListFragmentDirections
+        .actionNotesListFragmentToAddNoteFragment(plateNumber, true,  noteId, noteType)
 
     fun deleteNotes(notes: List<Note>) {
         deletedNotes = notes

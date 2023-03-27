@@ -164,4 +164,24 @@
     <string name="selected_mileages_deleted">Borrados registros seleccionados</string>
     <string name="select_all">Seleccionar todos</string>
     <string name="delete_selected_mileages">Borrar registros seleccionados</string>
+    <string name="next_inspection">Próxima ITV</string>
+    <string name="next_maintenance">Próximo mantenimiento</string>
+    <string name="add_note">Añadir nota</string>
+    <string name="notes">Notas</string>
+    <string name="edit_maintenance">Editar mantenimiento</string>
+    <string name="edit_inspection">Editar ITV</string>
+    <string name="edit_note">Editar nota</string>
+    <string name="delete_note">Borrar nota</string>
+    <string name="delete_selected_notes">Borrar notas seleccionadas</string>
+    <string name="selected_notes_deleted">Las notas seleccionadas han sido borradas</string>
+    <string name="notes_bar_title">Notas de %1$s</string>
+    <string name="title_hint">Título</string>
+    <string name="content_hint">Escribe aquí…</string>
+    <string name="date_inspection">Fecha de próxima ITV…</string>
+    <string name="next_maintenance_at">Próximo mantenimiento a los…</string>
+    <string name="add_inspection">Añadir ITV</string>
+    <string name="add_maintenance">Añadir mantenimiento</string>
+    <string name="no_notes_yet">Aún no se han añadido notas para este vehículo</string>
+    <string name="no_maintenance">Sin mantemientos que mostrar.</string>
+    <string name="no_inspection">Sin ITVs que mostrar.</string>
 </resources>

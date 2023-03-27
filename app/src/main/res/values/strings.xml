@@ -235,6 +235,8 @@
     <string name="add_inspection">Add inspection</string>
     <string name="add_maintenance">Add maintenance</string>
     <string name="no_notes_yet">No notes added for this vehicle yet!</string>
+    <string name="no_maintenance">No maintenances added yet.</string>
+    <string name="no_inspection">No inspections added yet.</string>
 
     <!--Internal use only -->
     <array name="tools_spinner">
