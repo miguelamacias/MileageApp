@@ -122,27 +122,76 @@ class TripCostFragment : Fragment() {
 			calculateTripCost()
 		}
 
+		updateHomeIcon()
 		gui.tripHomeButton.setOnClickListener {
 			val currentHome = preferences.getString(TRIP_HOME_CODE, "") ?: ""
-			if (currentHome.isNotBlank() && gui.originFullAddressTextView.text.isBlank()) {
-				loadCurrentHome()
-			} else {
-				setCurrentHome()
-			}
+			val currentAddress = tripCostViewModel.originCode
+			val samePlace = currentHome == tripCostViewModel.originCode
 
+			if (currentHome.isNotBlank() && currentAddress.isBlank()) {
+				loadCurrentHome()
+			} else if (currentHome.isNotBlank() && !samePlace){
+				setCurrentHome(true)
+			} else if (currentHome.isBlank() && currentAddress.isNotBlank()) {
+				setCurrentHome(false)
+			} else if (currentHome.isBlank() && currentAddress.isBlank()){
+				showNoHomeDialog()
+			}
+			updateHomeIcon()
 		}
 	}
 
-	private fun setCurrentHome() {
-		if (gui.originFullAddressTextView.text.isNotBlank()) {
+	private fun showNoHomeDialog() {
+		AlertDialog.Builder(requireContext())
+			.setTitle(R.string.no_home_title)
+			.setMessage(R.string.no_home_info)
+			.setPositiveButton(R.string.accept, null)
+			.show()
+	}
+
+	private fun updateHomeIcon() {
+		val currentHome = preferences.getString(TRIP_HOME_CODE, "") ?: ""
+		val currentPlace = tripCostViewModel.originCode
+
+		if (currentPlace.isNotBlank() && (currentHome.isBlank() || currentHome != currentPlace)) {
+			setHomeIconStatus(true)
+		} else {
+			setHomeIconStatus(false)
+		}
+	}
+
+	private fun setHomeIconStatus(addIcon: Boolean) {
+		if (addIcon) {
+			gui.tripHomeButton.setImageResource(R.drawable.ic_add_home_24)
+		} else {
+			gui.tripHomeButton.setImageResource(R.drawable.ic_home_24)
+		}
+	}
+
+	private fun setCurrentHome(overriding: Boolean) {
+		if (overriding) {
+			AlertDialog.Builder(requireContext())
+				.setTitle(R.string.overriding_home)
+				.setMessage(R.string.info_override_home)
+				.setPositiveButton(R.string.accept) { _, _ ->
+					preferences.edit {
+						putString(TRIP_HOME_CODE, tripCostViewModel.originCode)
+						putString(TRIP_HOME_FULL, tripCostViewModel.originFullAddress)
+						putString(TRIP_HOME_SHORT, tripCostViewModel.originName)
+					}
+					updateHomeIcon()
+					showToast(R.string.home_updated)
+				}
+				.setNegativeButton(R.string.cancel, null)
+				.show()
+		} else {
 			preferences.edit {
 				putString(TRIP_HOME_CODE, tripCostViewModel.originCode)
 				putString(TRIP_HOME_FULL, tripCostViewModel.originFullAddress)
 				putString(TRIP_HOME_SHORT, tripCostViewModel.originName)
 			}
+			updateHomeIcon()
 			showToast(R.string.home_updated)
-		} else {
-			showToast(R.string.no_home)
 		}
 	}
 
@@ -206,6 +255,7 @@ class TripCostFragment : Fragment() {
 		gui.sharedTripCostTextView.visibility = tripCostViewModel.sharedTripCostVisibility
 		gui.costByPassengerTextView.visibility = tripCostViewModel.sharedTripCostVisibility
 		gui.googleTextView.visibility = tripCostViewModel.resultsCardViewVisibility
+		updateHomeIcon()
 	}
 
 	private fun loadAutomaticFuelPrice() {
@@ -274,7 +324,6 @@ class TripCostFragment : Fragment() {
 		autocompleteFragmentOrigin.setOnPlaceSelectedListener(object : PlaceSelectionListener {
 			override fun onPlaceSelected(place: Place) {
 				gui.originFullAddressTextView.text = place.address
-
 				tripCostViewModel.originCode = "place_id:".plus(place.id)
 				tripCostViewModel.originName = place.name ?: ""
 				tripCostViewModel.originFullAddress = place.address ?: ""
@@ -290,6 +339,7 @@ class TripCostFragment : Fragment() {
 							tripCostViewModel.originCode = ""
 						}
 				}
+				updateHomeIcon()
 			}
 
 			override fun onError(status: Status) {
@@ -300,7 +350,6 @@ class TripCostFragment : Fragment() {
 		autocompleteFragmentDestination.setOnPlaceSelectedListener(object : PlaceSelectionListener {
 			override fun onPlaceSelected(place: Place) {
 				gui.destinationFullAddressTextView.text = place.address
-
 				tripCostViewModel.destinationCode = "place_id:".plus(place.id)
 				tripCostViewModel.destinationName = place.name ?: ""
 				tripCostViewModel.destinationFullAddress = place.address ?: ""
@@ -316,6 +365,7 @@ class TripCostFragment : Fragment() {
 							tripCostViewModel.destinationCode = ""
 						}
 				}
+				updateHomeIcon()
 			}
 
 			override fun onError(status: Status) {

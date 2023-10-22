@@ -9,8 +9,8 @@ plugins {
 
 def versionMajor = 1
 def versionMinor = 6
-def versionPatch = 0
-def devVersion = ""
+def versionPatch = 1
+def devVersion = "Beta01"
 
 android {
     compileSdk 33

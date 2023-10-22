@@ -240,7 +240,16 @@
 
     <!--v1.6.1 strings -->
     <string name="home_updated">Your home location has been updated to the current address</string>
-    <string name="no_home">No home location has been added yet! Search an address and press this button again</string>
+    <string name="no_home_title">How to set Home</string>
+    <string name="no_home_info">No home place has been set yet! You can set your favourite origin place as home
+    by searching its address and pressing the home button. To replace your current home just search for a different
+    place and press home again. To show your current home just clear the current address and press the home button.
+    </string>
+    <string name="overriding_home">Override home?</string>
+    <string name="info_override_home">Currently you have a different home location defined,
+        do you want to replace it?</string>
+
+
     <!--Internal use only -->
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

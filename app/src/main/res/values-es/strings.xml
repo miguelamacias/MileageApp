@@ -115,7 +115,7 @@
     <string name="duplicate_plate_number">Error: esta matrícula ya existe.</string>
     <plurals name="csv_imported_with_fails">
         <item quantity="one">Archivo CSV importado con errores: %d registro no ha sido importado</item>
-        <item quantity="other">Archivo CSV importado con errores: %d registros no han sido importados</item>
+        <item quantity="many">Archivo CSV importado con errores: %d registros no han sido importados</item>
     </plurals>
     <string name="origin_missing">Por favor, introduzca un punto de origen válido.</string>
     <string name="destination_missing">Por favor, introduzca un punto de destino válido.</string>
@@ -184,4 +184,9 @@
     <string name="no_notes_yet">Aún no se han añadido notas para este vehículo</string>
     <string name="no_maintenance">Sin mantemientos que mostrar.</string>
     <string name="no_inspection">Sin ITVs que mostrar.</string>
+    <string name="home_updated">Tu ubicación de inicio se ha actualizado</string>
+    <string name="overriding_home">¿Sobreescribir ubicación de inicio actual?</string>
+    <string name="info_override_home">Actualmente tiene configurada otra ubicación de inicio, ¿desea sobreescribirla por la actual?</string>
+    <string name="no_home_title">Configurar ubicación de inicio</string>
+    <string name="no_home_info">Aún no se ha establecido una ubicación de inicio favorita. Puedes configurarla buscando una dirección y pulsando luego el botón de la casa. Si luego quieres sustituirla busca una nueva dirección y vuelve a pulsar el botón. Para cargar tu ubicación de inicio una vez configurada borra la dirección actual y pulsa el botón de la casa.</string>
 </resources>
