@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".TripCostFragment"
-        android:id="@+id/root_scroll_view">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TripCostFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout"
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/text_view2">
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/autocomplete_fragment_destiny"
+                android:id="@+id/autocomplete_fragment_destination"
                 android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -91,16 +91,27 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView"
             tools:text="C/ Coriano 19, Coria del Río, Sevilla" />
 
+        <ImageButton
+            android:id="@+id/trip_home_button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/secondary"
+            android:src="@drawable/ic_home_24"
+            app:layout_constraintBottom_toTopOf="@+id/origin_full_address_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="4dp"
             android:background="@android:drawable/edit_text"
             app:cardCornerRadius="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/trip_home_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_view">
 
@@ -499,5 +510,6 @@
             app:layout_constraintStart_toEndOf="@+id/fuel_price_edit_text"
             app:layout_constraintTop_toTopOf="@+id/fuel_price_edit_text"
             tools:text="Price from BALLENOIL Coria del Río (updated 28/07/2022 19:37)" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

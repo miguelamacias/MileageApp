@@ -238,6 +238,9 @@
     <string name="no_maintenance">No maintenances added yet.</string>
     <string name="no_inspection">No inspections added yet.</string>
 
+    <!--v1.6.1 strings -->
+    <string name="home_updated">Your home location has been updated to the current address</string>
+    <string name="no_home">No home location has been added yet! Search an address and press this button again</string>
     <!--Internal use only -->
     <array name="tools_spinner">
         <item>Ford Mondeo - 8755FHG</item>

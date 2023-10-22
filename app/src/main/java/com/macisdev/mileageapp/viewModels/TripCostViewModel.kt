@@ -7,10 +7,12 @@ import com.macisdev.mileageapp.api.fuel.FuelStation
 import com.macisdev.mileageapp.database.AppDataRepository
 
 class TripCostViewModel : ViewModel() {
-	var origin = ""
-	var destination = ""
-	var originAddress = ""
-	var destinationAddress = ""
+	var originCode = ""
+	var destinationCode = ""
+	var originFullAddress = ""
+	var destinationFullAddress = ""
+	var originName = ""
+	var destinationName = ""
 
 	var resultsCardViewVisibility = View.GONE
 	var sharedTripCostVisibility = View.GONE
@@ -26,7 +28,7 @@ class TripCostViewModel : ViewModel() {
 
 	fun getVehicleAverageMileage(plateNumber: String) = appDataRepository.getVehicleAverageMileage(plateNumber)
 
-	fun getTripDistance(avoidTolls: Boolean) = appDataRepository.getTripDistance(origin, destination, avoidTolls)
+	fun getTripDistance(avoidTolls: Boolean) = appDataRepository.getTripDistance(originCode, destinationCode, avoidTolls)
 
 	fun getTripDuration(): LiveData<Int> = appDataRepository.tripDuration
 

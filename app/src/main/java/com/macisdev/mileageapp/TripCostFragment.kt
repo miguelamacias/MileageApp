@@ -24,13 +24,23 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.macisdev.mileageapp.api.TRIP_DISTANCE_ZERO_RESULTS_ERROR
 import com.macisdev.mileageapp.databinding.FragmentTripCostBinding
 import com.macisdev.mileageapp.model.Vehicle
-import com.macisdev.mileageapp.utils.*
+import com.macisdev.mileageapp.utils.Constants
 import com.macisdev.mileageapp.utils.Constants.Companion.FUEL_PRICE_DATE
 import com.macisdev.mileageapp.utils.Constants.Companion.FUEL_PRICE_KEY
+import com.macisdev.mileageapp.utils.Constants.Companion.TRIP_HOME_CODE
+import com.macisdev.mileageapp.utils.Constants.Companion.TRIP_HOME_FULL
+import com.macisdev.mileageapp.utils.Constants.Companion.TRIP_HOME_SHORT
+import com.macisdev.mileageapp.utils.Utils
+import com.macisdev.mileageapp.utils.getDouble
+import com.macisdev.mileageapp.utils.hideKeyboard
+import com.macisdev.mileageapp.utils.putDouble
+import com.macisdev.mileageapp.utils.showToast
 import com.macisdev.mileageapp.viewModels.TripCostViewModel
 import java.text.DecimalFormat
 import java.text.ParseException
-import java.util.*
+import java.util.Currency
+import java.util.Date
+import java.util.Locale
 
 class TripCostFragment : Fragment() {
 	private lateinit var gui: FragmentTripCostBinding
@@ -111,6 +121,41 @@ class TripCostFragment : Fragment() {
 		gui.calculateCostButton.setOnClickListener {
 			calculateTripCost()
 		}
+
+		gui.tripHomeButton.setOnClickListener {
+			val currentHome = preferences.getString(TRIP_HOME_CODE, "") ?: ""
+			if (currentHome.isNotBlank() && gui.originFullAddressTextView.text.isBlank()) {
+				loadCurrentHome()
+			} else {
+				setCurrentHome()
+			}
+
+		}
+	}
+
+	private fun setCurrentHome() {
+		if (gui.originFullAddressTextView.text.isNotBlank()) {
+			preferences.edit {
+				putString(TRIP_HOME_CODE, tripCostViewModel.originCode)
+				putString(TRIP_HOME_FULL, tripCostViewModel.originFullAddress)
+				putString(TRIP_HOME_SHORT, tripCostViewModel.originName)
+			}
+			showToast(R.string.home_updated)
+		} else {
+			showToast(R.string.no_home)
+		}
+	}
+
+	private fun loadCurrentHome() {
+		val autocompleteFragmentOrigin = childFragmentManager
+			.findFragmentById(R.id.autocomplete_fragment_origin) as AutocompleteSupportFragment
+
+		tripCostViewModel.originCode = preferences.getString(TRIP_HOME_CODE, "") ?: ""
+		tripCostViewModel.originFullAddress = preferences.getString(TRIP_HOME_FULL, "") ?: ""
+		tripCostViewModel.originName = preferences.getString(TRIP_HOME_SHORT, "") ?: ""
+
+		autocompleteFragmentOrigin.setText(tripCostViewModel.originName)
+		gui.originFullAddressTextView.text = tripCostViewModel.originFullAddress
 	}
 
 	private fun loadFuelPrice() {
@@ -143,8 +188,15 @@ class TripCostFragment : Fragment() {
 	}
 
 	private fun loadViewsPreviousState() {
-		gui.originFullAddressTextView.text = tripCostViewModel.originAddress
-		gui.destinationFullAddressTextView.text = tripCostViewModel.destinationAddress
+		val autocompleteFragmentOrigin = childFragmentManager
+			.findFragmentById(R.id.autocomplete_fragment_origin) as AutocompleteSupportFragment
+		val autocompleteFragmentDestination = childFragmentManager
+			.findFragmentById(R.id.autocomplete_fragment_destination) as AutocompleteSupportFragment
+
+		autocompleteFragmentOrigin.setText(tripCostViewModel.originName)
+		autocompleteFragmentDestination.setText(tripCostViewModel.destinationName)
+		gui.originFullAddressTextView.text = tripCostViewModel.originFullAddress
+		gui.destinationFullAddressTextView.text = tripCostViewModel.destinationFullAddress
 		gui.resultsCardView.visibility = tripCostViewModel.resultsCardViewVisibility
 		gui.tripDistanceTextView.text = tripCostViewModel.currentTripDistance
 		gui.tripFuelTextView.text = tripCostViewModel.currentTripFuel
@@ -193,7 +245,7 @@ class TripCostFragment : Fragment() {
 		val autocompleteFragmentOrigin = childFragmentManager
 			.findFragmentById(R.id.autocomplete_fragment_origin) as AutocompleteSupportFragment
 		val autocompleteFragmentDestination = childFragmentManager
-			.findFragmentById(R.id.autocomplete_fragment_destiny) as AutocompleteSupportFragment
+			.findFragmentById(R.id.autocomplete_fragment_destination) as AutocompleteSupportFragment
 
 		// Specify the types of place data to return
 		autocompleteFragmentOrigin.setPlaceFields(
@@ -223,8 +275,9 @@ class TripCostFragment : Fragment() {
 			override fun onPlaceSelected(place: Place) {
 				gui.originFullAddressTextView.text = place.address
 
-				tripCostViewModel.origin = "place_id:".plus(place.id)
-				tripCostViewModel.originAddress = place.address ?: ""
+				tripCostViewModel.originCode = "place_id:".plus(place.id)
+				tripCostViewModel.originName = place.name ?: ""
+				tripCostViewModel.originFullAddress = place.address ?: ""
 
 				autocompleteFragmentOrigin.apply {
 					setText(place.name)
@@ -233,8 +286,8 @@ class TripCostFragment : Fragment() {
 						?.setOnClickListener {
 							setText("")
 							gui.originFullAddressTextView.text = ""
-							tripCostViewModel.originAddress = ""
-							tripCostViewModel.origin = ""
+							tripCostViewModel.originFullAddress = ""
+							tripCostViewModel.originCode = ""
 						}
 				}
 			}
@@ -248,8 +301,9 @@ class TripCostFragment : Fragment() {
 			override fun onPlaceSelected(place: Place) {
 				gui.destinationFullAddressTextView.text = place.address
 
-				tripCostViewModel.destination = "place_id:".plus(place.id)
-				tripCostViewModel.destinationAddress = place.address ?: ""
+				tripCostViewModel.destinationCode = "place_id:".plus(place.id)
+				tripCostViewModel.destinationName = place.name ?: ""
+				tripCostViewModel.destinationFullAddress = place.address ?: ""
 
 				autocompleteFragmentDestination.apply {
 					setText(place.name)
@@ -258,8 +312,8 @@ class TripCostFragment : Fragment() {
 						?.setOnClickListener {
 							setText("")
 							gui.destinationFullAddressTextView.text = ""
-							tripCostViewModel.destinationAddress = ""
-							tripCostViewModel.destination = ""
+							tripCostViewModel.destinationFullAddress = ""
+							tripCostViewModel.destinationCode = ""
 						}
 				}
 			}
@@ -298,13 +352,13 @@ class TripCostFragment : Fragment() {
 
 		val avoidTolls = gui.avoidTollsCheckBox.isChecked
 
-		if (tripCostViewModel.origin == "" && tripCostViewModel.destination == "") {
+		if (tripCostViewModel.originCode == "" && tripCostViewModel.destinationCode == "") {
 			showToast(R.string.origin_destination_missing)
 			validData = false
-		} else if (tripCostViewModel.origin == "") {
+		} else if (tripCostViewModel.originCode == "") {
 			showToast(R.string.origin_missing)
 			validData = false
-		} else if (tripCostViewModel.destination == "") {
+		} else if (tripCostViewModel.destinationCode == "") {
 			showToast(R.string.destination_missing)
 			validData = false
 		}

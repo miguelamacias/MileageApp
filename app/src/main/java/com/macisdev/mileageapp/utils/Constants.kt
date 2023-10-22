@@ -23,5 +23,11 @@ class Constants {
         const val TRIP_CALCULATOR_FIRST_TIME = "trip_calculator_first_time"
 
         const val COMPARISON_PERIOD_FUEL_PRICES = "comparison_period_fuel_price"
+
+        const val TRIP_HOME_SHORT = "trip_home_short"
+
+        const val TRIP_HOME_FULL = "trip_home_full"
+
+        const val TRIP_HOME_CODE = "trip_home_code"
     }
 }
