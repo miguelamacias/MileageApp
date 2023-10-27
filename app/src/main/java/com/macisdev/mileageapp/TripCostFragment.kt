@@ -136,6 +136,8 @@ class TripCostFragment : Fragment() {
 				setCurrentHome(false)
 			} else if (currentHome.isBlank() && currentAddress.isBlank()){
 				showNoHomeDialog()
+			} else {
+				loadCurrentHome()
 			}
 			updateHomeIcon()
 		}
@@ -154,14 +156,6 @@ class TripCostFragment : Fragment() {
 		val currentPlace = tripCostViewModel.originCode
 
 		if (currentPlace.isNotBlank() && (currentHome.isBlank() || currentHome != currentPlace)) {
-			setHomeIconStatus(true)
-		} else {
-			setHomeIconStatus(false)
-		}
-	}
-
-	private fun setHomeIconStatus(addIcon: Boolean) {
-		if (addIcon) {
 			gui.tripHomeButton.setImageResource(R.drawable.ic_add_home_24)
 		} else {
 			gui.tripHomeButton.setImageResource(R.drawable.ic_home_24)
@@ -337,6 +331,7 @@ class TripCostFragment : Fragment() {
 							gui.originFullAddressTextView.text = ""
 							tripCostViewModel.originFullAddress = ""
 							tripCostViewModel.originCode = ""
+							updateHomeIcon()
 						}
 				}
 				updateHomeIcon()
