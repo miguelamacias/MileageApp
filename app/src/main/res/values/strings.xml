@@ -248,6 +248,7 @@
     <string name="overriding_home">Override home?</string>
     <string name="info_override_home">Currently you have a different home location defined,
         do you want to replace it?</string>
+    <string name="no_data">No data</string>
 
 
     <!--Internal use only -->

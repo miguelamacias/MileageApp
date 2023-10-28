@@ -252,8 +252,13 @@ class MileageListFragment : Fragment() {
 		}
 	}
 
-	private fun calculateAverageMileage(mileages: List<Mileage>) = String.format(Locale.getDefault(), "%.2f",
-		mileages.sumOf { it.mileage } / mileages.size)
+	private fun calculateAverageMileage(mileages: List<Mileage>) : String {
+		return if (!mileages.isEmpty()) {
+			String.format(Locale.getDefault(), "%.2f", mileages.sumOf { it.mileage } / mileages.size)
+		} else {
+			getString(R.string.no_data)
+		}
+	}
 
 
 	private inner class MileageAdapter : ListAdapter<Mileage, MileageAdapter.MileageViewHolder>(MileageDiffCallback) {

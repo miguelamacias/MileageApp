@@ -19,7 +19,9 @@ import com.macisdev.mileageapp.model.Mileage
 import com.macisdev.mileageapp.viewModels.AddMileageViewModel
 import java.text.DecimalFormat
 import java.text.ParseException
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
+import java.util.UUID
 
 
 class AddMileageFragment : BottomSheetDialogFragment() {
@@ -154,7 +156,7 @@ class AddMileageFragment : BottomSheetDialogFragment() {
 			val litres = decimalFormatter.parse(gui.litresEditText.text.toString())?.toDouble() ?: 0.0
 			val mileage = 100 * litres / kilometres
 
-			if (mileage > 0) {
+			if (mileage > 0 && kilometres > 0) {
 				gui.mileageResultEditText.setText(String.format(Locale.getDefault(), "%.2f", mileage))
 				gui.saveMileageButton.isEnabled = true
 			} else {
