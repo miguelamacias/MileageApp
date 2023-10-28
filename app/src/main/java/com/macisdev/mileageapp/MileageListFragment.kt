@@ -200,7 +200,9 @@ class MileageListFragment : Fragment() {
 			R.string.save_csv
 		)
 
-		startActivity(shareFileIntent)
+		if (shareFileIntent != null) {
+			startActivity(shareFileIntent)
+		}
 		showToast(R.string.csv_exported_successfully)
 	}
 
